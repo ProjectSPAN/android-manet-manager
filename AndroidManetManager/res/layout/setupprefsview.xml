@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  
+    xmlns:android="http://schemas.android.com/apk/res/android">  
+	<PreferenceCategory android:title="@string/setup_layout_category_wifi"
+		android:key="wifiprefs">
+	    <CheckBoxPreference  
+			android:key="encpref"  
+			android:title="@string/setup_layout_wifiencryption"  
+			android:summary="@string/setup_layout_wifiencryption_summary" /> 	
+		<ListPreference  
+			android:key="encsetuppref"  
+			android:title="@string/setup_layout_encryptionsetup"  
+			android:summary="@string/setup_layout_encryptionsetup_summary"  
+			android:entries="@array/encsetupnames"  
+			android:entryValues="@array/encsetupvalues"  
+			android:dialogTitle="Setup Method"
+			android:defaultValue="auto" 
+			android:dependency="encpref" /> 			
+		<EditTextPreference
+			android:key="passphrasepref"  
+			android:title="@string/setup_layout_passphrase"  
+			android:summary="@string/setup_layout_passphrase_summary" 
+			android:dialogTitle="@string/setup_layout_passphrase_dialog_title" 
+			android:defaultValue="abcdefghijklm"
+			android:dependency="encpref"
+		/> 
+		<EditTextPreference  
+			android:key="ssidpref"  
+			android:title="@string/setup_layout_ssid"  
+			android:summary="@string/setup_layout_ssid_summary"  
+			android:dialogTitle="@string/setup_layout_ssid_dialog_title" 
+			android:maxLength="15"  
+			android:dialogMessage="@string/setup_layout_ssid_dialog_message"
+			android:defaultValue="AndroidAdhoc"
+		/>      
+		<ListPreference  
+			android:key="channelpref"  
+			android:title="@string/setup_layout_channel"  
+			android:summary="@string/setup_layout_channel_summary"  
+			android:entries="@array/channelnames"  
+			android:entryValues="@array/channelvalues"  
+			android:dialogTitle="@string/setup_layout_channel_dialog_title"
+			android:defaultValue="1" /> 
+		<ListPreference  
+			android:key="txpowerpref"  
+			android:title="@string/setup_layout_txpower"  
+			android:summary="@string/setup_layout_txpower_summary"  
+			android:entries="@array/powernames"  
+			android:entryValues="@array/powervalues"  
+			android:dialogTitle="@string/setup_layout_txpower_dialog_title"
+			android:defaultValue="disabled" /> 
+	</PreferenceCategory>
+    <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
+       android:key="btprefs">
+       <CheckBoxPreference
+               android:key="bluetoothon"
+               android:title="@string/setup_layout_usebluetooth"
+               android:summary="@string/setup_layout_usebluetooth_summary" />
+       <CheckBoxPreference
+               android:key="bluetoothkeepwifi"
+               android:dependency="bluetoothon"
+               android:title="@string/setup_layout_dontdisablewifi"
+               android:summary="@string/setup_layout_dontdisablewifi_summary" />
+       <CheckBoxPreference
+               android:key="bluetoothdiscoverable"
+               android:dependency="bluetoothon"
+               android:title="@string/setup_layout_discoverable"
+               android:summary="@string/setup_layout_discoverable_summary" />               
+    </PreferenceCategory>
+	<PreferenceCategory android:title="@string/setup_layout_category_ip">
+	    <EditTextPreference
+	        android:key="ippref"  
+            android:title="@string/setup_layout_ip"
+            android:summary="@string/setup_layout_ip_summary"
+            android:dialogTitle="@string/setup_layout_ip_dialog_title"
+            android:defaultValue="192.168.1.100"
+            android:inputType="phone" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/setup_layout_category_misc">
+		 <CheckBoxPreference  
+			android:key="wakelockpref"  
+			android:title="@string/setup_layout_wakelock"
+			android:defaultValue="true"  
+			android:summary="@string/setup_layout_wakelock_summary" />  		
+		 <CheckBoxPreference  
+			android:key="lockscreenpref"  
+			android:title="@string/setup_layout_lockscreen"
+			android:defaultValue="true"  
+			android:summary="@string/setup_layout_lockscreen_summary" />			  					 
+		  <ListPreference  
+			android:key="batterytemppref"  
+			android:title="@string/setup_layout_battery"  
+			android:summary="@string/setup_layout_battery_summary"  
+			android:entries="@array/batterytempnames"  
+			android:entryValues="@array/batterytempvalues"  
+			android:defaultValue="celsius"
+			android:dialogTitle="@string/setup_layout_battery" /> 					
+	</PreferenceCategory>
+</PreferenceScreen>  

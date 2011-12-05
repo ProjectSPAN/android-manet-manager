@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- original code from 
+	http://efreedom.com/Question/1-3192173/Change-Icons-Checked-Unchecked-Checkbox-Android-->
+	
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:state_checked="true" android:state_focused="true"
+  android:drawable="@drawable/lock_open" />
+ <item android:state_checked="false" android:state_focused="true"
+  android:drawable="@drawable/lock" />
+ <item android:state_checked="false"
+  android:drawable="@drawable/lock_open" />
+ <item android:state_checked="true"
+  android:drawable="@drawable/lock" />
+</selector>

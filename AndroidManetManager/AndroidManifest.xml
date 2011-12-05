@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android.adhoc.manet.manager"
+    android:versionCode="1"
+    android:versionName="1.0" >
+    
+    <uses-sdk android:minSdkVersion="9" />
+    
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />  
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.adhoc.manet.permission.MANET" />
+    
+    <!-- NOTE: receiver and service tags must be embedded within application tag -->
+    <application android:name=".ManetManagerApp"
+        android:icon="@drawable/gear_icon_48" 
+        android:logo="@drawable/gear_icon_48" 
+        android:label="@string/global_app_name"
+        android:debuggable="true">
+        
+        <activity android:name=".MainActivity"
+            android:label="@string/global_app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+       
+        <!--
+        <activity android:name=".LogActivity" 
+            android:screenOrientation="portrait" 
+            android:launchMode="singleTask"/>
+        -->    
+        
+        <!--
+        <activity android:name=".SetupPrefsActivity" 
+            android:launchMode="singleTask"/>
+        -->    
+        
+        <!--
+        <activity android:name=".ViewConsoleActivity"
+            android:label="@string/global_app_console_name"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_CONSOLE_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        -->
+        
+        <activity android:name=".SendMessageActivity"
+            android:label="@string/global_app_send_message_name"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MESSAGE_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".ViewMessageActivity"
+            android:label="@string/global_app_view_message_name"
+            android:launchMode="standard"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_MESSAGE_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <!--
+        <activity android:name=".GetRoutingInfoActivity"
+            android:label="@string/global_app_get_routing_info_name"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_ROUTING_INFO_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        -->
+                
+        <!-- NOTE: no need to declare MANET service since it is part of another project -->
+        
+        <service android:name=".MessageService" android:enabled="true" />
+        
+    </application>
+    
+</manifest>

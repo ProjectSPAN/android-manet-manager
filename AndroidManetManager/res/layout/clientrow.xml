@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FF000000"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+	<TableLayout
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		android:gravity="fill">
+		<TableRow>
+			<CheckBox android:id="@+id/checkBoxAllowed"
+       			android:layout_width="wrap_content"
+       			android:layout_height="wrap_content"
+       			android:gravity="left"
+				android:layout_gravity="left"
+				android:layout_marginLeft="10dp">
+   			</CheckBox>
+			<TableLayout
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:gravity="fill"
+				android:paddingLeft="10dp">
+				<TableRow android:layout_width="fill_parent">
+					<TextView
+						android:text="@string/clientrow_layout_macaddress"
+				    	android:textStyle="bold"
+						android:textColor="#FFFFFFFF"/>
+				    <TextView android:id="@+id/macaddress"
+				    	android:layout_width="140dp"
+				    	android:textStyle="bold"
+						android:textColor="#FFFFFFFF"
+						android:paddingLeft="5px" />
+				</TableRow>
+				<TableRow android:layout_width="fill_parent">
+					<TextView
+						android:text="@string/clientrow_layout_name"
+				    	android:textStyle="bold"
+						android:textColor="#FFFFFFFF" />
+      				<TextView android:id="@+id/clientname"
+      					android:layout_width="140dp"
+						android:text="- Unknown -" 
+				    	android:textStyle="bold"
+						android:textColor="#FFFFFFFF" 
+						android:paddingLeft="5dp" />
+				</TableRow>
+				<TableRow android:layout_width="fill_parent">
+					<TextView
+						android:text="@string/clientrow_layout_ipaddress"
+				    	android:textStyle="bold"
+						android:textColor="#FFFFFFFF" />
+      				<TextView android:id="@+id/ipaddress"
+      					android:layout_width="140dp"
+						android:text="- Not connected -" 
+				    	android:textStyle="bold"
+						android:textColor="#FFFFFFFF"
+       					android:paddingLeft="5dp" />	
+				</TableRow>
+			</TableLayout>
+		</TableRow>
+	</TableLayout>
+</LinearLayout>

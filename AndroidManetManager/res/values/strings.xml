@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_app_name">MANET Manager</string>
+    <string name="global_app_console_name">MANET Manager Console</string>
+    <string name="global_app_send_message_name">MANET Manager Send Message</string>
+    <string name="global_app_view_message_name">MANET Manager View Message</string>
+    <string name="global_app_get_routing_info_name">MANET Manager Routing Info</string>
+	<string name="global_app_installed">Binaries and config-files installed!</string>
+	<string name="global_app_error_restartsecwifi">Unable to restart secured wifi!</string>
+	<string name="global_app_adhoc_running">Ad-Hoc mode is currently running ...</string>
+	<string name="global_app_connected">connected</string>
+	<string name="global_application_installed">Binaries and config files installed!</string>
+	<string name="permission_manet">Allows the application to access the mobile ad-hoc network (MANET) service.</string>
+    <string name="main_activity_settings">Settings</string>
+    <string name="main_activity_about">About</string>
+    <string name="main_activity_console">Console</string>
+    <string name="main_activity_send_message">Send a Message</string>
+    <string name="main_activity_get_routing_info">Get Routing Info</string>
+    <string name="main_activity_donate">Donate</string>
+    <string name="main_activity_close">Close</string>
+    <string name="main_activity_notroot">Not Root!</string>
+    <string name="main_activity_nonetfilter">No Netfilter!</string>
+    <string name="main_activity_exit">Exit</string>
+    <string name="main_activity_ignore">Ignore</string>
+    <string name="main_activity_yes">Yes</string>
+    <string name="main_activity_no">No</string>
+    <string name="main_activity_ok">OK</string>
+    <string name="main_activity_locked">Ad-Hoc mode is locked!</string>
+    <string name="main_activity_showlog">Show Log</string>
+    <string name="main_activity_start">Start Ad-Hoc Mode</string>
+    <string name="main_activity_stop">Stop Ad-Hoc Mode</string>
+    <string name="main_activity_connect">Connect MANET Service</string>
+    <string name="main_activity_start_summary">Please wait while starting...</string>
+    <string name="main_activity_start_errors">Ad-Hoc mode started with errors! Please check \'Show log\'.</string>
+    <string name="main_activity_start_unable">Unable to start Ad-Hoc mode. Is your device \'rooted\'?</string>
+    <string name="main_activity_start_wiredadhoc_running">Wired-adhoc seems to be running at the moment. Please disable first!</string>
+    <string name="main_activity_start_usbadhoc_running"><![CDATA[USB-adhoc seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.]]></string>
+    <string name="main_activity_start_unknownstate">Your phone is currently in an unknown state - try to reboot!</string>
+    <string name="main_activity_stop_summary">Please wait while stopping...</string> 
+    <string name="main_activity_connect_summary">Please wait while connecting...</string> 
+    <string name="main_activity_confirm">Confirm</string>
+    <string name="main_activity_cancel">Cancel</string>
+    <!-- <string name="main_activity_trackball_pressed_start">Trackball pressed. Confirm tether start.</string> -->
+    <!-- <string name="main_activity_trackball_pressed_stop">Trackball pressed. Confirm tether stop.</string> -->
+    <string name="log_activity_nologfile">Unable to open log-File. File does not exist!</string>
+    <string name="main_layout_presstostart">- Press to start Ad-Hoc mode. -</string>
+    <string name="main_layout_presstostop">- Press to stop Ad-Hoc mode. -</string>
+    <string name="main_layout_download">Download</string> 
+    <string name="main_layout_upload">Upload</string> 
+    <string name="main_layout_lock">Lock</string>
+    <string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
+    <string name="setup_activity_restart_adhoc_title">Restart Ad-Hoc Mode</string>
+    <string name="setup_activity_restart_adhoc_message">Please wait while restarting...</string>
+    <string name="setup_activity_error_passphrase_invalidchars">Passphrase contains invalid characters, not saved!</string>
+    <string name="setup_activity_error_passphrase_tooshort">Passphrase too short! New value was not saved.</string>
+    <string name="setup_activity_error_passphrase_toolong">Passphrase too long! New value was not saved.</string>
+    <string name="setup_activity_error_restart_adhoc">Unable to restart Ad-Hoc mode!</string>
+    <string name="setup_activity_error_passphrase_info">Passphrase must be between 8 and 30 characters long!</string>
+	<string name="setup_activity_error_passphrase_13chars">Passphrase must be 13 characters (ASCII) long!</string>
+	<string name="setup_activity_error_ssid_invalidchars">SSID contains invalid characters</string>
+	<string name="setup_activity_error_ssid_empty">New SSID cannot be empty</string>
+	<string name="setup_activity_error_ssid_notsaved">, not saved.</string>
+	<string name="setup_activity_info_ssid_changedto">SSID changed to </string>
+	<string name="setup_activity_info_channel_changedto">Channel changed to </string>
+	<string name="setup_activity_info_passphrase_changedto">Passphrase changed to </string>
+	<string name="setup_activity_info_txpower_changedto">Transmit power changed to </string>
+	<string name="setup_activity_info_ip_changedto">IP changed to </string>
+	<string name="setup_activity_info_wakelock_disabled">Wake-lock is now disabled.</string>
+	<string name="setup_activity_info_wakelock_enabled">Wake-lock is now enabled.</string>
+	<string name="setup_activity_bt_warning_title">Warning: Bluetooth</string>
+	<string name="setup_activity_bt_warning_ok">OK</string>
+	<string name="setup_activity_txpower_warning_title">Warning: Transmit Power</string>
+	<string name="setup_activity_txpower_warning_ok">OK</string>	
+	<string name="setup_layout_category_bluetooth">Bluetooth</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_ip">IP</string>
+	<string name="setup_layout_category_misc">Miscellaneous</string>
+	<string name="setup_layout_usebluetooth">Use Bluetooth</string>
+	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN adhoc instead of WiFi</string>
+	<string name="setup_layout_dontdisablewifi">Don\'t disable WiFi</string>
+	<string name="setup_layout_dontdisablewifi_summary">Leave WiFi state alone</string>
+	<string name="setup_layout_discoverable">Discoverable</string>
+	<string name="setup_layout_discoverable_summary">Make device discoverable for 120 seconds on start-up</string>
+	<string name="setup_layout_wifiencryption">Enable WiFi-Encryption</string>
+	<string name="setup_layout_wifiencryption_summary">Turn on wifi-encrytion</string>
+	<string name="setup_layout_encryptionsetup">Encryption setup method</string>
+	<string name="setup_layout_encryptionsetup_summary">Change WiFi-Encryption setup method</string>
+	<string name="setup_layout_passphrase">Change Passphrase</string>
+	<string name="setup_layout_passphrase_summary">Change Passphrase for WiFi-Encryption</string>
+	<string name="setup_layout_passphrase_dialog_title">Enter Passphrase</string>
+	<string name="setup_layout_ssid">Change SSID</string>
+	<string name="setup_layout_ssid_summary">Change SSID</string>
+	<string name="setup_layout_ssid_dialog_title">Enter SSID</string>
+	<string name="setup_layout_ssid_dialog_message">Only alpha-numeric characters and \'.\', \'_\' allowed!</string>
+	<string name="setup_layout_channel">Change Channel</string>
+	<string name="setup_layout_channel_summary">Wireless frequency channel</string>
+	<string name="setup_layout_channel_dialog_title">Select Channel</string>
+	<string name="setup_layout_txpower">Transmit Power</string>
+	<string name="setup_layout_txpower_summary">Reduce transmit power</string>
+	<string name="setup_layout_txpower_dialog_title">Reduce Power</string>
+	<string name="setup_layout_ip">Change IP</string>
+    <string name="setup_layout_ip_summary">IP address settings</string>
+	<string name="setup_layout_ip_dialog_title">Select IP Address</string>
+	<string name="setup_layout_vibrate">Vibrate on connect</string>
+	<string name="setup_layout_ringtone">Notification Ringtone</string>
+	<string name="setup_layout_ringtone_summary">Ringtone to use with notifications</string>
+	<string name="setup_layout_wakelock">Disable Wake-Lock</string>
+	<string name="setup_layout_wakelock_summary">Turn off wake-lock while in Ad-Hoc mode</string>
+	<string name="setup_layout_battery">Battery Temperature</string>
+	<string name="setup_layout_battery_summary">Configure battery temperature info</string>
+	<string name="setup_layout_lockscreen">Disable Screen-Lock</string>
+	<string name="setup_layout_lockscreen_summary">Hide the Lockscreen-button</string>	
+	<string name="about_layout_version">Version:</string>
+	<string name="about_layout_projecthome">Project-Home:</string>
+	<string name="about_layout_license">License:</string>
+	<string name="about_layout_authors">Authors:</string>
+	<string name="about_layout_contributors">Contributors:</string>
+	<string name="about_layout_software">3rd-Party-Software:</string>
+	<string name="clientrow_layout_macaddress">MAC-Address:</string>
+	<string name="clientrow_layout_name">Name:</string>
+	<string name="clientrow_layout_ipaddress">IP-Address:</string>
+	<string name="nonetfilter_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
+	<string name="nonetfilter_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
+	<string name="update_layout_line1">There is an update available!</string>
+	<string name="update_layout_line2">Do you want to install this update now?</string>
+	<string name="bt_warning_line1">Our method of bluetooth-adhoc (PAN) is known to not work on every device/android-platform.</string>
+	<string name="bt_warning_line2">This functionality might not work on your device!</string>
+	<string name="txpower_warning_line1">The ability reducing the wifi-transmit power depends on the wifi-chip.</string>
+	<string name="txpower_warning_line2">This functionality might not work on your device!</string>
+    <string name="lbl_scroll_lock">"Scroll Lock"</string>
+    <string name="hint_message_waiting">"Waiting ..."</string>
+    <string name="start_notification_line">"Wireless Ad-Hoc"</string>
+    <string name="prompt_destination_spinner">"Select Destination"</string>
+    <string name="routing_info_layout_category_all">Routing</string>
+    <string name="routing_info_layout_neighbors">Neighbors</string>
+    <string name="routing_info_layout_neighbors_summary">Info about neighbors</string>
+    
+    <string-array name="notificationmodenames">  
+		<item>None</item>  
+		<item>Unauthorized Clients</item>  
+		<item>All Clients</item>
+	</string-array>
+
+    <string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>
+		<item>1585 mW (32 dBm)</item>
+	</string-array>
+	
+	<string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 
+	
+    <string-array name="batterytempnames">  
+		<item>Disabled</item>  
+		<item>Celsius</item>  
+		<item>Fahrenheit</item>  
+	</string-array>		
+	
+	<!-- Below values don't need to be translated -->
+	<string name="main_activity_temperatureunit_celsius">°C</string>
+	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
+	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
+    <string-array name="notificationmodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+	</string-array>
+	
+    <string-array name="powermodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item> 
+	</string-array>
+    <string-array name="channelvalues">  
+		<item>0</item> 
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item>  
+		<item>4</item>  
+		<item>5</item>  
+		<item>6</item>  
+		<item>7</item>  
+		<item>8</item>  
+		<item>9</item>  
+		<item>10</item>  
+		<item>11</item>  
+	</string-array>
+    <string-array name="channelnames">  
+		<item>Auto</item> 
+		<item>Channel 01 (2412 MHz)</item>  
+		<item>Channel 02 (2417 MHz)</item>  
+		<item>Channel 03 (2422 MHz)</item>  
+		<item>Channel 04 (2427 MHz)</item>  
+		<item>Channel 05 (2432 MHz)</item>  
+		<item>Channel 06 (2437 MHz)</item>  
+		<item>Channel 07 (2442 MHz)</item>  
+		<item>Channel 08 (2447 MHz)</item>  
+		<item>Channel 09 (2452 MHz)</item>  
+		<item>Channel 10 (2457 MHz)</item>  
+		<item>Channel 11 (2462 MHz)</item>  
+	</string-array>  	
+    <string-array name="lannetworkvalues">  
+		<item>192.168.1.0/24</item>  
+		<item>192.168.2.0/24</item> 
+		<item>192.168.3.0/24</item> 
+		<item>172.20.21.0/24</item>  
+		<item>172.20.22.0/24</item>
+		<item>172.20.23.0/24</item>   
+		<item>10.10.1.0/24</item>  
+		<item>10.10.2.0/24</item>  
+		<item>10.10.3.0/24</item> 
+	</string-array>
+    <string-array name="powervalues">  
+		<item>disabled</item>  
+		<item>3mW</item>  
+		<item>5mW</item>  
+		<item>10mW</item>  
+		<item>15mW</item>  
+		<item>20mW</item>  
+		<item>25mW</item>  
+		<item>30mW</item>  
+	</string-array>	 
+    <string-array name="encsetupvalues">  
+		<item>auto</item>  
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	
+    <string-array name="batterytempvalues">  
+		<item>disabled</item>  
+		<item>celsius</item>  
+		<item>fahrenheit</item>  
+	</string-array>		
+</resources>
