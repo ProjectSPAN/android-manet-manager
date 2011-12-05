@@ -37,10 +37,8 @@
             android:launchMode="singleTask"/>
         -->    
         
-        <!--
         <activity android:name=".SetupPrefsActivity" 
-            android:launchMode="singleTask"/>
-        -->    
+            android:launchMode="singleTask"/> 
         
         <!--
         <activity android:name=".ViewConsoleActivity"

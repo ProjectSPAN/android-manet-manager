@@ -15,6 +15,9 @@ package android.adhoc.manet.manager;
 import java.io.IOException;
 
 import android.R.drawable;
+import android.adhoc.manet.system.DeviceConfig;
+import android.adhoc.manet.system.ManetConfig;
+import android.adhoc.manet.system.ManetConfig.WifiTxpowerEnum;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -49,19 +52,25 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 	
 	private ManetManagerApp app = null;
 	
-	private ProgressDialog progressDialog;
+	private ProgressDialog progressDialog = null;
 
-    private String currentSSID;
-    private String currentChannel;
-    private String currentPassphrase;
-    private String currentIp;
-    private boolean currentEncryptionEnabled;
-    private String currentTransmitPower;
+	private String adhocMode = null;
+    private String routingProtocol = null;
+    private String wifiSsid = null;
+    private String wifiChannel = null;
+    private String wifiTxpower = null;
+    private String wifiEncKey = null;
+    private String wifiSetupMethod = null;
+    private String  ipAddress = null;
     
-    private EditTextPreference prefPassphrase;
-    private EditTextPreference prefSSID;
+    private String bluetoothDisableWifi = null;
+    private String bluetoothDiscoverable = null;
+    private String adhocDisableWakelock = null;
     
-    private static int ID_DIALOG_RESTARTING = 2;
+    private EditTextPreference prefWifiEncKey = null;
+    private EditTextPreference prefWifiSsid = null;
+    
+    private static int ID_DIALOG_RESTARTING = 10;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,48 +79,74 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
         // init application
         app = (ManetManagerApp)getApplication();
         
-        // init current settings
-        currentSSID = 				app.settings.getString("ssidpref", "AndroidAdhoc"); 
-        currentChannel = 			app.settings.getString("channelpref", "1");
-        currentPassphrase = 		app.settings.getString("passphrasepref", app.DEFAULT_PASSPHRASE);
-        currentIp = 				app.settings.getString("ippref", app.DEFAULT_IPADDRESS);
-        currentEncryptionEnabled =  app.settings.getBoolean("encpref", false);
-        currentTransmitPower = 		app.settings.getString("txpowerpref", "disabled");
+        /*
+        // init current prefs
+        adhocMode =			app.prefs.getString(ManetConfig.ADHOC_MODE_KEY, ManetConfig.ADHOC_MODE_DEFAULT);
+        routingProtocol =	app.prefs.getString(ManetConfig.ROUTING_PROTOCOL_KEY, ManetConfig.ROUTING_PROTOCOL_DEFAULT);
+        wifiSsid =			app.prefs.getString(ManetConfig.WIFI_ESSID_KEY, ManetConfig.WIFI_ESSID_DEFAULT);
+        wifiChannel =		app.prefs.getString(ManetConfig.WIFI_CHANNEL_KEY, ManetConfig.WIFI_CHANNEL_DEFAULT);
+        wifiTxpower =		app.prefs.getString(ManetConfig.WIFI_TXPOWER_KEY, ManetConfig.WIFI_TXPOWER_KEY_DEFAULT);
+        wifiEncKey =		app.prefs.getString(ManetConfig.WIFI_ENCRYPTION_KEY, ManetConfig.WIFI_ENCRYPTION_KEY_DEFAULT);
+        wifiSetupMethod =	app.prefs.getString(ManetConfig.WIFI_SETUP_METHOD_KEY, ManetConfig.WIFI_SETUP_METHOD_DEFAULT);
+        ipAddress =			app.prefs.getString(ManetConfig.IP_ADDRESS_KEY, ManetConfig.IP_ADDRESS_DEFAULT);
+        
+        bluetoothDisableWifi = app.prefs.getString(ManetConfig.BLUETOOTH_DISABLE_WIFI_KEY, 
+        	Boolean.toString(ManetConfig.BLUETOOTH_DISABLE_WIFI_DEFAULT));
+        bluetoothDiscoverable = app.prefs.getString(ManetConfig.BLUETOOTH_DISCOVERABLE_KEY, 
+        	Boolean.toString(ManetConfig.BLUETOOTH_DISCOVERABLE_DEFAULT));
+        adhocDisableWakelock =app.prefs.getString(ManetConfig.ADHOC_DISABLE_WAKELOCK_KEY, 
+        	Boolean.toString(ManetConfig.ADHOC_DISABLE_WAKELOCK_DEFAULT));
+        */
         
         addPreferencesFromResource(R.layout.setupprefsview); 
-                
-        // Disable "Transmit power" if not supported
-        if (!app.isTransmitPowerSupported()) {
-        	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
-        	ListPreference txpowerPreference = (ListPreference)findPreference("txpowerpref");
-        	wifiGroup.removePreference(txpowerPreference);
-        }
         
-        // Diable Bluetooth-adhoc if not supported by the kernel
-        if (Configuration.hasKernelFeature("CONFIG_BT_BNEP=") == false) {
+        // setup preferences menu
+        setup();
+    }
+	
+    private void setup() {
+    	
+    	// disable wifi group if using bluetooth
+    	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
+		boolean bluetoothOn = app.manetcfg.isUsingBluetooth();
+		wifiGroup.setEnabled(!bluetoothOn);
+    	
+		 // disable bluetooth adhoc if not supported by the kernel
+        if (false) { // !app.manetcfg.isBluetoothSupported()) { // DEBUG
         	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
         	btGroup.setEnabled(false);
-        }
-        else {
-            // Disable "Bluetooth discoverable" if not supported
+        } else {
+            // disable "bluetooth discoverable" if not supported
             if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.ECLAIR) {
             	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
             	CheckBoxPreference btdiscoverablePreference = (CheckBoxPreference)findPreference("bluetoothdiscoverable");
             	btGroup.removePreference(btdiscoverablePreference);
             }        	
         }
+		
+    	// disable "transmit power" if not supported
+    	ListPreference txpowerPreference = (ListPreference)findPreference("txpowerpref");
+        if (!app.manetcfg.isTransmitPowerSupported()) {
+        	wifiGroup.removePreference(txpowerPreference);
+        } else {
+        	txpowerPreference.setEntries(WifiTxpowerEnum.stringValues());
+        	txpowerPreference.setEntryValues(WifiTxpowerEnum.stringValues());
+        	txpowerPreference.setValueIndex(app.manetcfg.getWifiTxpower().ordinal());
+        }
         
-        // Disable "encryption-setup-method"
-        if (app.interfaceDriver.startsWith("softap") 
-        		|| app.interfaceDriver.equals(Configuration.DRIVER_HOSTAP)) {
-        	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
-        	ListPreference encsetupPreference = (ListPreference)findPreference("encsetuppref");
+       
+        
+        /*
+        // disable "encryption setup method"
+        ListPreference encsetupPreference = (ListPreference)findPreference("encsetuppref");
+        if (app.manetcfg.getWifiDriver().startsWith("softap") 
+        		|| app.manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
         	wifiGroup.removePreference(encsetupPreference);
         }
         
-        // Remove Auto-Channel option if not supported by device
-        if (app.interfaceDriver.startsWith("softap") == false
-        		|| app.interfaceDriver.equals(Configuration.DRIVER_HOSTAP) == false) {
+        // remove auto channel option if not supported by device
+        if (!app.manetcfg.getWifiDriver().startsWith("softap")
+        		|| !app.manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
         	ListPreference channelpref = (ListPreference)findPreference("channelpref");
         	CharSequence[] entries = channelpref.getEntries();
         	CharSequence[] targetentries = new CharSequence[entries.length-1];
@@ -127,119 +162,124 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
         	channelpref.setEntryValues(targetentryvalues);
         }
         
-        // SSID-Validation
-        this.prefSSID = (EditTextPreference)findPreference("ssidpref");
-        this.prefSSID.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
-          public boolean onPreferenceChange(Preference preference,
-          Object newValue) {
-            String message = validateSSID(newValue.toString());
-            if(!message.equals("")) {
-              SetupPrefsActivity.app.displayToastMessage(message);
-              return false;
-            }
-            return true;
+        // SSID validation
+        prefWifiSsid = (EditTextPreference)findPreference("ssidpref");
+        prefWifiSsid.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        	@Override
+        	public boolean onPreferenceChange(Preference preference, Object newValue) {
+        		String message = validateWifiSsid(newValue.toString());
+        		if(!message.equals("")) {
+        			app.displayToastMessage(message);
+        			return false;
+        		}
+        		return true;
         }});
 
-        // Passphrase-Validation
-        this.prefPassphrase = (EditTextPreference)findPreference("passphrasepref");
-        final int origTextColorPassphrase = SetupPrefsActivity.this.prefPassphrase.getEditText().getCurrentTextColor();
+        // encryption key validation
+        prefWifiEncKey = (EditTextPreference)findPreference("passphrasepref");
+        final int origTextColorWifiEncKey = prefWifiEncKey.getEditText().getCurrentTextColor();
 
-        if (Configuration.getWifiInterfaceDriver(app.deviceType).startsWith("softap")
-        		|| Configuration.getWifiInterfaceDriver(app.deviceType).equals(Configuration.DRIVER_HOSTAP)) {
+        if (app.manetcfg.getWifiDriver().startsWith("softap")
+        		|| app.manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
         	Log.d(TAG, "Adding validators for WPA-Encryption.");
-        	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WPA/WPA2-PSK)");
-        	this.prefPassphrase.setDialogMessage(getString(R.string.setup_activity_error_passphrase_info));
-	        // Passphrase Change-Listener for WPA-encryption
-        	this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {
+        	prefWifiEncKey.setSummary(prefWifiEncKey.getSummary() + " (WPA/WPA2-PSK)");
+        	prefWifiEncKey.setDialogMessage(getString(R.string.setup_activity_error_passphrase_info));
+        	
+	        // encryption key change listener for WPA encryption
+        	prefWifiEncKey.getEditText().addTextChangedListener(new TextWatcher() {
+        		@Override
 	            public void afterTextChanged(Editable s) {
 	            	// Nothing
 	            }
+        		@Override
 		        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		        	// Nothing
 		        }
+        		@Override
 		        public void onTextChanged(CharSequence s, int start, int before, int count) {
 		        	if (s.length() < 8 || s.length() > 30) {
-		        		SetupPrefsActivity.this.prefPassphrase.getEditText().setTextColor(Color.RED);
+		        		prefWifiEncKey.getEditText().setTextColor(Color.RED);
 		        	}
 		        	else {
-		        		SetupPrefsActivity.this.prefPassphrase.getEditText().setTextColor(origTextColorPassphrase);
+		        		prefWifiEncKey.getEditText().setTextColor(origTextColorWifiEncKey);
 		        	}
 		        }
 	        });
         	
-	        this.prefPassphrase.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+        	prefWifiEncKey.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        		@Override
 	        	public boolean onPreferenceChange(Preference preference,
 						Object newValue) {
 		        	String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ" +
                       "abcdefghijklmnopqrstuvwxyz" +
                       "0123456789";
 	        		if (newValue.toString().length() < 8) {
-	        			SetupPrefsActivity.app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_tooshort));
+	        			app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_tooshort));
 	        			return false;
-	        		}
-	        		else if (newValue.toString().length() > 30) {
-	        			SetupPrefsActivity.app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_toolong));
+	        		} else if (newValue.toString().length() > 30) {
+	        			app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_toolong));
 	        			return false;	        			
 	        		}
 	        		for (int i = 0 ; i < newValue.toString().length() ; i++) {
-	        		    if (!validChars.contains(newValue.toString().substring(i, i+1))) {
-	        		      SetupPrefsActivity.app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_invalidchars));
-	        		      return false;
+	        			if (!validChars.contains(newValue.toString().substring(i, i+1))) {
+	        				app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_invalidchars));
+	        				return false;
 	        		    }
-	        		  }
+	        		}
 	        		return true;
 	        	}
-	        }); 
-        }
-        else {
+	        });
+        } else {
         	Log.d(TAG, "Adding validators for WEP-Encryption.");
-        	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WEP 128-bit)");
-        	this.prefPassphrase.setDialogMessage(getString(R.string.setup_activity_error_passphrase_13chars));
-        	// Passphrase Change-Listener for WEP-encryption
-	        this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {
+        	prefWifiEncKey.setSummary(prefWifiEncKey.getSummary() +" (WEP 128-bit)");
+        	prefWifiEncKey.setDialogMessage(getString(R.string.setup_activity_error_passphrase_13chars));
+        	
+	        // encryption key change listener for WEP encryption
+        	prefWifiEncKey.getEditText().addTextChangedListener(new TextWatcher() {
+        		@Override
 	            public void afterTextChanged(Editable s) {
 	            	// Nothing
 	            }
+        		@Override
 		        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		        	// Nothing
 		        }
+        		@Override
 		        public void onTextChanged(CharSequence s, int start, int before, int count) {
 		        	if (s.length() == 13) {
-		        		SetupPrefsActivity.this.prefPassphrase.getEditText().setTextColor(origTextColorPassphrase);
-		        	}
-		        	else {
-		        		 SetupPrefsActivity.this.prefPassphrase.getEditText().setTextColor(Color.RED);
+		        		prefWifiEncKey.getEditText().setTextColor(origTextColorWifiEncKey);
+		        	} else {
+		        		prefWifiEncKey.getEditText().setTextColor(Color.RED);
 		        	}
 		        }
 	        });
 	        
-	        this.prefPassphrase.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
-	        	public boolean onPreferenceChange(Preference preference,
-						Object newValue) {
-	        	  String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ" +
-	        	                      "abcdefghijklmnopqrstuvwxyz" +
-	        	                      "0123456789";
-	        		if(newValue.toString().length() == 13){
-	        		  for (int i = 0 ; i < 13 ; i++) {
-	        		    if (!validChars.contains(newValue.toString().substring(i, i+1))) {
-	        		      SetupPrefsActivity.app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_invalidchars));
-	        		      return false;
-	        		    }
-	        		  }
+        	prefWifiEncKey.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        		@Override
+	        	public boolean onPreferenceChange(Preference preference, Object newValue) {
+        			String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ" +
+        					"abcdefghijklmnopqrstuvwxyz" +
+        					"0123456789";
+	        		if(newValue.toString().length() == 13) {
+	        			for (int i = 0 ; i < 13 ; i++) {
+	        				if (!validChars.contains(newValue.toString().substring(i, i+1))) {
+	        					app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_invalidchars));
+	        					return false;
+	        				}
+	        			}
 	        			return true;
-	        		}
-	        		else{
-	        			SetupPrefsActivity.app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_tooshort));
+	        		} else {
+	        			app.displayToastMessage(getString(R.string.setup_activity_error_passphrase_tooshort));
 	        			return false;
 	        		}
 	        }});
         }
-		Boolean bluetoothOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
-		Message msg = Message.obtain();
-		msg.what = bluetoothOn ? 0 : 1;
-		SetupPrefsActivity.this.setWifiPrefsEnableHandler.sendMessage(msg);
+        */
+        
+
+		
     }
-	
+    
     @Override
     protected void onResume() {
     	Log.d(TAG, "Calling onResume()");
@@ -269,7 +309,8 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
     
     
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	updateConfiguration(sharedPreferences, key);
+    	Log.d(TAG, "onSharedPreferenceChanged()"); // DEBUG
+    	update(sharedPreferences, key);
     }
     
     Handler restartingDialogHandler = new Handler(){
@@ -286,54 +327,63 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
    Handler displayToastMessageHandler = new Handler() {
         public void handleMessage(Message msg) {
        		if (msg.obj != null) {
-       			SetupPrefsActivity.app.displayToastMessage((String)msg.obj);
+       			app.displayToastMessage((String)msg.obj);
        		}
         	super.handleMessage(msg);
         	System.gc();
         }
     };
     
-    
-    private void updateConfiguration(final SharedPreferences sharedPreferences, final String key) {
+    // invoked each time a preference is changed
+    private void update(final SharedPreferences sharedPreferences, final String key) {
+    	
     	new Thread(new Runnable(){
+    		@Override
 			public void run(){
 				Looper.prepare();
 			   	String message = null;
+			   	
 		    	if (key.equals("ssidpref")) {
-		    		String newSSID = sharedPreferences.getString("ssidpref", "AndroidAdhoc");
-		    		if (SetupPrefsActivity.this.currentSSID.equals(newSSID) == false) {
-	    				SetupPrefsActivity.this.currentSSID = newSSID;
-	    				message = getString(R.string.setup_activity_info_ssid_changedto)+" '"+newSSID+"'.";
-	    				try{
+		    		String newWifissid = sharedPreferences.getString("ssidpref", "AndroidAdhoc");
+		    		if (wifiSsid.equals(newWifissid) == false) {
+	    				wifiSsid = newWifissid;
+	    				/*
+	    				message = getString(R.string.setup_activity_info_ssid_changedto) + " '" + newWifissid + "'.";
+	    				try {
 		    				if (CoreTask.isNatEnabled() && CoreTask.isProcessRunning("bin/dnsmasq")) {
 				    			// Show RestartDialog
 				    			SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 		    					// Restart Adhoc
-				    			SetupPrefsActivity.app.restartAdhoc();
+				    			app.restartAdhoc();
 				    			// Dismiss RestartDialog
 				    			SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 		    				}
-	    				}
-	    				catch (Exception ex) {
+	    				} catch (Exception ex) {
 	    					message = getString(R.string.setup_activity_error_restart_adhoc);
 	    				}
-		    			// Send Message
+		    			// send Message
 		    			Message msg = new Message();
 		    			msg.obj = message;
-		    			SetupPrefsActivity.this.displayToastMessageHandler.sendMessage(msg);
+		    			displayToastMessageHandler.sendMessage(msg);
+		    			*/
+	    				
+	    				app.manetcfg.setWifiSsid(wifiSsid);
+	    				
+	    				app.manet.sendManetConfigUpdateCommand(app.manetcfg);
 		    		}
 		    	}
+		    	/*
 		    	else if (key.equals("channelpref")) {
 		    		String newChannel = sharedPreferences.getString("channelpref", "1");
-		    		if (SetupPrefsActivity.this.currentChannel.equals(newChannel) == false) {
-	    				SetupPrefsActivity.this.currentChannel = newChannel;
+		    		if (wifiChannel.equals(newChannel) == false) {
+		    			wifiChannel = newChannel;
 	    				message = getString(R.string.setup_activity_info_channel_changedto)+" '"+newChannel+"'.";
 	    				try{
 		    				if (CoreTask.isNatEnabled() && CoreTask.isProcessRunning("bin/dnsmasq")) {
 				    			// Show RestartDialog
 				    			SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Adhoc
-		    					SetupPrefsActivity.app.restartAdhoc();
+		    					app.restartAdhoc();
 				    			// Dismiss RestartDialog
 				    			SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 		    				}
@@ -352,11 +402,10 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 						boolean disableWakeLock = sharedPreferences.getBoolean("wakelockpref", true);
 						if (CoreTask.isNatEnabled() && CoreTask.isProcessRunning("bin/dnsmasq")) {
 							if (disableWakeLock){
-								SetupPrefsActivity.app.releaseWakeLock();
+								app.releaseWakeLock();
 								message = getString(R.string.setup_activity_info_wakelock_disabled);
-							}
-							else{
-								SetupPrefsActivity.app.acquireWakeLock();
+							} else{
+								app.acquireWakeLock();
 								message = getString(R.string.setup_activity_info_wakelock_enabled);
 							}
 						}
@@ -372,14 +421,14 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 		    	}
 		    	else if (key.equals("encpref")) {
 		    		boolean enableEncryption = sharedPreferences.getBoolean("encpref", false);
-		    		if (enableEncryption != SetupPrefsActivity.this.currentEncryptionEnabled) {
+		    		if (enableEncryption != currentEncryptionEnabled) {
 			    		// Restarting
 						try{
 							if (CoreTask.isNatEnabled() && CoreTask.isProcessRunning("bin/dnsmasq")) {
 				    			// Show RestartDialog
 								SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Adhoc
-								SetupPrefsActivity.app.restartAdhoc();
+								app.restartAdhoc();
 				    			// Dismiss RestartDialog
 								SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -387,7 +436,7 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 						catch (Exception ex) {
 						}
 						
-						SetupPrefsActivity.this.currentEncryptionEnabled = enableEncryption;
+						currentEncryptionEnabled = enableEncryption;
 						
 						// Send Message
 		    			Message msg = new Message();
@@ -397,14 +446,14 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 		    	}
 		    	else if (key.equals("passphrasepref")) {
 		    		String passphrase = sharedPreferences.getString("passphrasepref", SetupPrefsActivity.app.DEFAULT_PASSPHRASE);
-		    		if (passphrase.equals(SetupPrefsActivity.this.currentPassphrase) == false) {
+		    		if (passphrase.equals(wifiEncKey) == false) {
 		    			// Restarting
 						try{
 							if (CoreTask.isNatEnabled() && CoreTask.isProcessRunning("bin/dnsmasq") && application.wpasupplicant.exists()) {
 				    			// Show RestartDialog
 				    			SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Adhoc
-								SetupPrefsActivity.app.restartAdhoc();
+								app.restartAdhoc();
 				    			// Dismiss RestartDialog
 				    			SetupPrefsActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -414,15 +463,14 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 						}
 		    			
 						message = getString(R.string.setup_activity_info_passphrase_changedto)+" '"+passphrase+"'.";
-						SetupPrefsActivity.this.currentPassphrase = passphrase;
+						wifiEncKey = passphrase;
 						
 		    			// Send Message
 		    			Message msg = new Message();
 		    			msg.obj = message;
 		    			SetupPrefsActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
-		    	}
-		    	else if (key.equals("txpowerpref")) {
+		    	} else if (key.equals("txpowerpref")) {
 		    		String transmitPower = sharedPreferences.getString("txpowerpref", "disabled");
 		    		if (transmitPower.equals(SetupPrefsActivity.this.currentTransmitPower) == false) {
 		    			// Restarting
@@ -539,51 +587,26 @@ public class SetupPrefsActivity extends PreferenceActivity implements OnSharedPr
 		    			SetupPrefsActivity.app.enableWifi();
 		    		}
 		    	}
+		    	*/
 		    	Looper.loop();
 			}
 		}).start();
     }
-    
-    Handler  setWifiPrefsEnableHandler = new Handler() {
-    	public void handleMessage(Message msg) {
-			PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
-			wifiGroup.setEnabled(msg.what == 1);
-        	super.handleMessage(msg);
-    	}
-    };
- 
-	public String validateSSID(String newSSID) {
+     
+	public String validateWifiSsid(String wifiSsid) {
 		String message = "";
 		String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ"
 				+ "abcdefghijklmnopqrstuvwxyz" + "0123456789_.";
-		for (int i = 0; i < newSSID.length(); i++) {
-			if (!validChars.contains(newSSID.substring(i, i + 1))) {
+		for (int i = 0; i < wifiSsid.length(); i++) {
+			if (!validChars.contains(wifiSsid.substring(i, i + 1))) {
 				message = getString(R.string.setup_activity_error_ssid_invalidchars);
 			}
 		}
-		if (newSSID.equals("")) {
+		if (wifiSsid.equals("")) {
 			message = getString(R.string.setup_activity_error_ssid_empty);
 		}
 		if (message.length() > 0)
 			message += getString(R.string.setup_activity_error_ssid_notsaved);
 		return message;
 	}
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	boolean supRetVal = super.onCreateOptionsMenu(menu);
-    	SubMenu installBinaries = menu.addSubMenu(0, 0, 0, getString(R.string.setup_activity_reinstall));
-    	installBinaries.setIcon(drawable.ic_menu_set_as);
-    	return supRetVal;
-    }    
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-    	boolean supRetVal = super.onOptionsItemSelected(menuItem);
-    	Log.d(TAG, "Menuitem:getId  -  "+menuItem.getItemId()+" -- "+menuItem.getTitle()); 
-    	if (menuItem.getItemId() == 0) {
-    		app.installFiles();
-    	}
-    	return supRetVal;
-    }
 }

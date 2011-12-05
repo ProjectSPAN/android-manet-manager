@@ -45,10 +45,8 @@
 			android:key="txpowerpref"  
 			android:title="@string/setup_layout_txpower"  
 			android:summary="@string/setup_layout_txpower_summary"  
-			android:entries="@array/powernames"  
-			android:entryValues="@array/powervalues"  
 			android:dialogTitle="@string/setup_layout_txpower_dialog_title"
-			android:defaultValue="disabled" /> 
+			android:defaultValue="disabled" />
 	</PreferenceCategory>
     <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
        android:key="btprefs">
@@ -96,4 +94,4 @@
 			android:defaultValue="celsius"
 			android:dialogTitle="@string/setup_layout_battery" /> 					
 	</PreferenceCategory>
-</PreferenceScreen>  
+</PreferenceScreen>

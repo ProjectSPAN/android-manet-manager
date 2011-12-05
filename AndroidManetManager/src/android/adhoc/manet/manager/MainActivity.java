@@ -213,10 +213,8 @@ public class MainActivity extends Activity implements ManetObserver {
     	switch (menuItem.getItemId()) {
 	    	case MENU_SETUP_PREFS :
 	    		// TODO: create enums for MANET config fields and set via manager app activity
-	    		/*
 		        startActivityForResult(new Intent(
 		        	MainActivity.this, SetupPrefsActivity.class), 0);
-		        */
 		        break;
 	    	case MENU_LOG :
 	    		// TODO: show log when user selects service notification icon
