@@ -92,6 +92,7 @@ public class MainActivity extends Activity implements ManetObserver {
         
         // connect to service
 		showDialog(ID_DIALOG_CONNECTING);
+		currDialogId = ID_DIALOG_CONNECTING;
 		app.manet.connectToService();
 
         // init table rows
@@ -185,7 +186,7 @@ public class MainActivity extends Activity implements ManetObserver {
 		}
 	}
 	
-	private static final int MENU_SETUP_PREFS 			= 0;
+	private static final int MENU_CHANGE_SETTINGS 		= 0;
 	private static final int MENU_LOG 					= 1;
 	private static final int MENU_ABOUT 				= 2;
 	private static final int MENU_CONSOLE 				= 3;
@@ -195,7 +196,7 @@ public class MainActivity extends Activity implements ManetObserver {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
-    	SubMenu setup = menu.addSubMenu(0, MENU_SETUP_PREFS, 0, getString(R.string.main_activity_settings));
+    	SubMenu setup = menu.addSubMenu(0, MENU_CHANGE_SETTINGS, 0, getString(R.string.main_activity_settings));
     	setup.setIcon(drawable.ic_menu_preferences);
     	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	log.setIcon(drawable.ic_menu_agenda);
@@ -211,10 +212,10 @@ public class MainActivity extends Activity implements ManetObserver {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
     	boolean supRetVal = super.onOptionsItemSelected(menuItem);
     	switch (menuItem.getItemId()) {
-	    	case MENU_SETUP_PREFS :
+	    	case MENU_CHANGE_SETTINGS :
 	    		// TODO: create enums for MANET config fields and set via manager app activity
 		        startActivityForResult(new Intent(
-		        	MainActivity.this, SetupPrefsActivity.class), 0);
+		        	MainActivity.this, ChangeSettingsActivity.class), 0);
 		        break;
 	    	case MENU_LOG :
 	    		// TODO: show log when user selects service notification icon
@@ -383,7 +384,7 @@ public class MainActivity extends Activity implements ManetObserver {
  	@Override
  	public void onServiceConnected() {
  		Log.d(TAG, "onServiceConnected()"); // DEBUG
- 		dismissDialog(ID_DIALOG_CONNECTING);
+ 		dismissDialog();
  		app.manet.sendManetConfigQuery();
  		app.manet.sendAdhocStatusQuery();
  	}
@@ -402,16 +403,20 @@ public class MainActivity extends Activity implements ManetObserver {
  	public void onServiceStopped() {
  		Log.d(TAG, "onServiceStopped()"); // DEBUG
  	}
+ 	
+ 	public void dismissDialog() {
+		// dismiss dialog
+		if (currDialogId != -1) {
+			super.dismissDialog(currDialogId);
+			currDialogId = -1;
+		}
+ 	}
 
 	@Override
 	public void onAdhocStateUpdated(AdhocStateEnum state, String info) {
 		Log.d(TAG, "onAdhocStateUpdated()"); // DEBUG
 		
-		// dismiss dialog
-		if (currDialogId != -1) {
-			dismissDialog(currDialogId);
-			currDialogId = -1;
-		}
+		dismissDialog();
 		
 		headerMainLayout.setVisibility(View.VISIBLE);
 		

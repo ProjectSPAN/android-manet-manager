@@ -10,9 +10,7 @@
 		<ListPreference  
 			android:key="encsetuppref"  
 			android:title="@string/setup_layout_encryptionsetup"  
-			android:summary="@string/setup_layout_encryptionsetup_summary"  
-			android:entries="@array/encsetupnames"  
-			android:entryValues="@array/encsetupvalues"  
+			android:summary="@string/setup_layout_encryptionsetup_summary"
 			android:dialogTitle="Setup Method"
 			android:defaultValue="auto" 
 			android:dependency="encpref" /> 			
@@ -22,8 +20,7 @@
 			android:summary="@string/setup_layout_passphrase_summary" 
 			android:dialogTitle="@string/setup_layout_passphrase_dialog_title" 
 			android:defaultValue="abcdefghijklm"
-			android:dependency="encpref"
-		/> 
+			android:dependency="encpref" /> 
 		<EditTextPreference  
 			android:key="ssidpref"  
 			android:title="@string/setup_layout_ssid"  
@@ -31,8 +28,7 @@
 			android:dialogTitle="@string/setup_layout_ssid_dialog_title" 
 			android:maxLength="15"  
 			android:dialogMessage="@string/setup_layout_ssid_dialog_message"
-			android:defaultValue="AndroidAdhoc"
-		/>      
+			android:defaultValue="AndroidAdhoc" />      
 		<ListPreference  
 			android:key="channelpref"  
 			android:title="@string/setup_layout_channel"  
@@ -79,12 +75,7 @@
 			android:key="wakelockpref"  
 			android:title="@string/setup_layout_wakelock"
 			android:defaultValue="true"  
-			android:summary="@string/setup_layout_wakelock_summary" />  		
-		 <CheckBoxPreference  
-			android:key="lockscreenpref"  
-			android:title="@string/setup_layout_lockscreen"
-			android:defaultValue="true"  
-			android:summary="@string/setup_layout_lockscreen_summary" />			  					 
+			android:summary="@string/setup_layout_wakelock_summary" />  					 
 		  <ListPreference  
 			android:key="batterytemppref"  
 			android:title="@string/setup_layout_battery"  
