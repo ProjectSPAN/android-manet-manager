@@ -1,5 +1,10 @@
 package android.adhoc.manet.manager;
 
+import java.util.TreeSet;
+
+import android.adhoc.manet.ManetObserver;
+import android.adhoc.manet.service.ManetService.AdhocStateEnum;
+import android.adhoc.manet.system.ManetConfig;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class GetRoutingInfoActivity extends Activity {
+public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 	
 	private ManetManagerApp app = null;
 	
@@ -25,7 +30,10 @@ public class GetRoutingInfoActivity extends Activity {
 				
 		setContentView(R.layout.getroutinginfoview);
 		
-		this.app = (ManetManagerApp)this.getApplication();
+		app = (ManetManagerApp)this.getApplication();
+		
+	    app.manet.registerObserver(this);
+	    app.manet.sendRoutingInfoQuery(); // initial query
 		
 		tvInfo = (TextView) findViewById(R.id.tvInfo);
 		
@@ -36,6 +44,7 @@ public class GetRoutingInfoActivity extends Activity {
 	    btnGetInfo.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// getRoutingInfo();
+				app.manet.sendRoutingInfoQuery();
 			}
 	    });
     }
@@ -77,5 +86,64 @@ public class GetRoutingInfoActivity extends Activity {
 	public static void open(Activity parentActivity) {
 		Intent it = new Intent("android.intent.action.GET_ROUTING_INFO_ACTION");
 		parentActivity.startActivity(it);
+	}
+
+	@Override
+	public void onServiceConnected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onServiceDisconnected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onServiceStarted() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onServiceStopped() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdhocStateUpdated(AdhocStateEnum state, String info) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConfigUpdated(ManetConfig manetcfg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPeersUpdated(TreeSet<String> peers) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRoutingInfoUpdated(final String info) {
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				tvInfo.setText(info);
+				app.displayToastMessage("Info Updated");
+			}
+		});
+	}
+
+	@Override
+	public void onError(String error) {
+		// TODO Auto-generated method stub
+		
 	}
 }

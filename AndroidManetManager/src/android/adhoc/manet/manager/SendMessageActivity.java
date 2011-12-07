@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -195,7 +196,12 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@Override
+	public void onRoutingInfoUpdated(String info) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void onPeersUpdated(TreeSet<String> peers) {

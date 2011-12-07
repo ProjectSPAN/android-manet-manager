@@ -72,7 +72,6 @@
             </intent-filter>
         </activity>
         
-        <!--
         <activity android:name=".GetRoutingInfoActivity"
             android:label="@string/global_app_get_routing_info_name"
             android:launchMode="singleTop"
@@ -82,7 +81,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        -->
                 
         <!-- NOTE: no need to declare MANET service since it is part of another project -->
         

@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	private static int ID_DIALOG_CONNECTING = 2;
 	
 	private ManetManagerApp app = null;
-	
+		
 	private ProgressDialog progressDialog = null;
 
 	private ImageView startBtn = null;
@@ -76,8 +76,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	private ScaleAnimation animation = null;
 	
 	private int currDialogId = -1;
-		
-	
+			
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,11 +88,6 @@ public class MainActivity extends Activity implements ManetObserver {
         
         app = (ManetManagerApp)getApplication();
         app.manet.registerObserver(this);
-        
-        // connect to service
-		showDialog(ID_DIALOG_CONNECTING);
-		currDialogId = ID_DIALOG_CONNECTING;
-		app.manet.connectToService();
 
         // init table rows
         startTblRow = (TableRow)findViewById(R.id.startRow);
@@ -141,7 +135,17 @@ public class MainActivity extends Activity implements ManetObserver {
 		};
 		stopBtn.setOnClickListener(this.stopBtnListener);
 		
-   		// start service so that it runs even if no active activities are bound to it
+		// connect to MANET service
+        if (!app.manet.isConnectedToService()) {
+			showDialog(ID_DIALOG_CONNECTING);
+			currDialogId = ID_DIALOG_CONNECTING;
+			app.manet.connectToService();
+        } else {
+    		showAdhocMode(app.adhocState);
+    		showRadioMode(app.manetcfg.isUsingBluetooth());
+        }
+		
+   		// start messenger service so that it runs even if no active activities are bound to it
    		startService(new Intent(this, MessageService.class));
     }
 	
@@ -378,47 +382,8 @@ public class MainActivity extends Activity implements ManetObserver {
   		}
   	}
   	
-  	
-  	// MANET callback methods
-  	
- 	@Override
- 	public void onServiceConnected() {
- 		Log.d(TAG, "onServiceConnected()"); // DEBUG
- 		dismissDialog();
- 		app.manet.sendManetConfigQuery();
- 		app.manet.sendAdhocStatusQuery();
- 	}
-
- 	@Override
- 	public void onServiceDisconnected() {
- 		Log.d(TAG, "onServiceDisconnected()"); // DEBUG
- 	}
-
- 	@Override
- 	public void onServiceStarted() {
- 		Log.d(TAG, "onServiceStarted()"); // DEBUG
- 	}
-
- 	@Override
- 	public void onServiceStopped() {
- 		Log.d(TAG, "onServiceStopped()"); // DEBUG
- 	}
- 	
- 	public void dismissDialog() {
-		// dismiss dialog
-		if (currDialogId != -1) {
-			super.dismissDialog(currDialogId);
-			currDialogId = -1;
-		}
- 	}
-
-	@Override
-	public void onAdhocStateUpdated(AdhocStateEnum state, String info) {
-		Log.d(TAG, "onAdhocStateUpdated()"); // DEBUG
-		
-		dismissDialog();
-		
-		headerMainLayout.setVisibility(View.VISIBLE);
+  	private void showAdhocMode(AdhocStateEnum state) {
+  		headerMainLayout.setVisibility(View.VISIBLE);
 		
 		if (state == AdhocStateEnum.STARTED) {
 			startTblRow.setVisibility(View.GONE);
@@ -465,8 +430,6 @@ public class MainActivity extends Activity implements ManetObserver {
 			stopTblRow.setVisibility(View.VISIBLE);
 		}
 		
-		app.displayToastMessage(info);
-		
  		/*
  		Log.d(TAG, "onAdhocStarted()"); // DEBUG 
  		 
@@ -501,6 +464,48 @@ public class MainActivity extends Activity implements ManetObserver {
 			}
 		}).start();
 		*/
+  	}
+  	
+  	
+  	// MANET callback methods
+  	
+ 	@Override
+ 	public void onServiceConnected() {
+ 		Log.d(TAG, "onServiceConnected()"); // DEBUG
+ 		dismissDialog();
+ 		app.manet.sendManetConfigQuery();
+ 		app.manet.sendAdhocStatusQuery();
+ 	}
+
+ 	@Override
+ 	public void onServiceDisconnected() {
+ 		Log.d(TAG, "onServiceDisconnected()"); // DEBUG
+ 	}
+
+ 	@Override
+ 	public void onServiceStarted() {
+ 		Log.d(TAG, "onServiceStarted()"); // DEBUG
+ 	}
+
+ 	@Override
+ 	public void onServiceStopped() {
+ 		Log.d(TAG, "onServiceStopped()"); // DEBUG
+ 	}
+ 	
+ 	public void dismissDialog() {
+		// dismiss dialog
+		if (currDialogId != -1) {
+			super.dismissDialog(currDialogId);
+			currDialogId = -1;
+		}
+ 	}
+
+	@Override
+	public void onAdhocStateUpdated(AdhocStateEnum state, String info) {
+		Log.d(TAG, "onAdhocStateUpdated()"); // DEBUG
+		dismissDialog();
+		showAdhocMode(state);
+		app.displayToastMessage(info);
 	}
 
 	@Override
@@ -512,6 +517,11 @@ public class MainActivity extends Activity implements ManetObserver {
 	@Override
 	public void onPeersUpdated(TreeSet<String> peers) {
 		Log.d(TAG, "onPeersUpdated()"); // DEBUG
+	}
+	
+	@Override
+	public void onRoutingInfoUpdated(String info) {
+		Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
 	}
 	
 	@Override

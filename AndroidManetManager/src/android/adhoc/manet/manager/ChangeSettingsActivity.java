@@ -76,25 +76,6 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         // init application
         app = (ManetManagerApp)getApplication();
         
-        /*
-        // init current prefs
-        adhocMode =			app.prefs.getString(ManetConfig.ADHOC_MODE_KEY, ManetConfig.ADHOC_MODE_DEFAULT);
-        routingProtocol =	app.prefs.getString(ManetConfig.ROUTING_PROTOCOL_KEY, ManetConfig.ROUTING_PROTOCOL_DEFAULT);
-        wifiSsid =			app.prefs.getString(ManetConfig.WIFI_ESSID_KEY, ManetConfig.WIFI_ESSID_DEFAULT);
-        wifiChannel =		app.prefs.getString(ManetConfig.WIFI_CHANNEL_KEY, ManetConfig.WIFI_CHANNEL_DEFAULT);
-        wifiTxpower =		app.prefs.getString(ManetConfig.WIFI_TXPOWER_KEY, ManetConfig.WIFI_TXPOWER_KEY_DEFAULT);
-        wifiEncKey =		app.prefs.getString(ManetConfig.WIFI_ENCRYPTION_KEY, ManetConfig.WIFI_ENCRYPTION_KEY_DEFAULT);
-        wifiSetupMethod =	app.prefs.getString(ManetConfig.WIFI_SETUP_METHOD_KEY, ManetConfig.WIFI_SETUP_METHOD_DEFAULT);
-        ipAddress =			app.prefs.getString(ManetConfig.IP_ADDRESS_KEY, ManetConfig.IP_ADDRESS_DEFAULT);
-        
-        bluetoothDisableWifi = app.prefs.getString(ManetConfig.BLUETOOTH_DISABLE_WIFI_KEY, 
-        	Boolean.toString(ManetConfig.BLUETOOTH_DISABLE_WIFI_DEFAULT));
-        bluetoothDiscoverable = app.prefs.getString(ManetConfig.BLUETOOTH_DISCOVERABLE_KEY, 
-        	Boolean.toString(ManetConfig.BLUETOOTH_DISCOVERABLE_DEFAULT));
-        adhocDisableWakelock =app.prefs.getString(ManetConfig.ADHOC_DISABLE_WAKELOCK_KEY, 
-        	Boolean.toString(ManetConfig.ADHOC_DISABLE_WAKELOCK_DEFAULT));
-        */
-        
         addPreferencesFromResource(R.layout.settingsview); 
         setContentView(R.layout.settingsviewwrapper);
         
@@ -239,7 +220,9 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         }
         
         // ip address
-        
+        EditTextPreference ipAddressEditTextPref = (EditTextPreference)findPreference("ippref");
+        setupWifiSsidValidator(ipAddressEditTextPref);
+        ipAddressEditTextPref.setText(manetcfg.getIpAddress());
         
         // wake lock
         
@@ -444,7 +427,11 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 			   			}
 		    		}
 		    		*/
-		    	}	
+		    	}
+		    	else if (key.equals("ippref")) {
+			    	String ipAddress = sharedPreferences.getString("ippref", ManetConfig.IP_ADDRESS_DEFAULT);
+			    	manetcfg.setIpAddress(ipAddress);
+		    	}
 		    	/*
 		    	else if (key.equals("ipnetworkpref")) {
 		    		String ipaddress = sharedPreferences.getString("ippref", SetupPrefsActivity.app.DEFAULT_IPADDRESS);

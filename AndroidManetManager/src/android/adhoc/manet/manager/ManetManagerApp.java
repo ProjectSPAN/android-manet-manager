@@ -53,6 +53,9 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	// MANET config
 	public ManetConfig manetcfg = null;
 	
+	// adhoc state
+	public AdhocStateEnum adhocState = null;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -149,6 +152,7 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	@Override
 	public void onAdhocStateUpdated(AdhocStateEnum state, String info) {
 		Log.d(TAG, "onAdhocStateUpdated()"); // DEBUG
+		adhocState = state;
 	}
 	
 	@Override
@@ -163,6 +167,11 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	@Override
 	public void onPeersUpdated(TreeSet<String> peers) {
 		Log.d(TAG, "onPeersUpdated()"); // DEBUG
+	}
+	
+	@Override
+	public void onRoutingInfoUpdated(String info) {
+		Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
 	}
 	
 	@Override
