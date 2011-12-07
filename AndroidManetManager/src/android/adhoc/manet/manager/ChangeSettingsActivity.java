@@ -69,6 +69,8 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     
     private ManetConfig manetcfg = null;
     
+    private boolean dirty = false;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         btnCancel = (Button) findViewById(R.id.btnCancel);
 	  	btnCancel.setOnClickListener(new View.OnClickListener() {
 	  		public void onClick(View v) {
-				finish();
+	  			checkIfDirty();
 	  		}
 		});
     }
@@ -231,6 +233,8 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     
     // invoked each time a preference is changed
     private void update(final SharedPreferences sharedPreferences, final String key) {
+    	
+    	dirty = true;
     	
     	new Thread(new Runnable(){
     		@Override
@@ -656,7 +660,15 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         		}
         		return true;
         }});
-   }
+    }
+    
+    private void checkIfDirty() {
+    	if (dirty) {
+			openConfirmDialog();
+		} else {
+			finish();
+		}
+    }
     
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -671,6 +683,28 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     	return null;
     }
     
+    @Override
+	public void onBackPressed() {
+    	checkIfDirty();
+    }
+    
+	private void openConfirmDialog() {
+		new AlertDialog.Builder(this)
+        	.setTitle("Confirm Settings?")
+        	.setMessage("Some settings were modified. Do you wish to confirm those settings? If not, all changes will be lost.")
+        	.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+    				app.manet.sendManetConfigUpdateCommand(manetcfg);
+    				finish();
+                }
+        	})
+        	.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	finish();
+                }
+        	})
+        	.show();  		
+   	}
     
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     	Log.d(TAG, "onSharedPreferenceChanged()"); // DEBUG
