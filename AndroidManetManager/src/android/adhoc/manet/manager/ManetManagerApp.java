@@ -101,7 +101,7 @@ public class ManetManagerApp extends Application implements ManetObserver {
     };
     
 	public void displayToastMessage(String message) {
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
     
     public int getVersionNumber() {
