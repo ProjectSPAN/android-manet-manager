@@ -30,6 +30,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 public class ManetManagerApp extends Application implements ManetObserver {
@@ -56,11 +58,21 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	// adhoc state
 	public AdhocStateEnum adhocState = null;
 	
+	// singleton
+	private static ManetManagerApp instance = null;
+	
+	public static ManetManagerApp getInstance() {
+		return instance;
+	}
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		
 		Log.d(TAG, "onCreate()");
+		
+		// singleton
+		instance = this;
         
         // preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);

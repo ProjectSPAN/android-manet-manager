@@ -82,6 +82,17 @@
             </intent-filter>
         </activity>
                 
+        <activity android:name=".EditIgnoreListActivity"
+            android:label="@string/global_app_edit_ignore_list_name"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT_IGNORE_LIST_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+                
+        
         <!-- NOTE: no need to declare MANET service since it is part of another project -->
         
         <service android:name=".MessageService" android:enabled="true" />

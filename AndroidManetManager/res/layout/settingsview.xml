@@ -67,9 +67,17 @@
             android:title="@string/setup_layout_ip"
             android:summary="@string/setup_layout_ip_summary"
             android:dialogTitle="@string/setup_layout_ip_dialog_title"
-            android:defaultValue="192.168.1.100"
+            android:defaultValue="@string/default_ip"
             android:inputType="phone" />
 	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/setup_layout_category_routing">
+         <PreferenceScreen
+            android:key="ignorepref" 
+            android:title="@string/setup_layout_ignore"
+            android:summary="@string/setup_layout_ignore_summary" >
+            <intent android:action="android.intent.action.EDIT_IGNORE_LIST_ACTION" />
+         </PreferenceScreen>
+    </PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_misc">
 		 <CheckBoxPreference  
 			android:key="wakelockpref"  

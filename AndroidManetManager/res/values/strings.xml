@@ -5,6 +5,7 @@
     <string name="global_app_send_message_name">MANET Manager Send Message</string>
     <string name="global_app_view_message_name">MANET Manager View Message</string>
     <string name="global_app_get_routing_info_name">MANET Manager Routing Info</string>
+    <string name="global_app_edit_ignore_list_name">MANET Manager Ignore List</string>
 	<string name="global_app_installed">Binaries and config-files installed!</string>
 	<string name="global_app_error_restartsecwifi">Unable to restart secured wifi!</string>
 	<string name="global_app_adhoc_running">Ad-Hoc mode is currently running ...</string>
@@ -75,6 +76,7 @@
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_ip">IP</string>
 	<string name="setup_layout_category_misc">Miscellaneous</string>
+	<string name="setup_layout_category_routing">Routing</string>
 	<string name="setup_layout_usebluetooth">Use Bluetooth</string>
 	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN adhoc instead of WiFi</string>
 	<string name="setup_layout_dontdisablewifi">Don\'t disable WiFi</string>
@@ -110,6 +112,8 @@
 	<string name="setup_layout_battery_summary">Configure battery temperature info</string>
 	<string name="setup_layout_lockscreen">Disable Screen-Lock</string>
 	<string name="setup_layout_lockscreen_summary">Hide the Lockscreen-button</string>	
+	<string name="setup_layout_ignore">Ignore Neighbor List</string>
+	<string name="setup_layout_ignore_summary">Ignore HELLO messages from one-hop neighbors</string>
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>
 	<string name="about_layout_license">License:</string>
@@ -135,6 +139,7 @@
     <string name="routing_info_layout_category_all">Routing</string>
     <string name="routing_info_layout_neighbors">Neighbors</string>
     <string name="routing_info_layout_neighbors_summary">Info about neighbors</string>
+    <string name="default_ip">192.168.1.100</string>
     
     <string-array name="notificationmodenames">  
 		<item>None</item>  
