@@ -59,7 +59,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />	
-			<TextView android:text="Jeff Robble, Josh Thomas, Eric Levine"
+			<TextView android:text="Jeff Robble, Josh Thomas, Eric Levine, Nick Modly"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:paddingLeft="15px"

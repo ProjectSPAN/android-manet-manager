@@ -12,7 +12,7 @@ public class ViewMessageActivity extends Activity {
 	
     private Handler handler = new Handler();
     
-    private TextView tvSender = null;
+    private TextView tvLastHop = null;
     private TextView tvMessage = null;
     private Button btnDone = null;
     
@@ -22,12 +22,12 @@ public class ViewMessageActivity extends Activity {
 		super.onCreate(bundle);	
 		setContentView(R.layout.messageview);
 	    
-	    tvSender   = (TextView) findViewById(R.id.etSender);
-	    tvMessage  = (TextView) findViewById(R.id.etMessage);
+		tvLastHop = (TextView) findViewById(R.id.etLastHop);
+	    tvMessage = (TextView) findViewById(R.id.etMessage);
 	    
 	    // populate fields
 	    Bundle extras = getIntent().getExtras();
-	    tvSender.setText(extras.getString(MessageService.MESSAGE_FROM_KEY));
+	    tvLastHop.setText(extras.getString(MessageService.MESSAGE_LAST_HOP_KEY));
 	    tvMessage.setText(extras.getString(MessageService.MESSAGE_CONTENT_KEY));
 	    
 	    btnDone = (Button) findViewById(R.id.btnDone);

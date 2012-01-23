@@ -115,6 +115,18 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	public void displayToastMessage(String message) {
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
+	
+	public void focusAndshowKeyboard(final View v) {
+		v.requestFocus();
+		v.postDelayed(new Runnable() {
+              @Override
+              public void run() {
+                  InputMethodManager keyboard = (InputMethodManager)
+                  getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
+                  keyboard.showSoftInput(v, 0);
+              }
+          },100);
+	}
     
     public int getVersionNumber() {
     	int version = -1;

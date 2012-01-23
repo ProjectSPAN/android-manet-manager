@@ -5,20 +5,24 @@
     android:orientation="vertical" >
     
     <LinearLayout android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:paddingTop="3dp"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
+
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
         
-        <TextView android:text="Sender: " 
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" 
-            android:gravity="center_vertical" />
-                    
-        <TextView android:id="@+id/etSender" 
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" 
-            android:gravity="center_vertical" />
+	        <TextView android:text="Last Hop: " 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" />
+	        
+	        <TextView android:id="@+id/etLastHop" 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" />
         
+	    </LinearLayout>
+	        
     </LinearLayout>
         
      <LinearLayout android:layout_width="fill_parent"
@@ -28,13 +32,11 @@
         
 	    <TextView android:text="Message:" 
 	    	android:layout_width="fill_parent"
-	        android:layout_height="wrap_content" 
-	        android:gravity="center_vertical" />
+	        android:layout_height="wrap_content"/>
 	    
 	    <TextView android:id="@+id/etMessage"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:padding="3dp"
 	        android:gravity="top" />
 	      
 	</LinearLayout>

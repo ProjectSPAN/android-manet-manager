@@ -134,6 +134,7 @@ public class EditIgnoreListActivity extends PreferenceActivity {
 		final EditText etAddress = new EditText(this.getBaseContext());
 		etAddress.setInputType(InputType.TYPE_CLASS_PHONE);
 		etAddress.setText(app.getString(R.string.default_ip));
+		app.focusAndshowKeyboard(etAddress);
 		
 		new AlertDialog.Builder(this)
         	.setTitle("Add entry")

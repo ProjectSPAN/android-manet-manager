@@ -14,10 +14,10 @@ import android.os.IBinder;
 public class MessageService extends Service {
 	
 	public static final int MESSAGE_PORT = 9000;
-	public static final int MAX_MESSAGE_LENGTH = 10; // 256;
+	public static final int MAX_MESSAGE_LENGTH = 256; // 10;
 	
-	public static final String MESSAGE_FROM_KEY    = "message_from";
-	public static final String MESSAGE_CONTENT_KEY = "message_content";
+	public static final String MESSAGE_LAST_HOP_KEY  = "message_last_hop";
+	public static final String MESSAGE_CONTENT_KEY   = "message_content";
 	
 	private NotificationManager notifier = null;
 	
@@ -113,13 +113,14 @@ public class MessageService extends Service {
 				while (true) {
 					try {
 						socket.receive(packet); // blocking
-						String sender = packet.getAddress().getHostAddress();
+						
+						String lasthop = packet.getAddress().getHostAddress();
 						String msg = new String(packet.getData(), 0, packet.getLength());
 						
-						String tickerStr = "Message from " + sender;
+						String tickerStr = "New message";
 						
 				    	Bundle extras = new Bundle();
-				    	extras.putString(MESSAGE_FROM_KEY, sender);
+				    	extras.putString(MESSAGE_LAST_HOP_KEY, lasthop);
 				    	extras.putString(MESSAGE_CONTENT_KEY, msg);
 						
 						showNotification(tickerStr, extras);

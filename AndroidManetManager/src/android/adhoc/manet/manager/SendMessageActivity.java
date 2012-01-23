@@ -14,8 +14,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -25,14 +28,19 @@ import android.widget.Spinner;
 
 public class SendMessageActivity extends Activity implements OnItemSelectedListener, ManetObserver {
 	
+	private static final String PROMPT = "Enter address ...";
+	
     private Handler handler = new Handler();
     
     private Spinner spnDestination = null;
+    private EditText etAddress = null;
     private EditText etMessage = null;
     private Button btnSend = null;
     private Button btnCancel = null;
     
     private ManetManagerApp app = null;
+    
+    private String selection = null;
     
 	/** Called when the activity is first created. */
 	@Override
@@ -42,6 +50,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 		
 	    app = (ManetManagerApp)getApplication();
 	    
+	    etAddress = (EditText) findViewById(R.id.etAddress);
 	    etMessage = (EditText) findViewById(R.id.etMessage);
 	    
 	    app.manet.registerObserver(this);
@@ -55,7 +64,17 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  		public void onClick(View v) {
 	  			String destination = (String) spnDestination.getSelectedItem();
 	  			String msg = etMessage.getText().toString();
+	  			String address = null;
 	  			String error = null, errorMsg = "";
+	  			if (selection.equals(PROMPT)) {
+	  				address = etAddress.getText().toString();
+		  			if (!Validation.isValidIpAddress(address)) {
+		  				error = "Invalid IP address.";
+						errorMsg += error + "\n";
+		  			}
+	  			} else {
+	  				address = destination.substring(0, destination.lastIndexOf("/"));
+	  			}
 	  			if (destination == null) {
 	  				error = "Destination is empty.";
 					errorMsg += error + "\n";
@@ -65,7 +84,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  				errorMsg += error + "\n";
 	  			}
 	  			if (errorMsg.isEmpty()) {
-	  				String address = destination.substring(0, destination.lastIndexOf("/"));
+	  				msg = "[From: " + app.manetcfg.getIpAddress() + "]\n" + msg;
 	  				sendMessage(address, msg);
 	  				finish();
 	  			} else {
@@ -112,8 +131,16 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 
 
 	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
+	public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+		selection = (String)spnDestination.getItemAtPosition(position);
+		if (selection.equals(PROMPT)) {
+			etAddress.setVisibility(EditText.VISIBLE);
+			etAddress.setText(app.getString(R.string.default_ip));
+			etAddress.setSelection(etAddress.getText().length()); // move cursor to end
+			app.focusAndshowKeyboard(etAddress);
+		} else {
+			etAddress.setVisibility(EditText.GONE);
+		}
 	}
 
 	@Override
@@ -205,7 +232,11 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 
 	@Override
 	public void onPeersUpdated(TreeSet<String> peers) {
-		ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, peers.toArray());
+		// provide option to enter peer address
+		Set<String> options = new TreeSet<String>(peers);
+		options.add(PROMPT);
+		
+		ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options.toArray());
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnDestination.setAdapter(adapter);
 	}

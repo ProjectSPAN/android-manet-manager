@@ -19,6 +19,12 @@
             android:layout_height="wrap_content"
             android:prompt="@string/prompt_destination_spinner" />
         
+        <EditText android:id="@+id/etAddress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:inputType="phone" />
+        
 	    <TextView android:text="Message:" 
 	    	android:layout_width="fill_parent"
 	        android:layout_height="wrap_content" 
