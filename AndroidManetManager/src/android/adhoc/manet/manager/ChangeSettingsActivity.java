@@ -15,6 +15,7 @@ package android.adhoc.manet.manager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -258,7 +259,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     // invoked each time a preference is changed
     private void updateConfig() {
     	
-    	dirtyFlag = true;
+    	Map<String,String> oldcfgmap = new TreeMap<String,String>(manetcfg.toMap());
     	
     	Map<String,Object> map = (Map<String, Object>) sharedPreferences.getAll();
     	for (String key : map.keySet()) {
@@ -321,6 +322,9 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 				manetcfg.setRoutingIgnoreList(ignoreList);
 	    	}
     	}
+    	
+    	Map<String,String> newcfgmap = manetcfg.toMap();
+    	dirtyFlag = !oldcfgmap.equals(newcfgmap);
     }
     
     private void checkIfDirty() {
@@ -379,6 +383,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         			"Do you wish to restart it now?")
         	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
+                	app.displayToastMessage("Restarting Ad-Hoc mode. Please wait ...");
     				app.manet.sendRestartAdhocCommand();
     				finish();
                 }
