@@ -202,13 +202,13 @@ public class MainActivity extends Activity implements ManetObserver {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
     	SubMenu setup = menu.addSubMenu(0, MENU_CHANGE_SETTINGS, 0, getString(R.string.main_activity_settings));
     	setup.setIcon(drawable.ic_menu_preferences);
-    	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
-    	log.setIcon(drawable.ic_menu_agenda);
+    	// SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
     	about.setIcon(drawable.ic_menu_info_details);
     	// SubMenu console = menu.addSubMenu(0, MENU_CONSOLE, 0, getString(R.string.main_activity_console));
     	SubMenu send = menu.addSubMenu(0, MENU_SEND_MESSAGE, 0, getString(R.string.main_activity_send_message));
     	SubMenu info = menu.addSubMenu(0, MENU_GET_ROUTING_INFO, 0, getString(R.string.main_activity_get_routing_info));
+    	info.setIcon(drawable.ic_menu_agenda);
     	return supRetVal;
     }
     
