@@ -19,6 +19,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.adhoc.manet.service.ManetService.AdhocStateEnum;
 import android.adhoc.manet.system.DeviceConfig;
 import android.adhoc.manet.system.ManetConfig;
 import android.adhoc.manet.system.ManetConfig.AdhocModeEnum;
@@ -84,7 +85,11 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	  	btnCommit.setOnClickListener(new View.OnClickListener() {
 	  		public void onClick(View v) {
 				app.manet.sendManetConfigUpdateCommand(manetcfg);
-				finish();
+				if (app.adhocState == AdhocStateEnum.STARTED) {
+					openRestartDialog();
+				} else {
+					finish();
+				}
 	  		}
 		});
         
@@ -351,6 +356,30 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
     				app.manet.sendManetConfigUpdateCommand(manetcfg);
+    				if (app.adhocState == AdhocStateEnum.STARTED) {
+    					openRestartDialog();
+    				} else {
+    					finish();
+    				}
+                }
+        	})
+        	.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	finish();
+                }
+        	})
+        	.show();  		
+   	}
+	
+	private void openRestartDialog() {
+		new AlertDialog.Builder(this)
+        	.setTitle("Restart MANET Service?")
+        	.setMessage("Some settings were modified. " +
+        			"Changes will not take effect until the service is restarted. " +
+        			"Do you wish to restart it now?")
+        	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+    				app.manet.sendRestartAdhocCommand();
     				finish();
                 }
         	})
