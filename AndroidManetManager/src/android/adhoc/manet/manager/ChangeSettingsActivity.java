@@ -373,9 +373,9 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	
 	private void openRestartDialog() {
 		new AlertDialog.Builder(this)
-        	.setTitle("Restart MANET Service?")
+        	.setTitle("Restart Ad-Hoc mode?")
         	.setMessage("Some settings were modified. " +
-        			"Changes will not take effect until the service is restarted. " +
+        			"Changes will not take effect until Ad-Hoc mode is restarted. " +
         			"Do you wish to restart it now?")
         	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
