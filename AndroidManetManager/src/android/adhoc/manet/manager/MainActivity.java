@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import android.R.drawable;
 import android.adhoc.manet.ManetObserver;
 import android.adhoc.manet.service.ManetService.AdhocStateEnum;
+import android.adhoc.manet.system.CoreTask;
 import android.adhoc.manet.system.ManetConfig;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -44,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements ManetObserver {
 	
@@ -55,6 +57,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	private static int ID_DIALOG_STARTING 	= 0;
 	private static int ID_DIALOG_STOPPING 	= 1;
 	private static int ID_DIALOG_CONNECTING = 2;
+	private static int ID_DIALOG_CONFIG = 3;
 	
 	private ManetManagerApp app = null;
 		
@@ -81,6 +84,8 @@ public class MainActivity extends Activity implements ManetObserver {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+
         
     	Log.d(TAG, "onCreate()");
         
@@ -147,6 +152,16 @@ public class MainActivity extends Activity implements ManetObserver {
 		
    		// start messenger service so that it runs even if no active activities are bound to it
    		startService(new Intent(this, MessageService.class));
+        Intent theIntent = getIntent();
+        String action = theIntent.getAction();
+        
+        String intentData = theIntent.getDataString();
+        if (action.equals(Intent.ACTION_VIEW) ) {
+        	Bundle bundle = new Bundle(1);
+        	bundle.putString("filepath", intentData);
+			showDialog(3, bundle);
+		}
+		
     }
 	
     // will be called after onCreate()
@@ -267,6 +282,42 @@ public class MainActivity extends Activity implements ManetObserver {
 	    	progressDialog.setIndeterminate(false);
 	    	progressDialog.setCancelable(true);
 	        return progressDialog;  		
+    	} 
+    	return null;
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id, Bundle args){
+    	if (id == ID_DIALOG_STARTING) {
+	        return onCreateDialog(id);
+    	} else if (id == ID_DIALOG_STOPPING) {
+    		return onCreateDialog(id);		
+    	} else if (id == ID_DIALOG_CONNECTING) {
+    		return onCreateDialog(id);
+    	} else if (id == ID_DIALOG_CONFIG) {
+    		//Config load dialogue
+    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    		final String filepath = args.getString("filepath");
+    		final String filename = filepath.substring(filepath.indexOf(':') + 3);
+    		builder.setMessage("Are you sure you want to load this external configuration file?\n" + filepath)
+    		       .setCancelable(false)
+    		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    		           public void onClick(DialogInterface dialog, int id) {
+    		               //Load the Configuration
+    		        	   String command = "cp " + filename + " /data/data/android.adhoc.manet/conf/manet.conf";
+    		        	   System.out.println(command);//debug
+    		        	   //CoreTask.runCommand(command);
+    		        	   app.manet.sendManetConfigLoadCommand(filename);
+    		        	   dialog.cancel();
+    		           }
+    		       })
+    		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    		           public void onClick(DialogInterface dialog, int id) {
+    		                dialog.cancel();
+    		           }
+    		       });
+    		AlertDialog alert = builder.create();
+    		return alert;
     	}
     	return null;
     }
