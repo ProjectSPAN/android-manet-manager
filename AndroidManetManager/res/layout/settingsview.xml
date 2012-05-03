@@ -43,6 +43,12 @@
 			android:summary="@string/setup_layout_txpower_summary"  
 			android:dialogTitle="@string/setup_layout_txpower_dialog_title"
 			android:defaultValue="disabled" />
+		<ListPreference  
+            android:key="interfacepref"  
+            android:title="@string/setup_layout_interface"  
+            android:summary="@string/setup_layout_interface_summary"
+            android:dialogTitle="@string/setup_layout_interface_dialog_title"
+            android:defaultValue="disabled" /> 
 	</PreferenceCategory>
     <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
        android:key="btprefs">

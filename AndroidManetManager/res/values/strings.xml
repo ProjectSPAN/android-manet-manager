@@ -100,6 +100,9 @@
 	<string name="setup_layout_txpower">Transmit Power</string>
 	<string name="setup_layout_txpower_summary">Reduce transmit power</string>
 	<string name="setup_layout_txpower_dialog_title">Reduce Power</string>
+	<string name="setup_layout_interface">Change Interface</string>
+    <string name="setup_layout_interface_summary">Wireless interface</string>
+    <string name="setup_layout_interface_dialog_title">Select interface</string>
 	<string name="setup_layout_ip">Change IP</string>
     <string name="setup_layout_ip_summary">IP address settings</string>
 	<string name="setup_layout_ip_dialog_title">Select IP Address</string>

@@ -46,6 +46,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import android.adhoc.manet.system.CoreTask;
+
 public class ChangeSettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 		
 	public static final String TAG = "ChangeSettingsActivity";
@@ -207,6 +209,20 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         	txpowerPreference.setValueIndex(manetcfg.getWifiTxpower().ordinal());
         }
         
+        // wifi interface
+        String currInterface = manetcfg.getWifiInterface();
+    	List<String> interfaceList = CoreTask.getNetworkInterfaces();
+    	if(!interfaceList.contains(currInterface)) {
+    		interfaceList.add(currInterface);
+    	}
+    	String[] interfaces = new String[interfaceList.size()];
+    	interfaceList.toArray(interfaces);
+        
+    	ListPreference interfacePreference = (ListPreference)findPreference("interfacepref");
+    	interfacePreference.setEntries(interfaces);
+    	interfacePreference.setEntryValues(interfaces);
+    	interfacePreference.setValue(currInterface);
+        
         // bluetooth group
 		// disable bluetooth adhoc if not supported by the kernel
         if (!manetcfg.isBluetoothSupported()) {
@@ -287,6 +303,11 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	    		String wifiTxpower = sharedPreferences.getString("txpowerpref", 
 	    				ManetConfig.WIFI_TXPOWER_DEFAULT.toString());
 	    		manetcfg.setWifiTxPower(WifiTxpowerEnum.fromString(wifiTxpower));
+	    	}
+	    	else if (key.equals("interfacepref")) {
+	    		String wifiInterface = sharedPreferences.getString("interfacepref", 
+	    				ManetConfig.WIFI_INTERFACE_DEFAULT.toString());
+	    		manetcfg.setWifiInterface(wifiInterface);
 	    	}
 	    	else if (key.equals("ippref")) {
 		    	String ipAddress = sharedPreferences.getString("ippref", ManetConfig.IP_ADDRESS_DEFAULT);
@@ -393,7 +414,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
                 	finish();
                 }
         	})
-        	.show();  		
+        	.show();
    	}
     
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
