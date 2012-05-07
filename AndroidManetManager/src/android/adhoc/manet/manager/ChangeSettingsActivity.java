@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.adhoc.manet.routing.SimpleProtocol;
 import android.adhoc.manet.service.ManetService.AdhocStateEnum;
 import android.adhoc.manet.system.DeviceConfig;
 import android.adhoc.manet.system.ManetConfig;
@@ -211,9 +212,10 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         
         // wifi interface
         String currInterface = manetcfg.getWifiInterface();
+        String defaultInterface = DeviceConfig.getWifiInterface(manetcfg.getDeviceType());
     	List<String> interfaceList = CoreTask.getNetworkInterfaces();
-    	if(!interfaceList.contains(currInterface)) {
-    		interfaceList.add(currInterface);
+    	if(!interfaceList.contains(defaultInterface)) {
+    		interfaceList.add(defaultInterface);
     	}
     	String[] interfaces = new String[interfaceList.size()];
     	interfaceList.toArray(interfaces);
@@ -221,7 +223,12 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     	ListPreference interfacePreference = (ListPreference)findPreference("interfacepref");
     	interfacePreference.setEntries(interfaces);
     	interfacePreference.setEntryValues(interfaces);
-    	interfacePreference.setValue(currInterface);
+    	
+    	if (interfaceList.contains(currInterface)) {
+    		interfacePreference.setValue(currInterface);
+    	} else {
+    		interfacePreference.setValue(defaultInterface);
+    	}
         
         // bluetooth group
 		// disable bluetooth adhoc if not supported by the kernel
@@ -261,14 +268,43 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         Validation.setupIpAddressValidator(ipAddressEditTextPref);
         ipAddressEditTextPref.setText(manetcfg.getIpAddress());        
         
+        // routing protocol
+        String currRoutingProtocol = manetcfg.getRoutingProtocol();
+    	List<String> routingProtocolList = CoreTask.getRoutingProtocols();
+    	String[] routingProtocols = new String[routingProtocolList.size()];
+    	routingProtocolList.toArray(routingProtocols);
+        
+    	ListPreference routingProtocolPreference = (ListPreference)findPreference("routingprotocolpref");
+    	routingProtocolPreference.setEntries(routingProtocols);
+    	routingProtocolPreference.setEntryValues(routingProtocols);
+    	routingProtocolPreference.setValue(currRoutingProtocol);
+        
         // routing ignore list
         JSONArray array = new JSONArray(manetcfg.getRoutingIgnoreList());
         sharedPreferences.edit().putString("ignorepref", array.toString()).commit();
+                
+        // routing gateway
+        String currGatewayInterface = manetcfg.getGatewayInterface();
+    	interfaceList.remove(currInterface); // remove ad-hoc interface
+    	interfaceList.add(0, ManetConfig.GATEWAY_INTERFACE_NONE);
+    	interfaces = new String[interfaceList.size()];
+    	interfaceList.toArray(interfaces);
+        
+    	ListPreference gatewayPreference = (ListPreference)findPreference("gatewaypref");
+    	gatewayPreference.setEntries(interfaces);
+    	gatewayPreference.setEntryValues(interfaces);
+    	gatewayPreference.setValue(currGatewayInterface);
+    	
+    	if (interfaceList.contains(currGatewayInterface)) {
+    		gatewayPreference.setValue(currGatewayInterface);
+    	} else {
+    		gatewayPreference.setValue(ManetConfig.GATEWAY_INTERFACE_NONE);
+    	}
         
         // wake lock
         
         // battery temperature
-        
+
         setupFlag = true;
     }
     
@@ -330,6 +366,10 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	    		Boolean btDiscoverable = sharedPreferences.getBoolean("bluetoothdiscoverable", ManetConfig.BLUETOOTH_DISCOVERABLE_DEFAULT);
 	    		manetcfg.setBlutoothDiscoverableWhenInAdhocMode(btDiscoverable);
 	    	}
+	    	else if (key.equals("routingprotocolpref")) {
+	    		String routingProtocol = sharedPreferences.getString("routingprotocolpref", ManetConfig.ROUTING_PROTOCOL_DEFAULT);
+	    		manetcfg.setRoutingProtocol(routingProtocol);
+	    	}
 	    	else if (key.equals("ignorepref")) {
 	    		List<String> ignoreList = new ArrayList<String>();
 				try {
@@ -341,11 +381,17 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 					e.printStackTrace();
 				}
 				manetcfg.setRoutingIgnoreList(ignoreList);
+	    	} else if (key.equals("gatewaypref")) {
+	    		String gatewayInterface = sharedPreferences.getString("gatewaypref", 
+	    				ManetConfig.GATEWAY_INTERFACE_DEFAULT.toString());
+	    		manetcfg.setGatewayInterface(gatewayInterface);
 	    	}
     	}
     	
     	Map<String,String> newcfgmap = manetcfg.toMap();
     	dirtyFlag = !oldcfgmap.equals(newcfgmap);
+    	
+    	updateView(); // selecting one option may change the available choices for other options
     }
     
     private void checkIfDirty() {

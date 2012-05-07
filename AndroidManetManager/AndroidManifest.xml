@@ -101,7 +101,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-                
         
         <!-- NOTE: no need to declare MANET service since it is part of another project -->
         

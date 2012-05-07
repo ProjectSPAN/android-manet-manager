@@ -103,7 +103,8 @@ public class ManetManagerApp extends Application implements ManetObserver {
 		notificationManager.cancelAll();
 	}
     
-    Handler displayMessageHandler = new Handler(){
+	/*
+	Handler displayMessageHandler = new Handler(){
         public void handleMessage(Message msg) {
        		if (msg.obj != null) {
        			ManetManagerApp.this.displayToastMessage((String)msg.obj);
@@ -111,6 +112,7 @@ public class ManetManagerApp extends Application implements ManetObserver {
         	super.handleMessage(msg);
         }
     };
+    */
     
 	public void displayToastMessage(String message) {
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

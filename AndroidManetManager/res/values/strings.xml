@@ -88,7 +88,8 @@
 	<string name="setup_layout_encryptionsetup">Encryption setup method</string>
 	<string name="setup_layout_encryptionsetup_summary">Change WiFi-Encryption setup method</string>
 	<string name="setup_layout_passphrase">Change Passphrase</string>
-	<string name="setup_layout_passphrase_summary">Change Passphrase for WiFi-Encryption</string>
+	<string name="setup_layout_passphrase_summary_wpa">Change Passphrase for WiFi-Encryption (WPA/WPA2-PSK)</string>
+	<string name="setup_layout_passphrase_summary_wep">Change Passphrase for WiFi-Encryption (WEP 128-bit)</string>
 	<string name="setup_layout_passphrase_dialog_title">Enter Passphrase</string>
 	<string name="setup_layout_ssid">Change SSID</string>
 	<string name="setup_layout_ssid_summary">Change SSID</string>
@@ -117,6 +118,12 @@
 	<string name="setup_layout_lockscreen_summary">Hide the Lockscreen-button</string>	
 	<string name="setup_layout_ignore">Ignore Neighbor List</string>
 	<string name="setup_layout_ignore_summary">Ignore HELLO messages from one-hop neighbors</string>
+	<string name="setup_layout_gateway">Gateway</string>
+	<string name="setup_layout_gateway_summary">Gateway settings</string>
+	<string name="setup_layout_gateway_dialog_title">Select interface to forward packets to</string>
+	<string name="setup_layout_routing_protocol">Change Routing Protocol</string>
+	<string name="setup_layout_routing_protocol_summary">Routing protocol</string>
+	<string name="setup_layout_routing_protocol_dialog_title">Select Routing Protocol</string>
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>
 	<string name="about_layout_license">License:</string>

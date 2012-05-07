@@ -13,7 +13,7 @@ public class Validation {
 
 		final ManetManagerApp app = ManetManagerApp.getInstance();
 		
-    	wifiEncKeyEditTextPref.setSummary(wifiEncKeyEditTextPref.getSummary() + " (WPA/WPA2-PSK)");
+    	wifiEncKeyEditTextPref.setSummary(app.getString(R.string.setup_layout_passphrase_summary_wpa));
     	wifiEncKeyEditTextPref.setDialogMessage(app.getString(R.string.setup_activity_error_passphrase_info));
     	
         // encryption key change listener for WPA encryption
@@ -68,7 +68,7 @@ public class Validation {
 		
 		final ManetManagerApp app = ManetManagerApp.getInstance();
 		
-    	wifiEncKeyEditTextPref.setSummary(wifiEncKeyEditTextPref.getSummary() +" (WEP 128-bit)");
+    	wifiEncKeyEditTextPref.setSummary(app.getString(R.string.setup_layout_passphrase_summary_wep));
     	wifiEncKeyEditTextPref.setDialogMessage(app.getString(R.string.setup_activity_error_passphrase_13chars));
     	
         // encryption key change listener for WEP encryption

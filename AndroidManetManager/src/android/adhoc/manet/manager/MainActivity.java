@@ -190,7 +190,7 @@ public class MainActivity extends Activity implements ManetObserver {
 		super.onResume();
 				
 		// check if the battery temperature should be displayed
-		if(app.prefs.getString("batterytemppref", "celsius").equals("disabled") == false) {
+		if(app.prefs.getString("batterytemppref", "fahrenheit").equals("disabled") == false) {
 	        // create the IntentFilter that will be used to listen
 	        // to battery status broadcasts
 	        intentFilter = new IntentFilter();
@@ -334,7 +334,7 @@ public class MainActivity extends Activity implements ManetObserver {
             	int celsius = (int)((temp+5)/10);
             	int fahrenheit = (int)(((temp/10)/0.555)+32+0.5);
             	Log.d(TAG, "Temp ==> "+temp+" -- Celsius ==> "+celsius+" -- Fahrenheit ==> "+fahrenheit);
-            	String tempPref = MainActivity.this.app.prefs.getString("batterytemppref", "celsius");
+            	String tempPref = MainActivity.this.app.prefs.getString("batterytemppref", "fahrenheit");
             	if (tempPref.equals("celsius")) {
             		batteryTemperature.setText("" + celsius + getString(R.string.main_activity_temperatureunit_celsius));
             	} else {
