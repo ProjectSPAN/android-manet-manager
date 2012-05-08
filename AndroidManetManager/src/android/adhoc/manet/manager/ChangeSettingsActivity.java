@@ -20,7 +20,6 @@ import java.util.TreeMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.adhoc.manet.routing.SimpleProtocol;
 import android.adhoc.manet.service.ManetService.AdhocStateEnum;
 import android.adhoc.manet.system.DeviceConfig;
 import android.adhoc.manet.system.ManetConfig;
@@ -210,26 +209,6 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         	txpowerPreference.setValueIndex(manetcfg.getWifiTxpower().ordinal());
         }
         
-        // wifi interface
-        String currInterface = manetcfg.getWifiInterface();
-        String defaultInterface = DeviceConfig.getWifiInterface(manetcfg.getDeviceType());
-    	List<String> interfaceList = CoreTask.getNetworkInterfaces();
-    	if(!interfaceList.contains(defaultInterface)) {
-    		interfaceList.add(defaultInterface);
-    	}
-    	String[] interfaces = new String[interfaceList.size()];
-    	interfaceList.toArray(interfaces);
-        
-    	ListPreference interfacePreference = (ListPreference)findPreference("interfacepref");
-    	interfacePreference.setEntries(interfaces);
-    	interfacePreference.setEntryValues(interfaces);
-    	
-    	if (interfaceList.contains(currInterface)) {
-    		interfacePreference.setValue(currInterface);
-    	} else {
-    		interfacePreference.setValue(defaultInterface);
-    	}
-        
         // bluetooth group
 		// disable bluetooth adhoc if not supported by the kernel
         if (!manetcfg.isBluetoothSupported()) {
@@ -283,6 +262,27 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         JSONArray array = new JSONArray(manetcfg.getRoutingIgnoreList());
         sharedPreferences.edit().putString("ignorepref", array.toString()).commit();
                 
+        // wifi interface
+        String currInterface = manetcfg.getWifiInterface();
+        String defaultInterface = DeviceConfig.getWifiInterface(manetcfg.getDeviceType());
+    	List<String> interfaceList = CoreTask.getNetworkInterfaces();
+    	if(!interfaceList.contains(defaultInterface)) {
+    		interfaceList.add(defaultInterface);
+    	}
+    	String[] interfaces = new String[interfaceList.size()];
+    	interfaceList.toArray(interfaces);
+        
+    	ListPreference interfacePreference = (ListPreference)findPreference("interfacepref");
+    	interfacePreference.setEntries(interfaces);
+    	interfacePreference.setEntryValues(interfaces);
+    	
+    	if (interfaceList.contains(currInterface)) {
+    		interfacePreference.setValue(currInterface);
+    	} else {
+    		interfacePreference.setValue(defaultInterface);
+    		currInterface = defaultInterface;
+    	}
+        
         // routing gateway
         String currGatewayInterface = manetcfg.getGatewayInterface();
     	interfaceList.remove(currInterface); // remove ad-hoc interface

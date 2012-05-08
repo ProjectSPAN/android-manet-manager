@@ -72,7 +72,6 @@
             android:title="@string/setup_layout_ip"
             android:summary="@string/setup_layout_ip_summary"
             android:dialogTitle="@string/setup_layout_ip_dialog_title"
-            android:defaultValue="@string/default_ip"
             android:inputType="phone" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_routing"
