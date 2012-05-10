@@ -3,24 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">  
 	<PreferenceCategory android:title="@string/setup_layout_category_wifi"
 		android:key="wifiprefs">
-	    <CheckBoxPreference  
-			android:key="encpref"  
-			android:title="@string/setup_layout_wifiencryption"  
-			android:summary="@string/setup_layout_wifiencryption_summary" /> 	
+		<ListPreference  
+			android:key="encalgorithmpref"  
+			android:title="@string/setup_layout_encryption_algorithm"  
+			android:summary="@string/setup_layout_encryption_algorithm_summary"
+			android:dialogTitle="@string/setup_layout_encryption_algorithm_dialog_title" /> 
 		<ListPreference  
 			android:key="encsetuppref"  
-			android:title="@string/setup_layout_encryptionsetup"  
-			android:summary="@string/setup_layout_encryptionsetup_summary"
-			android:dialogTitle="Setup Method"
-			android:defaultValue="auto" 
-			android:dependency="encpref" /> 			
+			android:title="@string/setup_layout_encryption_setup"  
+			android:summary="@string/setup_layout_encryption_setup_summary"
+			android:dialogTitle="@string/setup_layout_encryption_setup_dialog_title" /> 			
 		<EditTextPreference
-			android:key="passphrasepref"  
-			android:title="@string/setup_layout_passphrase"  
-			android:summary="@string/setup_layout_passphrase_summary_wpa" 
-			android:dialogTitle="@string/setup_layout_passphrase_dialog_title" 
-			android:defaultValue="abcdefghijklm"
-			android:dependency="encpref" /> 
+			android:key="passwordpref"  
+			android:title="@string/setup_layout_password"  
+			android:summary="@string/setup_layout_password_summary_wpa" 
+			android:dialogTitle="@string/setup_layout_password_dialog_title" /> 
 		<EditTextPreference  
 			android:key="ssidpref"  
 			android:title="@string/setup_layout_ssid"  

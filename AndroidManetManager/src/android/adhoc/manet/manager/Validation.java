@@ -13,8 +13,8 @@ public class Validation {
 
 		final ManetManagerApp app = ManetManagerApp.getInstance();
 		
-    	wifiEncKeyEditTextPref.setSummary(app.getString(R.string.setup_layout_passphrase_summary_wpa));
-    	wifiEncKeyEditTextPref.setDialogMessage(app.getString(R.string.setup_activity_error_passphrase_info));
+    	wifiEncKeyEditTextPref.setSummary(app.getString(R.string.setup_layout_password_summary_wpa));
+    	wifiEncKeyEditTextPref.setDialogMessage(app.getString(R.string.setup_activity_error_password_info));
     	
         // encryption key change listener for WPA encryption
     	wifiEncKeyEditTextPref.getEditText().addTextChangedListener(new TextWatcher() {
@@ -46,15 +46,15 @@ public class Validation {
                   "abcdefghijklmnopqrstuvwxyz" +
                   "0123456789";
         		if (newValue.toString().length() < 8) {
-        			app.displayToastMessage(app.getString(R.string.setup_activity_error_passphrase_tooshort));
+        			app.displayToastMessage(app.getString(R.string.setup_activity_error_password_tooshort));
         			return false;
         		} else if (newValue.toString().length() > 30) {
-        			app.displayToastMessage(app.getString(R.string.setup_activity_error_passphrase_toolong));
+        			app.displayToastMessage(app.getString(R.string.setup_activity_error_password_toolong));
         			return false;	        			
         		}
         		for (int i = 0 ; i < newValue.toString().length() ; i++) {
         			if (!validChars.contains(newValue.toString().substring(i, i+1))) {
-        				app.displayToastMessage(app.getString(R.string.setup_activity_error_passphrase_invalidchars));
+        				app.displayToastMessage(app.getString(R.string.setup_activity_error_password_invalidchars));
         				return false;
         		    }
         		}
@@ -68,8 +68,8 @@ public class Validation {
 		
 		final ManetManagerApp app = ManetManagerApp.getInstance();
 		
-    	wifiEncKeyEditTextPref.setSummary(app.getString(R.string.setup_layout_passphrase_summary_wep));
-    	wifiEncKeyEditTextPref.setDialogMessage(app.getString(R.string.setup_activity_error_passphrase_13chars));
+    	wifiEncKeyEditTextPref.setSummary(app.getString(R.string.setup_layout_password_summary_wep));
+    	wifiEncKeyEditTextPref.setDialogMessage(app.getString(R.string.setup_activity_error_password_13chars));
     	
         // encryption key change listener for WEP encryption
     	wifiEncKeyEditTextPref.getEditText().addTextChangedListener(new TextWatcher() {
@@ -100,13 +100,13 @@ public class Validation {
         		if(newValue.toString().length() == 13) {
         			for (int i = 0 ; i < 13 ; i++) {
         				if (!validChars.contains(newValue.toString().substring(i, i+1))) {
-        					app.displayToastMessage(app.getString(R.string.setup_activity_error_passphrase_invalidchars));
+        					app.displayToastMessage(app.getString(R.string.setup_activity_error_password_invalidchars));
         					return false;
         				}
         			}
         			return true;
         		} else {
-        			app.displayToastMessage(app.getString(R.string.setup_activity_error_passphrase_tooshort));
+        			app.displayToastMessage(app.getString(R.string.setup_activity_error_password_tooshort));
         			return false;
         		}
     		}

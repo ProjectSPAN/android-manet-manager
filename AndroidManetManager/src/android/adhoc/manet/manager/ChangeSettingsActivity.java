@@ -25,6 +25,7 @@ import android.adhoc.manet.system.DeviceConfig;
 import android.adhoc.manet.system.ManetConfig;
 import android.adhoc.manet.system.ManetConfig.AdhocModeEnum;
 import android.adhoc.manet.system.ManetConfig.WifiChannelEnum;
+import android.adhoc.manet.system.ManetConfig.WifiEncryptionAlgorithmEnum;
 import android.adhoc.manet.system.ManetConfig.WifiEncryptionSetupMethodEnum;
 import android.adhoc.manet.system.ManetConfig.WifiTxpowerEnum;
 import android.app.AlertDialog;
@@ -56,6 +57,8 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	
 	private ManetManagerApp app = null;
 	
+    private ManetConfig manetcfg = null;
+	
 	private ProgressDialog progressDialog = null;
 	
 	private PreferenceGroup wifiGroupPref = null;
@@ -64,8 +67,6 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	
 	private Button btnCommit = null;
 	private Button btnCancel = null;
-    
-    private ManetConfig manetcfg = null;
     
     private SharedPreferences sharedPreferences = null;
     
@@ -136,33 +137,46 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 		boolean bluetoothOn = manetcfg.isUsingBluetooth();
 		wifiGroupPref.setEnabled(!bluetoothOn);
     	
-		// wifi encryption
-		// NOTE: wifi encryption dependencies are specified in the layout XML
-		// CheckBoxPreference wifiEncCheckboxPref = (CheckBoxPreference)findPreference("encpref");
+		// wifi encryption algorithm
+		WifiEncryptionAlgorithmEnum encAlgorithm = manetcfg.getWifiEncryptionAlgorithm();
+		ListPreference wifiEncAlgorithmPref = (ListPreference)findPreference("encalgorithmpref");
+		wifiEncAlgorithmPref.setEntries(WifiEncryptionAlgorithmEnum.descriptionValues());
+		wifiEncAlgorithmPref.setEntryValues(WifiEncryptionAlgorithmEnum.stringValues());
+		wifiEncAlgorithmPref.setValueIndex(encAlgorithm.ordinal());
 		
 		// wifi encryption setup method
         ListPreference wifiEncSetupMethodPref = (ListPreference)findPreference("encsetuppref");
-        if (manetcfg.getWifiDriver().startsWith("softap") 
-        		|| manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
-        	if (wifiEncSetupMethodPref != null) {
-        		wifiGroupPref.removePreference(wifiEncSetupMethodPref);
-        	}
+        if (encAlgorithm == WifiEncryptionAlgorithmEnum.NONE) {
+        	wifiEncSetupMethodPref.setEnabled(false);
         } else {
-        	wifiEncSetupMethodPref.setEntries(WifiEncryptionSetupMethodEnum.descriptionValues());
-        	wifiEncSetupMethodPref.setEntryValues(WifiEncryptionSetupMethodEnum.stringValues());
-        	wifiEncSetupMethodPref.setValueIndex(manetcfg.getWifiEncryptionSetupMethod().ordinal());
+        	wifiEncSetupMethodPref.setEnabled(true);
+	        if (manetcfg.getWifiDriver().startsWith("softap") 
+	        		|| manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
+	        	if (wifiEncSetupMethodPref != null) {
+	        		wifiGroupPref.removePreference(wifiEncSetupMethodPref);
+	        	}
+	        } else {
+	        	wifiEncSetupMethodPref.setEntries(WifiEncryptionSetupMethodEnum.descriptionValues());
+	        	wifiEncSetupMethodPref.setEntryValues(WifiEncryptionSetupMethodEnum.stringValues());
+	        	wifiEncSetupMethodPref.setValueIndex(manetcfg.getWifiEncryptionSetupMethod().ordinal());
+	        }
         }
 		
-        // wifi encryption key
-        final EditTextPreference wifiEncKeyEditTextPref = (EditTextPreference)findPreference("passphrasepref");
-        final int origTextColorWifiEncKey = wifiEncKeyEditTextPref.getEditText().getCurrentTextColor();
-        if (manetcfg.getWifiDriver().startsWith("softap")
-        		|| manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
-        	Validation.setupWpaEncryptionValidators(wifiEncKeyEditTextPref, origTextColorWifiEncKey);
+        // wifi encryption password
+        final EditTextPreference wifiEncPasswordEditTextPref = (EditTextPreference)findPreference("passwordpref");
+        if (encAlgorithm == WifiEncryptionAlgorithmEnum.NONE) {
+        	wifiEncPasswordEditTextPref.setEnabled(false);
         } else {
-        	Validation.setupWepEncryptionValidators(wifiEncKeyEditTextPref, origTextColorWifiEncKey);
+        	wifiEncPasswordEditTextPref.setEnabled(true);
+	        final int origTextColorWifiEncKey = wifiEncPasswordEditTextPref.getEditText().getCurrentTextColor();
+	        if (manetcfg.getWifiDriver().startsWith("softap")
+	        		|| manetcfg.getWifiDriver().equals(DeviceConfig.DRIVER_HOSTAP)) {
+	        	Validation.setupWpaEncryptionValidators(wifiEncPasswordEditTextPref, origTextColorWifiEncKey);
+	        } else {
+	        	Validation.setupWepEncryptionValidators(wifiEncPasswordEditTextPref, origTextColorWifiEncKey);
+	        }
+	        wifiEncPasswordEditTextPref.setText(manetcfg.getWifiEncryptionPassword());
         }
-        wifiEncKeyEditTextPref.setText(manetcfg.getWifiEncryptionKey());
         
         // wifi SSID
         EditTextPreference wifiSsidEditTextPref = (EditTextPreference)findPreference("ssidpref");
@@ -209,11 +223,12 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         	txpowerPreference.setValueIndex(manetcfg.getWifiTxpower().ordinal());
         }
         
-        // bluetooth group
+        
+        // bluetooth group        
 		// disable bluetooth adhoc if not supported by the kernel
-        if (!manetcfg.isBluetoothSupported()) {
+        if (true) { // !manetcfg.isBluetoothSupported() // TODO: disable until tested
         	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
-        	btGroup.setEnabled(true); // DEBUG // false);
+        	btGroup.setEnabled(false);
         }
 		
 		// bluetooth
@@ -241,6 +256,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         } else {
         	btdiscoverablePreference.setChecked(manetcfg.isBluetoothDiscoverableWhenInAdhocMode());
         }
+        
         
         // ip address
         EditTextPreference ipAddressEditTextPref = (EditTextPreference)findPreference("ippref");
@@ -315,8 +331,22 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     	
     	Map<String,Object> map = (Map<String, Object>) sharedPreferences.getAll();
     	for (String key : map.keySet()) {
-			   	
-	    	if (key.equals("ssidpref")) {
+			
+    		if (key.equals("encalgorithmpref")) {
+    			String encAlgorithm = sharedPreferences.getString("encalgorithmpref", 
+    					ManetConfig.WIFI_ENCRYPTION_ALGORITHM_DEFAULT.toString());
+    			manetcfg.setWifiEncryptionAlgorithm(WifiEncryptionAlgorithmEnum.fromString(encAlgorithm));
+    		}
+    		else if (key.equals("encsetuppref")) {
+    			String encSetupMethod = sharedPreferences.getString("encsetuppref", 
+    					ManetConfig.WIFI_ENCRYPTION_SETUP_METHOD_DEFAULT.toString());
+    			manetcfg.setWifiEncryptionSetupMethod(WifiEncryptionSetupMethodEnum.fromString(encSetupMethod));
+    		}
+    		else if (key.equals("passwordpref")) {
+    			String encPassword = sharedPreferences.getString("passwordpref", ManetConfig.WIFI_ENCRYPTION_PASSWORD_DEFAULT);
+    			manetcfg.setWifiEncryptionPassword(encPassword);
+	    	}
+    		else if (key.equals("ssidpref")) {
 	    		String wifiSsid = sharedPreferences.getString("ssidpref", ManetConfig.WIFI_ESSID_DEFAULT);
 	    		manetcfg.setWifiSsid(wifiSsid);
 	    	}
@@ -325,16 +355,6 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	    				ManetConfig.WIFI_CHANNEL_DEFAULT.toString());
 	    		manetcfg.setWifiChannel(WifiChannelEnum.fromString(wifiChannel));
 	    	}
-	    	else if (key.equals("encsetuppref")) {
-	    		String wifiEncSetupMethod = sharedPreferences.getString("encsetuppref", 
-	    				ManetConfig.WIFI_ENCRYPTION_SETUP_METHOD_DEFAULT.toString());
-	    		manetcfg.setWifiEncryptionSetupMethod(WifiEncryptionSetupMethodEnum.fromString(wifiEncSetupMethod));
-	    	}
-	    	else if (key.equals("passphrasepref")) {
-	    		String wifiEncKey = sharedPreferences.getString("passphrasepref", 
-	    				ManetConfig.WIFI_ENCRYPTION_KEY_DEFAULT);
-	    		manetcfg.setWifiEncryptionKey(wifiEncKey);
-	    	} 
 	    	else if (key.equals("txpowerpref")) {
 	    		String wifiTxpower = sharedPreferences.getString("txpowerpref", 
 	    				ManetConfig.WIFI_TXPOWER_DEFAULT.toString());

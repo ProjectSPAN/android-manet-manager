@@ -30,6 +30,8 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	
 	private static final String PROMPT = "Enter address ...";
 	
+	private ManetManagerApp app = null;
+	
     private Handler handler = new Handler();
     
     private Spinner spnDestination = null;
@@ -38,14 +40,16 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
     private Button btnSend = null;
     private Button btnCancel = null;
     
-    private ManetManagerApp app = null;
-    
     private String selection = null;
     
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);	
+		
+        // init application
+        app = (ManetManagerApp)getApplication();
+		
 		setContentView(R.layout.sendmessageview);
 		
 	    app = (ManetManagerApp)getApplication();
@@ -73,7 +77,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 						errorMsg += error + "\n";
 		  			}
 	  			} else {
-	  				address = destination.substring(0, destination.lastIndexOf("/"));
+	  				address = destination;
 	  			}
 	  			if (destination == null) {
 	  				error = "Destination is empty.";
@@ -135,7 +139,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 		selection = (String)spnDestination.getItemAtPosition(position);
 		if (selection.equals(PROMPT)) {
 			etAddress.setVisibility(EditText.VISIBLE);
-			etAddress.setText(app.getString(R.string.default_ip));
+			etAddress.setText(app.manetcfg.getIpNetwork());
 			etAddress.setSelection(etAddress.getText().length()); // move cursor to end
 			app.focusAndshowKeyboard(etAddress);
 		} else {
