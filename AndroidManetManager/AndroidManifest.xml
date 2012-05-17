@@ -50,7 +50,6 @@
         <activity android:name=".ChangeSettingsActivity" 
             android:launchMode="singleTask"/> 
         
-        <!--
         <activity android:name=".ViewConsoleActivity"
             android:label="@string/global_app_console_name"
             android:launchMode="singleTop"
@@ -60,7 +59,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        -->
         
         <activity android:name=".SendMessageActivity"
             android:label="@string/global_app_send_message_name"

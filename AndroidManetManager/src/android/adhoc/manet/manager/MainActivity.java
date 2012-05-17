@@ -220,7 +220,7 @@ public class MainActivity extends Activity implements ManetObserver {
     	// SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
     	about.setIcon(drawable.ic_menu_info_details);
-    	// SubMenu console = menu.addSubMenu(0, MENU_CONSOLE, 0, getString(R.string.main_activity_console));
+    	SubMenu console = menu.addSubMenu(0, MENU_CONSOLE, 0, getString(R.string.main_activity_console));
     	SubMenu send = menu.addSubMenu(0, MENU_SEND_MESSAGE, 0, getString(R.string.main_activity_send_message));
     	SubMenu info = menu.addSubMenu(0, MENU_GET_ROUTING_INFO, 0, getString(R.string.main_activity_get_routing_info));
     	info.setIcon(drawable.ic_menu_agenda);
@@ -247,7 +247,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	    		openAboutDialog();
 	    		break;
 	    	case MENU_CONSOLE :
-	    		// ViewConsoleActivity.open(this);
+	    		ViewConsoleActivity.open(this);
 	    		break;
 	    	case MENU_SEND_MESSAGE :
 	    		SendMessageActivity.open(this);
