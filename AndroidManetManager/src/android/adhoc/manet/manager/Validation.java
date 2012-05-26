@@ -1,7 +1,18 @@
-/* 
-SPAN - Smart Phone AdHoc Networking project
-©2012 The MITRE Corporation
-*/
+/**
+ *  SPAN - Smart Phone Ad-Hoc Networking project
+ *  Copyright (c) 2012 The MITRE Corporation.
+ */
+/**
+ *  This program is free software; you can redistribute it and/or modify it under 
+ *  the terms of the GNU General Public License as published by the Free Software 
+ *  Foundation; either version 3 of the License, or (at your option) any later 
+ *  version.
+ *  You should have received a copy of the GNU General Public License along with 
+ *  this program; if not, see <http://www.gnu.org/licenses/>. 
+ *  Use this application at your own risk.
+ *  
+ *  Portions of this code are copyright (c) 2009 Harald Mueller and Sofia Lemons.
+ */
 package android.adhoc.manet.manager;
 
 import android.graphics.Color;
