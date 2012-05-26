@@ -1,3 +1,7 @@
+/* 
+SPAN - Smart Phone AdHoc Networking project
+©2012 The MITRE Corporation
+*/
 package android.adhoc.manet.manager;
 
 import java.lang.StringBuffer;
