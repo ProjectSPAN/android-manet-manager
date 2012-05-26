@@ -24,7 +24,8 @@
         android:debuggable="true">
         
         <activity android:name=".MainActivity"
-            android:label="@string/global_app_name" >
+            android:label="@string/global_app_name" 
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

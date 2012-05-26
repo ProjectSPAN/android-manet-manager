@@ -90,12 +90,7 @@
 			android:summary="@string/setup_layout_gateway_summary"
             android:dialogTitle="@string/setup_layout_gateway_dialog_title" /> 
     </PreferenceCategory>
-	<PreferenceCategory android:title="@string/setup_layout_category_misc">
-		<CheckBoxPreference  
-			android:key="wakelockpref"  
-			android:title="@string/setup_layout_wakelock"
-			android:defaultValue="true"  
-			android:summary="@string/setup_layout_wakelock_summary" />  					 
+	<PreferenceCategory android:title="@string/setup_layout_category_misc">					 
 		 <ListPreference  
 			android:key="batterytemppref"  
 			android:title="@string/setup_layout_battery"  

@@ -317,8 +317,6 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     		gatewayPreference.setValue(ManetConfig.GATEWAY_INTERFACE_NONE);
     	}
         
-        // wake lock
-        
         // battery temperature
 
         setupFlag = true;

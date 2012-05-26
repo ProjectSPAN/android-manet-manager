@@ -38,8 +38,10 @@ public class MessageService extends Service {
     @Override    
     public int onStartCommand(Intent intent, int flags, int startId) {
     	
-    	msgListenerThread = new MessageListenerThread();
-    	msgListenerThread.start();
+    	if (msgListenerThread == null) {	
+	    	msgListenerThread = new MessageListenerThread();
+	    	msgListenerThread.start();
+    	}
     	
     	return START_STICKY; // run until explicitly stopped    
 	}

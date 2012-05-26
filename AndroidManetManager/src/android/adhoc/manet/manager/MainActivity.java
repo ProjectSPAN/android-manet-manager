@@ -25,6 +25,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,6 +40,9 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
@@ -59,7 +63,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	private static int ID_DIALOG_CONNECTING = 2;
 	private static int ID_DIALOG_CONFIG = 3;
 	
-	private ManetManagerApp app = null;
+	private static ManetManagerApp app = null;
 		
 	private ProgressDialog progressDialog = null;
 
@@ -84,8 +88,6 @@ public class MainActivity extends Activity implements ManetObserver {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-
         
     	Log.d(TAG, "onCreate()");
         
@@ -156,12 +158,11 @@ public class MainActivity extends Activity implements ManetObserver {
         String action = theIntent.getAction();
         
         String intentData = theIntent.getDataString();
-        if (action.equals(Intent.ACTION_VIEW) ) {
+        if (action != null && action.equals(Intent.ACTION_VIEW) ) {
         	Bundle bundle = new Bundle(1);
         	bundle.putString("filepath", intentData);
 			showDialog(3, bundle);
 		}
-		
     }
 	
     // will be called after onCreate()
@@ -203,6 +204,14 @@ public class MainActivity extends Activity implements ManetObserver {
 			} catch (Exception e) {;}
 			batteryTemperatureLayout.setVisibility(View.INVISIBLE);
 		}
+		
+		/*
+        Window window = getWindow();
+        // window.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
+        // window.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
+        window.addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
+        */
 	}
 	
 	private static final int MENU_CHANGE_SETTINGS 		= 0;
@@ -329,6 +338,7 @@ public class MainActivity extends Activity implements ManetObserver {
     	@Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            
             if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
             	int temp = (intent.getIntExtra("temperature", 0));
             	int celsius = (int)((temp+5)/10);
@@ -517,7 +527,6 @@ public class MainActivity extends Activity implements ManetObserver {
 		*/
   	}
   	
-  	
   	// MANET callback methods
   	
  	@Override
@@ -572,7 +581,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	
 	@Override
 	public void onRoutingInfoUpdated(String info) {
-		Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
+		// Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
 	}
 	
 	@Override

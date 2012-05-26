@@ -16,12 +16,16 @@ import android.widget.TextView;
 
 public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 	
+	private static final int UPDATE_WAIT_TIME_MILLISEC = 1000;
+	
 	private ManetManagerApp app = null;
 	
     private Handler handler = new Handler();
     
     private TextView tvInfo = null;
     private Button btnGetInfo  = null;
+    
+    private UpdateThread updateThread = null;
     
 	/** Called when the activity is first created. */
 	@Override
@@ -33,12 +37,8 @@ public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 		app = (ManetManagerApp)this.getApplication();
 		
 	    app.manet.registerObserver(this);
-	    app.manet.sendRoutingInfoQuery(); // initial query
 		
 		tvInfo = (TextView) findViewById(R.id.tvInfo);
-		
-		// get routing info right away without button press
-		// getRoutingInfo();
 		
 	    btnGetInfo  = (Button) findViewById(R.id.btnGetInfo);
 	    btnGetInfo.setOnClickListener(new OnClickListener() {
@@ -47,30 +47,18 @@ public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 				app.manet.sendRoutingInfoQuery();
 			}
 	    });
+
+	    // hide button since we're auto-updating
+	    // TODO: give user choice between auto-updating and manual (button press) updating
+	    btnGetInfo.setVisibility(View.GONE); 
     }
-	
-	/*
-	private void getRoutingInfo() {
-		final String info  = application.routingProtocol.getInfo();
-		final String error = application.routingProtocol.getError();
-		
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				if (error != null) {
-					application.displayToastMessage(error);
-				} else {
-					tvInfo.setText(info);
-					application.displayToastMessage("Info Updated");
-				}
-			}
-		});
-	}
-	*/
 	
 	@Override
 	public void onStart() {
 		super.onStart();
+		
+		updateThread = new UpdateThread();
+		updateThread.start();
 	}
 	
 	@Override
@@ -81,11 +69,45 @@ public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 	@Override
 	public void onStop() {
 		super.onStop();
+		
+		try {
+			if (updateThread != null) {
+				updateThread.terminate();
+				updateThread.join();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void open(Activity parentActivity) {
 		Intent it = new Intent("android.intent.action.GET_ROUTING_INFO_ACTION");
 		parentActivity.startActivity(it);
+	}
+	
+	private class UpdateThread extends Thread {
+		
+		private boolean alive = true;
+		
+		@Override
+		public void run() {
+			
+			try {
+				while (alive) {
+					app.manet.sendRoutingInfoQuery();
+					Thread.sleep(UPDATE_WAIT_TIME_MILLISEC);
+				}
+			} catch (Exception e) {
+				if (alive) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+    	public void terminate() {
+    		alive = false;
+    		interrupt(); // interrupt if sleeping
+    	}
 	}
 
 	@Override
@@ -136,7 +158,7 @@ public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 			@Override
 			public void run() {
 				tvInfo.setText(info);
-				app.displayToastMessage("Info Updated");
+				// app.displayToastMessage("Info Updated");
 			}
 		});
 	}
@@ -144,6 +166,5 @@ public class GetRoutingInfoActivity extends Activity implements ManetObserver {
 	@Override
 	public void onError(String error) {
 		// TODO Auto-generated method stub
-		
 	}
 }

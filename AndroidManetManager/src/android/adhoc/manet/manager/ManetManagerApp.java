@@ -197,7 +197,7 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	
 	@Override
 	public void onRoutingInfoUpdated(String info) {
-		Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
+		// Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
 	}
 	
 	@Override
