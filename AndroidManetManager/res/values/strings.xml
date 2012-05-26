@@ -123,6 +123,7 @@
 	<string name="setup_layout_routing_protocol_summary">Routing protocol</string>
 	<string name="setup_layout_routing_protocol_dialog_title">Select Routing Protocol</string>
 	<string name="about_layout_version">Version:</string>
+	<string name="about_layout_general">General:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>
 	<string name="about_layout_license">License:</string>
 	<string name="about_layout_authors">Authors:</string>
