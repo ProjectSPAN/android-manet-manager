@@ -13,11 +13,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
         
-	        <TextView android:text="Last Hop: " 
+	        <TextView android:text="From: " 
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content" />
 	        
-	        <TextView android:id="@+id/etLastHop" 
+	        <TextView android:id="@+id/etFrom" 
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content" />
         
@@ -25,7 +25,7 @@
 	        
     </LinearLayout>
         
-     <LinearLayout android:layout_width="fill_parent"
+    <LinearLayout android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:paddingTop="3dp"
         android:orientation="vertical" >    

@@ -92,7 +92,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  				errorMsg += error + "\n";
 	  			}
 	  			if (errorMsg.isEmpty()) {
-	  				msg = "[From: " + app.manetcfg.getIpAddress() + "]\n" + msg;
+	  				msg = app.manetcfg.getIpAddress() + "\n" + msg;
 	  				sendMessage(address, msg);
 	  				finish();
 	  			} else {

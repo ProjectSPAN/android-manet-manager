@@ -16,7 +16,7 @@ public class ViewMessageActivity extends Activity {
 	
     private Handler handler = new Handler();
     
-    private TextView tvLastHop = null;
+    private TextView tvFrom = null;
     private TextView tvMessage = null;
     private Button btnDone = null;
     
@@ -26,13 +26,16 @@ public class ViewMessageActivity extends Activity {
 		super.onCreate(bundle);	
 		setContentView(R.layout.messageview);
 	    
-		tvLastHop = (TextView) findViewById(R.id.etLastHop);
+		tvFrom = (TextView) findViewById(R.id.etFrom);
 	    tvMessage = (TextView) findViewById(R.id.etMessage);
 	    
 	    // populate fields
 	    Bundle extras = getIntent().getExtras();
-	    tvLastHop.setText(extras.getString(MessageService.MESSAGE_LAST_HOP_KEY));
-	    tvMessage.setText(extras.getString(MessageService.MESSAGE_CONTENT_KEY));
+	    String from = extras.getString(MessageService.MESSAGE_FROM_KEY);
+	    String content = extras.getString(MessageService.MESSAGE_CONTENT_KEY);
+	    
+	    tvFrom.setText(from);
+	    tvMessage.setText(content);
 	    
 	    btnDone = (Button) findViewById(R.id.btnDone);
 	  	btnDone.setOnClickListener(new View.OnClickListener() {
