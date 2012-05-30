@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="lib/libmanet.jar" sourcepath="/home/dev/EclipseIndigoAndroidWorkspace/AndroidManetServiceOld/src/android/adhoc/manet/system/"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AndroidManetService"/>
+	<classpathentry kind="lib" path="libs/libmanet.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
