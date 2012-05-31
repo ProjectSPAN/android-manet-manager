@@ -141,6 +141,10 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	
     private void updateView() {
     	
+    	// user id
+        EditTextPreference uidEditTextPref = (EditTextPreference)findPreference("uidpref");
+        uidEditTextPref.setText(manetcfg.getUserId());
+    	
     	// wifi group
     	wifiGroupPref = (PreferenceGroup)findPreference("wifiprefs");
 		boolean bluetoothOn = manetcfg.isUsingBluetooth();
@@ -342,8 +346,11 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     	
     	Map<String,Object> map = (Map<String, Object>) sharedPreferences.getAll();
     	for (String key : map.keySet()) {
-			
-    		if (key.equals("encalgorithmpref")) {
+    		if (key.equals("uidpref")) {
+    			String userId = sharedPreferences.getString("uidpref", ManetConfig.USER_ID_DEFAULT.toString());
+    			manetcfg.setUserId(userId);
+    		}
+    		else if (key.equals("encalgorithmpref")) {
     			String encAlgorithm = sharedPreferences.getString("encalgorithmpref", 
     					ManetConfig.WIFI_ENCRYPTION_ALGORITHM_DEFAULT.toString());
     			manetcfg.setWifiEncryptionAlgorithm(WifiEncryptionAlgorithmEnum.fromString(encAlgorithm));

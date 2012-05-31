@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen  
-    xmlns:android="http://schemas.android.com/apk/res/android">  
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/setup_layout_category_general"
+        android:key="generalprefs">
+     	<EditTextPreference
+			android:key="uidpref"  
+			android:title="@string/setup_layout_uid"  
+			android:summary="@string/setup_layout_uid_summary" 
+			android:dialogTitle="@string/setup_layout_uid_dialog_title" /> 
+    </PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_wifi"
 		android:key="wifiprefs">
 		<ListPreference  
@@ -38,8 +46,7 @@
 			android:key="txpowerpref"  
 			android:title="@string/setup_layout_txpower"  
 			android:summary="@string/setup_layout_txpower_summary"  
-			android:dialogTitle="@string/setup_layout_txpower_dialog_title"
-			android:defaultValue="disabled" />
+			android:dialogTitle="@string/setup_layout_txpower_dialog_title" />
 		<ListPreference  
             android:key="interfacepref"  
             android:title="@string/setup_layout_interface"  

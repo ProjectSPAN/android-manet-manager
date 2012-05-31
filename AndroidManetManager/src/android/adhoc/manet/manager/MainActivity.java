@@ -21,10 +21,11 @@
  */
 package android.adhoc.manet.manager;
 
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import android.R.drawable;
 import android.adhoc.manet.ManetObserver;
+import android.adhoc.manet.routing.Node;
 import android.adhoc.manet.service.ManetService.AdhocStateEnum;
 import android.adhoc.manet.system.CoreTask;
 import android.adhoc.manet.system.ManetConfig;
@@ -575,7 +576,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	}
 	
 	@Override
-	public void onPeersUpdated(TreeSet<String> peers) {
+	public void onPeersUpdated(HashSet<Node> peers) {
 		Log.d(TAG, "onPeersUpdated()"); // DEBUG
 	}
 	

@@ -67,7 +67,8 @@
 	<string name="setup_activity_bt_warning_title">Warning: Bluetooth</string>
 	<string name="setup_activity_bt_warning_ok">OK</string>
 	<string name="setup_activity_txpower_warning_title">Warning: Transmit Power</string>
-	<string name="setup_activity_txpower_warning_ok">OK</string>	
+	<string name="setup_activity_txpower_warning_ok">OK</string>
+	<string name="setup_layout_category_general">General</string>
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_ip">IP</string>
@@ -120,6 +121,9 @@
 	<string name="setup_layout_routing_protocol">Routing Protocol</string>
 	<string name="setup_layout_routing_protocol_summary">Change routing protocol</string>
 	<string name="setup_layout_routing_protocol_dialog_title">Select Routing Protocol</string>
+	<string name="setup_layout_uid">User Identifier</string>
+	<string name="setup_layout_uid_summary">Change user identifier</string>
+	<string name="setup_layout_uid_dialog_title">Enter user identifier</string>
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_general">General:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>

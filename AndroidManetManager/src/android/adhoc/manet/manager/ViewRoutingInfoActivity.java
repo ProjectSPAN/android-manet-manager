@@ -4,9 +4,11 @@
  */
 package android.adhoc.manet.manager;
 
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import android.adhoc.manet.ManetObserver;
+import android.adhoc.manet.routing.Node;
 import android.adhoc.manet.service.ManetService.AdhocStateEnum;
 import android.adhoc.manet.system.ManetConfig;
 import android.app.Activity;
@@ -146,13 +148,11 @@ public class ViewRoutingInfoActivity extends Activity implements ManetObserver {
 	@Override
 	public void onError(String arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void onPeersUpdated(TreeSet<String> arg0) {
+	public void onPeersUpdated(HashSet<Node> arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -163,7 +163,6 @@ public class ViewRoutingInfoActivity extends Activity implements ManetObserver {
 	@Override
 	public void onServiceConnected() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -174,12 +173,10 @@ public class ViewRoutingInfoActivity extends Activity implements ManetObserver {
 	@Override
 	public void onServiceStarted() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onServiceStopped() {
 		// TODO Auto-generated method stub
-		
 	}
 }

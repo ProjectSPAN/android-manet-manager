@@ -7,10 +7,12 @@ package android.adhoc.manet.manager;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 import android.adhoc.manet.ManetObserver;
+import android.adhoc.manet.routing.Node;
 import android.adhoc.manet.service.ManetService.AdhocStateEnum;
 import android.adhoc.manet.system.ManetConfig;
 import android.app.Activity;
@@ -76,6 +78,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  			String error = null, errorMsg = "";
 	  			if (selection.equals(PROMPT)) {
 	  				address = etAddress.getText().toString();
+	  				address = address.split("(")[0];
 		  			if (!Validation.isValidIpAddress(address)) {
 		  				error = "Invalid IP address.";
 						errorMsg += error + "\n";
@@ -92,7 +95,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  				errorMsg += error + "\n";
 	  			}
 	  			if (errorMsg.isEmpty()) {
-	  				msg = app.manetcfg.getIpAddress() + "\n" + msg;
+	  				msg = app.manetcfg.getIpAddress() + " (" + app.manetcfg.getUserId() + ")\n" + msg;
 	  				sendMessage(address, msg);
 	  				finish();
 	  			} else {
@@ -245,10 +248,21 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	}
 
 	@Override
-	public void onPeersUpdated(TreeSet<String> peers) {
+	public void onPeersUpdated(HashSet<Node> peers) {
 		// provide option to enter peer address
-		Set<String> options = new TreeSet<String>(peers);
+		Set<String> options = new TreeSet<String>();
+		options.add(app.manetcfg.getIpBroadcast() + " (Broadcast)");
 		options.add(PROMPT);
+		
+		String option = null;
+		for (Node peer : peers) {
+			if (peer.userId != null) {
+				option = peer.addr + " (" + peer.userId + ")";
+			} else {
+				option = peer.addr;	
+			}
+			options.add(option);
+		}
 		
 		ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options.toArray());
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
