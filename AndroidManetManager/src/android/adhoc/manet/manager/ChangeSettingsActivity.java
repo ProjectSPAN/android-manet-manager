@@ -149,12 +149,14 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 		// wifi encryption algorithm
 		WifiEncryptionAlgorithmEnum encAlgorithm = manetcfg.getWifiEncryptionAlgorithm();
 		ListPreference wifiEncAlgorithmPref = (ListPreference)findPreference("encalgorithmpref");
+		wifiEncAlgorithmPref.setEnabled(false); // TODO: disable until tested
 		wifiEncAlgorithmPref.setEntries(WifiEncryptionAlgorithmEnum.descriptionValues());
 		wifiEncAlgorithmPref.setEntryValues(WifiEncryptionAlgorithmEnum.stringValues());
 		wifiEncAlgorithmPref.setValueIndex(encAlgorithm.ordinal());
 		
 		// wifi encryption setup method
         ListPreference wifiEncSetupMethodPref = (ListPreference)findPreference("encsetuppref");
+        wifiEncSetupMethodPref.setEnabled(false); // TODO: disable until tested
         if (encAlgorithm == WifiEncryptionAlgorithmEnum.NONE) {
         	wifiEncSetupMethodPref.setEnabled(false);
         } else {
@@ -173,6 +175,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 		
         // wifi encryption password
         final EditTextPreference wifiEncPasswordEditTextPref = (EditTextPreference)findPreference("passwordpref");
+        wifiEncPasswordEditTextPref.setEnabled(false); // TODO: disable until tested
         if (encAlgorithm == WifiEncryptionAlgorithmEnum.NONE) {
         	wifiEncPasswordEditTextPref.setEnabled(false);
         } else {
@@ -194,6 +197,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         
         // wifi channel
         ListPreference channelpref = (ListPreference)findPreference("channelpref");
+        channelpref.setEnabled(false); // TODO: disable until tested
         String[] channelStrValues = WifiChannelEnum.stringValues();
         String[] channelDescValues = WifiChannelEnum.descriptionValues();
         // remove auto channel option if not supported by device
