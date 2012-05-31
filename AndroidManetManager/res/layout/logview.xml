@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	android:id="@+id/layoutLog"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<WebView android:id="@+id/webviewLog"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp" >
+    
+        <Button android:id="@+id/btnClear"
+            android:text="Clear"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1" />
+        
+	    <CheckBox android:id="@+id/cbMessageScrollLock"
+	        android:text="@string/lbl_scroll_lock"      
+	        android:layout_width="fill_parent"        
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:checked="true"/>
+	    
+	</LinearLayout>
+    
+    <ScrollView android:id="@+id/svMessage"
+        android:fadingEdge="none"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent" 
-		android:layout_alignParentTop="true">
-	</WebView>
-</RelativeLayout>
+        android:paddingLeft="10dp">
+
+       <TextView android:id="@+id/tvMessage"
+           android:layout_width="fill_parent" 
+           android:layout_height="fill_parent" />
+               
+    </ScrollView>
+    
+</LinearLayout>

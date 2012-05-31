@@ -51,12 +51,12 @@
         <activity android:name=".ChangeSettingsActivity" 
             android:launchMode="singleTask"/> 
         
-        <activity android:name=".ViewConsoleActivity"
-            android:label="@string/global_app_console_name"
-            android:launchMode="singleTop"
+        <activity android:name=".ViewLogActivity"
+            android:label="@string/global_app_view_log_name"
+            android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW_CONSOLE_ACTION" />
+                <action android:name="android.intent.action.VIEW_LOG_ACTION" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -81,8 +81,8 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".GetRoutingInfoActivity"
-            android:label="@string/global_app_get_routing_info_name"
+        <activity android:name=".ViewRoutingInfoActivity"
+            android:label="@string/global_app_view_routing_info_name"
             android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>

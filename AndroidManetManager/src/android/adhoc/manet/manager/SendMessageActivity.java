@@ -132,6 +132,12 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 		super.onStop();
 	}
 	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		app.manet.unregisterObserver(this);
+	}
+	
 	public static void open(Activity parentActivity) {
 		Intent it = new Intent("android.intent.action.SEND_MESSAGE_ACTION");
 		parentActivity.startActivity(it);

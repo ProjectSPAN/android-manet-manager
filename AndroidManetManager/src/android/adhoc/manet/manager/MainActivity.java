@@ -224,24 +224,22 @@ public class MainActivity extends Activity implements ManetObserver {
 	}
 	
 	private static final int MENU_CHANGE_SETTINGS 		= 0;
-	private static final int MENU_LOG 					= 1;
+	private static final int MENU_VIEW_LOG 				= 1;
 	private static final int MENU_ABOUT 				= 2;
-	private static final int MENU_CONSOLE 				= 3;
-	private static final int MENU_SEND_MESSAGE			= 4;
-	private static final int MENU_GET_ROUTING_INFO		= 5;
+	private static final int MENU_SEND_MESSAGE			= 3;
+	private static final int MENU_VIEW_ROUTING_INFO		= 4;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
     	SubMenu setup = menu.addSubMenu(0, MENU_CHANGE_SETTINGS, 0, getString(R.string.main_activity_settings));
     	setup.setIcon(drawable.ic_menu_preferences);
-    	// SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
     	about.setIcon(drawable.ic_menu_info_details);
-    	SubMenu console = menu.addSubMenu(0, MENU_CONSOLE, 0, getString(R.string.main_activity_console));
     	SubMenu send = menu.addSubMenu(0, MENU_SEND_MESSAGE, 0, getString(R.string.main_activity_send_message));
-    	SubMenu info = menu.addSubMenu(0, MENU_GET_ROUTING_INFO, 0, getString(R.string.main_activity_get_routing_info));
+    	SubMenu info = menu.addSubMenu(0, MENU_VIEW_ROUTING_INFO, 0, getString(R.string.main_activity_view_routing_info));
     	// info.setIcon(drawable.ic_menu_agenda);
+    	SubMenu log = menu.addSubMenu(0, MENU_VIEW_LOG, 0, getString(R.string.main_activity_show_log));
     	return supRetVal;
     }
     
@@ -254,24 +252,17 @@ public class MainActivity extends Activity implements ManetObserver {
 		        startActivityForResult(new Intent(
 		        	MainActivity.this, ChangeSettingsActivity.class), 0);
 		        break;
-	    	case MENU_LOG :
-	    		// TODO: show log when user selects service notification icon
-	    		/*
-		        startActivityForResult(new Intent(
-		        	MainActivity.this, LogActivity.class), 0);
-		        */
-		        break;
 	    	case MENU_ABOUT :
 	    		openAboutDialog();
 	    		break;
-	    	case MENU_CONSOLE :
-	    		ViewConsoleActivity.open(this);
+	    	case MENU_VIEW_LOG :
+	    		ViewLogActivity.open(this);
 	    		break;
 	    	case MENU_SEND_MESSAGE :
 	    		SendMessageActivity.open(this);
 	    		break;
-	    	case MENU_GET_ROUTING_INFO :
-	    		GetRoutingInfoActivity.open(this);
+	    	case MENU_VIEW_ROUTING_INFO :
+	    		ViewRoutingInfoActivity.open(this);
 	    		break;
 	    }
     	return supRetVal;

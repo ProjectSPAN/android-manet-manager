@@ -97,6 +97,9 @@ public class ManetManagerApp extends Application implements ManetObserver {
         // init MANET helper
 		manet = new ManetHelper(this);
 		manet.registerObserver(this);
+		
+		// init activity helpers to start observing before activities are created
+		ViewLogActivityHelper.setApplication(this);
 	}
 
 	@Override
@@ -192,7 +195,7 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	
 	@Override
 	public void onConfigUpdated(ManetConfig manetcfg) {
-		Log.d(TAG, "onConfigUpdated()"); // DEBUG
+		// Log.d(TAG, "onConfigUpdated()"); // DEBUG
 		this.manetcfg = manetcfg;
 		
 		String device = manetcfg.getDeviceType();
@@ -201,7 +204,7 @@ public class ManetManagerApp extends Application implements ManetObserver {
 
 	@Override
 	public void onPeersUpdated(TreeSet<String> peers) {
-		Log.d(TAG, "onPeersUpdated()"); // DEBUG
+		// Log.d(TAG, "onPeersUpdated()"); // DEBUG
 	}
 	
 	@Override
@@ -211,6 +214,6 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	
 	@Override
 	public void onError(String error) {
-		Log.d(TAG, "onError()"); // DEBUG
+		// Log.d(TAG, "onError()"); // DEBUG
 	}
 }
