@@ -118,6 +118,10 @@ public class MessageService extends Service {
 				
 				while (true) {
 					try {
+						// address Android issue where old packet lengths are erroneously 
+						// carried over between packet reuse
+						packet.setLength(buff.length); 
+						
 						socket.receive(packet); // blocking
 						
 						String msg = new String(packet.getData(), 0, packet.getLength());
