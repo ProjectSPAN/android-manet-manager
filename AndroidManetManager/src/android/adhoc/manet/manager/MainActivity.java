@@ -483,9 +483,6 @@ public class MainActivity extends Activity implements ManetObserver {
 			if (animation != null) {
 				startBtn.startAnimation(this.animation);
 			}
-			
-			// notification
-			app.notificationManager.cancelAll();
 						
 		} else { // AdhocStateEnum.UNKNOWN
 			startTblRow.setVisibility(View.VISIBLE);

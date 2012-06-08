@@ -53,13 +53,6 @@ public class ManetManagerApp extends Application implements ManetObserver {
 	public SharedPreferences prefs = null;
 	public SharedPreferences.Editor prefEditor = null;
 	
-    // Notification
-	public NotificationManager notificationManager = null;
-	private Notification notification = null;
-	
-	// Intents
-	private PendingIntent mainIntent = null;
-	
 	// MANET helper
 	public ManetHelper manet = null;
 	
@@ -90,11 +83,6 @@ public class ManetManagerApp extends Application implements ManetObserver {
 		
         // preference editor
         prefEditor = prefs.edit();
-        
-        // init notification manager
-        notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-    	notification = new Notification(R.drawable.start_notification, getString(R.string.start_notification_line), System.currentTimeMillis());
-    	mainIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
     	
         // init MANET helper
 		manet = new ManetHelper(this);
@@ -112,9 +100,6 @@ public class ManetManagerApp extends Application implements ManetObserver {
 		
     	// manet.stopAdhoc();
     	manet.disconnectFromService();
-		
-		// remove all notifications
-		notificationManager.cancelAll();
 	}
     
 	/*
