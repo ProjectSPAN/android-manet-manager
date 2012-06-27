@@ -280,6 +280,11 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         Validation.setupIpAddressValidator(ipAddressEditTextPref);
         ipAddressEditTextPref.setText(manetcfg.getIpAddress());        
         
+        // dns server
+        EditTextPreference dnsServerEditTextPref = (EditTextPreference)findPreference("dnspref");
+        Validation.setupIpAddressValidator(dnsServerEditTextPref);
+        dnsServerEditTextPref.setText(manetcfg.getDnsServer());        
+        
         // routing protocol
         String currRoutingProtocol = manetcfg.getRoutingProtocol();
     	List<String> routingProtocolList = CoreTask.getRoutingProtocols();
@@ -386,6 +391,10 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 	    	else if (key.equals("ippref")) {
 		    	String ipAddress = sharedPreferences.getString("ippref", ManetConfig.IP_ADDRESS_DEFAULT);
 		    	manetcfg.setIpAddress(ipAddress);
+	    	}
+	    	else if (key.equals("dnspref")) {
+		    	String dnsServer = sharedPreferences.getString("dnspref", ManetConfig.DNS_SERVER_DEFAULT);
+		    	manetcfg.setDnsServer(dnsServer);
 	    	}
 	    	else if (key.equals("bluetoothon")) {
 	    		final Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", 

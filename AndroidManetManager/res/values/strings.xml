@@ -106,6 +106,9 @@
 	<string name="setup_layout_ip">IP Address</string>
     <string name="setup_layout_ip_summary">Change static IP address</string>
 	<string name="setup_layout_ip_dialog_title">Enter IP Address</string>
+	<string name="setup_layout_dns">DNS Server</string>
+    <string name="setup_layout_dns_summary">Change DNS server</string>
+	<string name="setup_layout_dns_dialog_title">Enter DNS Server Address</string>
 	<string name="setup_layout_vibrate">Vibrate on connect</string>
 	<string name="setup_layout_ringtone">Notification Ringtone</string>
 	<string name="setup_layout_ringtone_summary">Ringtone to use with notifications</string>

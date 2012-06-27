@@ -77,6 +77,12 @@
             android:summary="@string/setup_layout_ip_summary"
             android:dialogTitle="@string/setup_layout_ip_dialog_title"
             android:inputType="phone" />
+	   	<EditTextPreference
+	        android:key="dnspref"  
+            android:title="@string/setup_layout_dns"
+            android:summary="@string/setup_layout_dns_summary"
+            android:dialogTitle="@string/setup_layout_dns_dialog_title"
+            android:inputType="phone" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_routing"
 	    android:key="routingprefs">
