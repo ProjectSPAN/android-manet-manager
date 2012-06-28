@@ -78,7 +78,10 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  			String error = null, errorMsg = "";
 	  			if (selection.equals(PROMPT)) {
 	  				address = etAddress.getText().toString();
-	  				address = address.split("(")[0];
+  					// remove user id
+	  				if (address.contains("(")) {
+	  					address = address.split("(")[0];
+	  				}
 		  			if (!Validation.isValidIpAddress(address)) {
 		  				error = "Invalid IP address.";
 						errorMsg += error + "\n";
