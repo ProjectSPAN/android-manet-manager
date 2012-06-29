@@ -48,7 +48,6 @@ public class ViewRoutingInfoActivity extends Activity implements ManetObserver {
 	    btnGetInfo  = (Button) findViewById(R.id.btnGetInfo);
 	    btnGetInfo.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// getRoutingInfo();
 				app.manet.sendRoutingInfoQuery();
 			}
 	    });
