@@ -98,8 +98,7 @@ public class MainActivity extends Activity implements ManetObserver {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-    	Log.d(TAG, "onCreate()");
+    	Log.d(TAG, "onCreate()"); // DEBUG
         
         setContentView(R.layout.main);
         
@@ -152,16 +151,6 @@ public class MainActivity extends Activity implements ManetObserver {
 		};
 		stopBtn.setOnClickListener(this.stopBtnListener);
 		
-		// connect to MANET service
-        if (!app.manet.isConnectedToService()) {
-			showDialog(ID_DIALOG_CONNECTING);
-			currDialogId = ID_DIALOG_CONNECTING;
-			app.manet.connectToService();
-        } else {
-    		showAdhocMode(app.adhocState);
-    		showRadioMode(app.manetcfg.isUsingBluetooth());
-        }
-		
    		// start messenger service so that it runs even if no active activities are bound to it
    		startService(new Intent(this, MessageService.class));
         Intent theIntent = getIntent();
@@ -174,21 +163,39 @@ public class MainActivity extends Activity implements ManetObserver {
 			showDialog(3, bundle);
 		}
     }
+    
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    	Log.d(TAG, "onPostCreate()"); // DEBUG
+    	
+		// connect to MANET service
+        if (!app.manet.isConnectedToService()) {
+			showDialog(ID_DIALOG_CONNECTING);
+			currDialogId = ID_DIALOG_CONNECTING;
+			app.manet.connectToService();
+        } else {
+    		showAdhocMode(app.adhocState);
+    		showRadioMode(app.manetcfg.isUsingBluetooth());
+        }
+    }
 	
-    // will be called after onCreate()
     @Override
     public void onStart() {
     	super.onStart();
+    	Log.d(TAG, "onStart()"); // DEBUG
     }
     
     @Override
 	public void onStop() {
 		super.onStop();
+    	Log.d(TAG, "onStop()"); // DEBUG
 	}
 
     @Override
 	public void onDestroy() {
     	super.onDestroy();
+    	Log.d(TAG, "onDestroy()"); // DEBUG
 		try {
 			unregisterReceiver(this.intentReceiver);
 		} catch (Exception e) {
@@ -199,6 +206,7 @@ public class MainActivity extends Activity implements ManetObserver {
     @Override
 	public void onResume() {
 		super.onResume();
+    	Log.d(TAG, "onResume()"); // DEBUG
 				
 		// check if the battery temperature should be displayed
 		if(app.prefs.getString("batterytemppref", "fahrenheit").equals("disabled") == false) {
@@ -298,6 +306,7 @@ public class MainActivity extends Activity implements ManetObserver {
     
     @Override
     protected Dialog onCreateDialog(int id, Bundle args){
+    	Log.d(TAG, "onCreateDialog()"); // DEBUG
     	if (id == ID_DIALOG_STARTING) {
 	        return onCreateDialog(id);
     	} else if (id == ID_DIALOG_STOPPING) {
@@ -530,7 +539,7 @@ public class MainActivity extends Activity implements ManetObserver {
  	@Override
  	public void onServiceConnected() {
  		Log.d(TAG, "onServiceConnected()"); // DEBUG
- 		dismissDialog();
+ 		removeDialog();
  		app.manet.sendManetConfigQuery();
  		app.manet.sendAdhocStatusQuery();
  	}
@@ -550,10 +559,10 @@ public class MainActivity extends Activity implements ManetObserver {
  		Log.d(TAG, "onServiceStopped()"); // DEBUG
  	}
  	
- 	public void dismissDialog() {
-		// dismiss dialog
+ 	public void removeDialog() {
+    	Log.d(TAG, "removeDialog()"); // DEBUG
 		if (currDialogId != -1) {
-			super.dismissDialog(currDialogId);
+			super.removeDialog(currDialogId);
 			currDialogId = -1;
 		}
  	}
@@ -561,7 +570,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	@Override
 	public void onAdhocStateUpdated(AdhocStateEnum state, String info) {
 		Log.d(TAG, "onAdhocStateUpdated()"); // DEBUG
-		dismissDialog();
+		removeDialog();
 		showAdhocMode(state);
 		app.displayToastMessage(info);
 	}
