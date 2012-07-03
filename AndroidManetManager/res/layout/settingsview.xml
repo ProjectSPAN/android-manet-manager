@@ -56,17 +56,17 @@
     <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
         android:key="btprefs">
         <CheckBoxPreference
-        	android:key="bluetoothon"
+        	android:key="bluetoothonpref"
             android:title="@string/setup_layout_usebluetooth"
             android:summary="@string/setup_layout_usebluetooth_summary" />
         <CheckBoxPreference
-            android:key="bluetoothkeepwifi"
-            android:dependency="bluetoothon"
+            android:key="bluetoothkeepwifipref"
+            android:dependency="bluetoothonpref"
             android:title="@string/setup_layout_dontdisablewifi"
             android:summary="@string/setup_layout_dontdisablewifi_summary" />
         <CheckBoxPreference
-			android:key="bluetoothdiscoverable"
-            android:dependency="bluetoothon"
+			android:key="bluetoothdiscoverablepref"
+            android:dependency="bluetoothonpref"
             android:title="@string/setup_layout_discoverable"
             android:summary="@string/setup_layout_discoverable_summary" />               
     </PreferenceCategory>
@@ -103,7 +103,11 @@
 			android:summary="@string/setup_layout_gateway_summary"
             android:dialogTitle="@string/setup_layout_gateway_dialog_title" /> 
     </PreferenceCategory>
-	<PreferenceCategory android:title="@string/setup_layout_category_misc">					 
+	<PreferenceCategory android:title="@string/setup_layout_category_misc">
+	     <CheckBoxPreference
+        	android:key="screenonpref"
+            android:title="@string/setup_layout_screenon"
+            android:summary="@string/setup_layout_screenon_summary" />			 
 		 <ListPreference  
 			android:key="batterytemppref"  
 			android:title="@string/setup_layout_battery"  
@@ -111,6 +115,6 @@
 			android:entries="@array/batterytempnames"  
 			android:entryValues="@array/batterytempvalues"  
 			android:defaultValue="fahrenheit"
-			android:dialogTitle="@string/setup_layout_battery" /> 					
+			android:dialogTitle="@string/setup_layout_battery" />		
 	</PreferenceCategory>
 </PreferenceScreen>

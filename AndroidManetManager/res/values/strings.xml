@@ -33,8 +33,8 @@
     <string name="main_activity_start_summary">Please wait while starting...</string>
     <string name="main_activity_start_errors">Ad-Hoc mode started with errors! Please check \'Show log\'.</string>
     <string name="main_activity_start_unable">Unable to start Ad-Hoc mode. Is your device \'rooted\'?</string>
-    <string name="main_activity_start_wiredadhoc_running">Wired-adhoc seems to be running at the moment. Please disable first!</string>
-    <string name="main_activity_start_usbadhoc_running"><![CDATA[USB-adhoc seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.]]></string>
+    <string name="main_activity_start_wiredadhoc_running">Wired ad-hoc seems to be running at the moment. Please disable first!</string>
+    <string name="main_activity_start_usbadhoc_running"><![CDATA[USB ad-hoc seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.]]></string>
     <string name="main_activity_start_unknownstate">Your phone is currently in an unknown state - try to reboot!</string>
     <string name="main_activity_stop_summary">Please wait while stopping...</string> 
     <string name="main_activity_connect_summary">Please wait while connecting...</string> 
@@ -75,11 +75,13 @@
 	<string name="setup_layout_category_misc">Miscellaneous</string>
 	<string name="setup_layout_category_routing">Routing</string>
 	<string name="setup_layout_usebluetooth">Use Bluetooth</string>
-	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN adhoc instead of WiFi</string>
+	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN ad-hoc instead of WiFi</string>
 	<string name="setup_layout_dontdisablewifi">Don\'t disable WiFi</string>
 	<string name="setup_layout_dontdisablewifi_summary">Leave WiFi state alone</string>
 	<string name="setup_layout_discoverable">Discoverable</string>
 	<string name="setup_layout_discoverable_summary">Make device discoverable for 120 seconds on start-up</string>
+	<string name="setup_layout_screenon">Keep Screen On</string>
+	<string name="setup_layout_screenon_summary">Keep screen on in dimmed state when in ad-hoc mode</string>
 	<string name="setup_layout_encryption_algorithm">Encryption algorithm</string>
 	<string name="setup_layout_encryption_algorithm_summary">Change wifi encryption algorithm</string>
 	<string name="setup_layout_encryption_algorithm_dialog_title">Select Algorithm</string>
@@ -142,7 +144,7 @@
 	<string name="noroot_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
 	<string name="update_layout_line1">There is an update available!</string>
 	<string name="update_layout_line2">Do you want to install this update now?</string>
-	<string name="bt_warning_line1">Our method of bluetooth-adhoc (PAN) is known to not work on every device/android-platform.</string>
+	<string name="bt_warning_line1">Our method of bluetooth ad-hoc (PAN) is known to not work on every device/android-platform.</string>
 	<string name="bt_warning_line2">This functionality might not work on your device!</string>
 	<string name="txpower_warning_line1">The ability reducing the wifi-transmit power depends on the wifi-chip.</string>
 	<string name="txpower_warning_line2">This functionality might not work on your device!</string>

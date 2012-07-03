@@ -250,10 +250,10 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
 		
 		// bluetooth
 		// NOTE: bluetooth dependencies are specified in the layout XML
-		// CheckBoxPreference bluetoothCheckboxPref = (CheckBoxPreference)findPreference("bluetoothon");
+		// CheckBoxPreference bluetoothCheckboxPref = (CheckBoxPreference)findPreference("bluetoothonpref");
         
         // bluetooth keep wifi
-        CheckBoxPreference btKeepWifiCheckBoxPref = (CheckBoxPreference)findPreference("bluetoothkeepwifi");
+        CheckBoxPreference btKeepWifiCheckBoxPref = (CheckBoxPreference)findPreference("bluetoothkeepwifipref");
         if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.ECLAIR) {
         	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
         	if (btKeepWifiCheckBoxPref != null) {
@@ -264,7 +264,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
         }
         
         // bluetooth discoverable
-    	CheckBoxPreference btdiscoverablePreference = (CheckBoxPreference)findPreference("bluetoothdiscoverable");
+    	CheckBoxPreference btdiscoverablePreference = (CheckBoxPreference)findPreference("bluetoothdiscoverablepref");
         if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.ECLAIR) {
         	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
         	if (btdiscoverablePreference != null) {
@@ -338,112 +338,140 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     	} else {
     		gatewayPreference.setValue(ManetConfig.GATEWAY_INTERFACE_NONE);
     	}
+    	
+    	
+        // screen on
+    	CheckBoxPreference screenOnPreference = (CheckBoxPreference)findPreference("screenonpref");
+    	boolean val1 = manetcfg.isScreenOnWhenInAdhocMode(); // DEBUG
+    	boolean val2 = Boolean.getBoolean(manetcfg.toMap().get(ManetConfig.SCREEN_ON_KEY)); // DEBUG
+    	Map<String, String> map = manetcfg.toMap(); // DEBUG
+    	String val3 = map.get(ManetConfig.SCREEN_ON_KEY); // DEBUG
+    	screenOnPreference.setChecked(manetcfg.isScreenOnWhenInAdhocMode());
+    	
         
         // battery temperature
+        
 
         setupFlag = true;
     }
     
-    // invoked each time a preference is changed
     private void updateConfig() {
-    	
-    	Map<String,String> oldcfgmap = new TreeMap<String,String>(manetcfg.toMap());
-    	
     	Map<String,Object> map = (Map<String, Object>) sharedPreferences.getAll();
     	for (String key : map.keySet()) {
-    		if (key.equals("uidpref")) {
-    			String userId = sharedPreferences.getString("uidpref", ManetConfig.USER_ID_DEFAULT.toString());
-    			manetcfg.setUserId(userId);
-    		}
-    		else if (key.equals("encalgorithmpref")) {
-    			String encAlgorithm = sharedPreferences.getString("encalgorithmpref", 
-    					ManetConfig.WIFI_ENCRYPTION_ALGORITHM_DEFAULT.toString());
-    			manetcfg.setWifiEncryptionAlgorithm(WifiEncryptionAlgorithmEnum.fromString(encAlgorithm));
-    		}
-    		else if (key.equals("encsetuppref")) {
-    			String encSetupMethod = sharedPreferences.getString("encsetuppref", 
-    					ManetConfig.WIFI_ENCRYPTION_SETUP_METHOD_DEFAULT.toString());
-    			manetcfg.setWifiEncryptionSetupMethod(WifiEncryptionSetupMethodEnum.fromString(encSetupMethod));
-    		}
-    		else if (key.equals("passwordpref")) {
-    			String encPassword = sharedPreferences.getString("passwordpref", ManetConfig.WIFI_ENCRYPTION_PASSWORD_DEFAULT);
-    			manetcfg.setWifiEncryptionPassword(encPassword);
-	    	}
-    		else if (key.equals("ssidpref")) {
-	    		String wifiSsid = sharedPreferences.getString("ssidpref", ManetConfig.WIFI_ESSID_DEFAULT);
-	    		manetcfg.setWifiSsid(wifiSsid);
-	    	}
-	    	else if (key.equals("channelpref")) {
-	    		String wifiChannel = sharedPreferences.getString("channelpref", 
-	    				ManetConfig.WIFI_CHANNEL_DEFAULT.toString());
-	    		manetcfg.setWifiChannel(WifiChannelEnum.fromString(wifiChannel));
-	    	}
-	    	else if (key.equals("txpowerpref")) {
-	    		String wifiTxpower = sharedPreferences.getString("txpowerpref", 
-	    				ManetConfig.WIFI_TXPOWER_DEFAULT.toString());
-	    		manetcfg.setWifiTxPower(WifiTxpowerEnum.fromString(wifiTxpower));
-	    	}
-	    	else if (key.equals("interfacepref")) {
-	    		String wifiInterface = sharedPreferences.getString("interfacepref", 
-	    				ManetConfig.WIFI_INTERFACE_DEFAULT.toString());
-	    		manetcfg.setWifiInterface(wifiInterface);
-	    	}
-	    	else if (key.equals("ippref")) {
-		    	String ipAddress = sharedPreferences.getString("ippref", ManetConfig.IP_ADDRESS_DEFAULT);
-		    	manetcfg.setIpAddress(ipAddress);
-	    	}
-	    	else if (key.equals("dnspref")) {
-		    	String dnsServer = sharedPreferences.getString("dnspref", ManetConfig.DNS_SERVER_DEFAULT);
-		    	manetcfg.setDnsServer(dnsServer);
-	    	}
-	    	else if (key.equals("bluetoothon")) {
-	    		final Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", 
-	    				ManetConfig.ADHOC_MODE_DEFAULT == AdhocModeEnum.BLUETOOTH);
-	    		if (bluetoothOn) {
-	    			manetcfg.setAdhocMode(AdhocModeEnum.BLUETOOTH);
-	    		} else {
-	    			manetcfg.setAdhocMode(AdhocModeEnum.WIFI);
-	    		}
-	    	}
-	    	else if (key.equals("bluetoothkeepwifi")) {
-	    		Boolean btKeepWifi = sharedPreferences.getBoolean("bluetoothkeepwifi", !ManetConfig.BLUETOOTH_DISABLE_WIFI_DEFAULT);
-	    		manetcfg.setDisableWifiWhenUsingBluetooth(!btKeepWifi);
-	    	}
-	    	else if (key.equals("bluetoothdiscoverable")) {
-	    		Boolean btDiscoverable = sharedPreferences.getBoolean("bluetoothdiscoverable", ManetConfig.BLUETOOTH_DISCOVERABLE_DEFAULT);
-	    		manetcfg.setBlutoothDiscoverableWhenInAdhocMode(btDiscoverable);
-	    	}
-	    	else if (key.equals("routingprotocolpref")) {
-	    		String routingProtocol = sharedPreferences.getString("routingprotocolpref", ManetConfig.ROUTING_PROTOCOL_DEFAULT);
-	    		manetcfg.setRoutingProtocol(routingProtocol);
-	    	}
-	    	else if (key.equals("ignorepref")) {
-	    		List<String> ignoreList = new ArrayList<String>();
-				try {
-					JSONArray array = new JSONArray(sharedPreferences.getString("ignorepref", "[]"));
-					for (int i = 0 ; i < array.length(); i++){ 
-						ignoreList.add(array.get(i).toString());
-					} 
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				manetcfg.setRoutingIgnoreList(ignoreList);
-	    	} else if (key.equals("gatewaypref")) {
-	    		String gatewayInterface = sharedPreferences.getString("gatewaypref", 
-	    				ManetConfig.GATEWAY_INTERFACE_DEFAULT.toString());
-	    		manetcfg.setGatewayInterface(gatewayInterface);
-	    	}
+    		updateConfig(key);
     	}
+    }
+    
+    // invoked each time a preference is changed
+    private void updateConfig(String key) {
+    	
+    	boolean updateFlag = false;
+    	Map<String,String> oldcfgmap = new TreeMap<String,String>(manetcfg.toMap());
+    	
+		if (key.equals("uidpref")) {
+			String userId = sharedPreferences.getString("uidpref", ManetConfig.USER_ID_DEFAULT.toString());
+			manetcfg.setUserId(userId);
+		}
+		else if (key.equals("encalgorithmpref")) {
+			String encAlgorithm = sharedPreferences.getString("encalgorithmpref", 
+					ManetConfig.WIFI_ENCRYPTION_ALGORITHM_DEFAULT.toString());
+			manetcfg.setWifiEncryptionAlgorithm(WifiEncryptionAlgorithmEnum.fromString(encAlgorithm));
+			updateFlag = true;
+		}
+		else if (key.equals("encsetuppref")) {
+			String encSetupMethod = sharedPreferences.getString("encsetuppref", 
+					ManetConfig.WIFI_ENCRYPTION_SETUP_METHOD_DEFAULT.toString());
+			manetcfg.setWifiEncryptionSetupMethod(WifiEncryptionSetupMethodEnum.fromString(encSetupMethod));
+		}
+		else if (key.equals("passwordpref")) {
+			String encPassword = sharedPreferences.getString("passwordpref", ManetConfig.WIFI_ENCRYPTION_PASSWORD_DEFAULT);
+			manetcfg.setWifiEncryptionPassword(encPassword);
+    	}
+		else if (key.equals("ssidpref")) {
+    		String wifiSsid = sharedPreferences.getString("ssidpref", ManetConfig.WIFI_ESSID_DEFAULT);
+    		manetcfg.setWifiSsid(wifiSsid);
+    	}
+    	else if (key.equals("channelpref")) {
+    		String wifiChannel = sharedPreferences.getString("channelpref", 
+    				ManetConfig.WIFI_CHANNEL_DEFAULT.toString());
+    		manetcfg.setWifiChannel(WifiChannelEnum.fromString(wifiChannel));
+    	}
+    	else if (key.equals("txpowerpref")) {
+    		String wifiTxpower = sharedPreferences.getString("txpowerpref", 
+    				ManetConfig.WIFI_TXPOWER_DEFAULT.toString());
+    		manetcfg.setWifiTxPower(WifiTxpowerEnum.fromString(wifiTxpower));
+    	}
+    	else if (key.equals("interfacepref")) {
+    		String wifiInterface = sharedPreferences.getString("interfacepref", 
+    				ManetConfig.WIFI_INTERFACE_DEFAULT.toString());
+    		manetcfg.setWifiInterface(wifiInterface);
+    		updateFlag = true;
+    	}
+    	else if (key.equals("ippref")) {
+	    	String ipAddress = sharedPreferences.getString("ippref", ManetConfig.IP_ADDRESS_DEFAULT);
+	    	manetcfg.setIpAddress(ipAddress);
+    	}
+    	else if (key.equals("dnspref")) {
+	    	String dnsServer = sharedPreferences.getString("dnspref", ManetConfig.DNS_SERVER_DEFAULT);
+	    	manetcfg.setDnsServer(dnsServer);
+    	}
+    	else if (key.equals("bluetoothonpref")) {
+    		final Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothonpref", 
+    				ManetConfig.ADHOC_MODE_DEFAULT == AdhocModeEnum.BLUETOOTH);
+    		if (bluetoothOn) {
+    			manetcfg.setAdhocMode(AdhocModeEnum.BLUETOOTH);
+    		} else {
+    			manetcfg.setAdhocMode(AdhocModeEnum.WIFI);
+    		}
+    		updateFlag = true;
+    	}
+    	else if (key.equals("bluetoothkeepwifipref")) {
+    		Boolean btKeepWifi = sharedPreferences.getBoolean("bluetoothkeepwifipref", !ManetConfig.BLUETOOTH_DISABLE_WIFI_DEFAULT);
+    		manetcfg.setDisableWifiWhenUsingBluetooth(!btKeepWifi);
+    	}
+    	else if (key.equals("bluetoothdiscoverablepref")) {
+    		Boolean btDiscoverable = sharedPreferences.getBoolean("bluetoothdiscoverablepref", ManetConfig.BLUETOOTH_DISCOVERABLE_DEFAULT);
+    		manetcfg.setBlutoothDiscoverableWhenInAdhocMode(btDiscoverable);
+    	}
+    	else if (key.equals("routingprotocolpref")) {
+    		String routingProtocol = sharedPreferences.getString("routingprotocolpref", ManetConfig.ROUTING_PROTOCOL_DEFAULT);
+    		manetcfg.setRoutingProtocol(routingProtocol);
+    	}
+    	else if (key.equals("ignorepref")) {
+    		List<String> ignoreList = new ArrayList<String>();
+			try {
+				JSONArray array = new JSONArray(sharedPreferences.getString("ignorepref", "[]"));
+				for (int i = 0 ; i < array.length(); i++){ 
+					ignoreList.add(array.get(i).toString());
+				} 
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			manetcfg.setRoutingIgnoreList(ignoreList);
+    	} 
+    	else if (key.equals("gatewaypref")) {
+    		String gatewayInterface = sharedPreferences.getString("gatewaypref", 
+    				ManetConfig.GATEWAY_INTERFACE_DEFAULT.toString());
+    		manetcfg.setGatewayInterface(gatewayInterface);
+    		updateFlag = true;
+    	}
+		else if (key.equals("screenonpref")) {
+    		Boolean screenOn = sharedPreferences.getBoolean("screenonpref", ManetConfig.SCREEN_ON_DEFAULT);
+    		manetcfg.setScreenOnWhenInAdhocMode(screenOn);
+		}
     	
     	Map<String,String> newcfgmap = manetcfg.toMap();
-    	dirtyFlag = !oldcfgmap.equals(newcfgmap);
+    	dirtyFlag |= !oldcfgmap.equals(newcfgmap);
     	
-    	updateView(); // selecting one option may change the available choices for other options
+    	if (updateFlag) {
+    		updateView(); // selecting some options may change the available choices for other options
+    	}
     }
     
     private void checkIfDirty() {
     	if (dirtyFlag) {
 			openConfirmDialog();
+			dirtyFlag = false; // reset flag
 		} else {
 			finish();
 		}
@@ -512,7 +540,7 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     	Log.d(TAG, "onSharedPreferenceChanged()"); // DEBUG
-    	updateConfig();
+    	updateConfig(key);
     }
     
     Handler restartingDialogHandler = new Handler(){
