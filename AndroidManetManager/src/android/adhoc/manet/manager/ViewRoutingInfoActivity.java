@@ -15,12 +15,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class ViewRoutingInfoActivity extends Activity implements ManetObserver {
+	
+	public static final String TAG = "ViewRoutingInfoActivity";
 	
 	private static final int UPDATE_WAIT_TIME_MILLISEC = 1000;
 	
@@ -156,6 +159,7 @@ public class ViewRoutingInfoActivity extends Activity implements ManetObserver {
 
 	@Override
 	public void onRoutingInfoUpdated(String info) {
+		Log.d(TAG, "onRoutingInfoUpdated()"); // DEBUG
 		update(info);
 	}
 

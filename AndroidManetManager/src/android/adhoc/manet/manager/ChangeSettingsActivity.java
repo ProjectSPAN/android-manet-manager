@@ -342,10 +342,6 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     	
         // screen on
     	CheckBoxPreference screenOnPreference = (CheckBoxPreference)findPreference("screenonpref");
-    	boolean val1 = manetcfg.isScreenOnWhenInAdhocMode(); // DEBUG
-    	boolean val2 = Boolean.getBoolean(manetcfg.toMap().get(ManetConfig.SCREEN_ON_KEY)); // DEBUG
-    	Map<String, String> map = manetcfg.toMap(); // DEBUG
-    	String val3 = map.get(ManetConfig.SCREEN_ON_KEY); // DEBUG
     	screenOnPreference.setChecked(manetcfg.isScreenOnWhenInAdhocMode());
     	
         
