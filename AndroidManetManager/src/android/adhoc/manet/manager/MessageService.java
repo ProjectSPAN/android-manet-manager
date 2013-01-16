@@ -7,6 +7,7 @@ package android.adhoc.manet.manager;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import android.adhoc.manet.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

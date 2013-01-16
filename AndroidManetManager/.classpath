@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/AndroidManetService"/>
-	<classpathentry kind="lib" path="libs/libmanet.jar"/>
+	<classpathentry kind="lib" path="libs/commons-collections-3.2.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

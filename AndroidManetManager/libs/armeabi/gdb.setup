@@ -1,0 +1,2 @@
+set solib-search-path ./obj/local/armeabi
+directory /home/dev/Desktop/android-ndk-r8b/platforms/android-9/arch-arm/usr/include jni/wireless-tools /home/dev/Desktop/android-ndk-r8b/sources/cxx-stl/system

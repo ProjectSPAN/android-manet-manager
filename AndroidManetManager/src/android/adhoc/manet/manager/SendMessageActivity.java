@@ -11,10 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import android.adhoc.manet.ManetObserver;
-import android.adhoc.manet.routing.Node;
-import android.adhoc.manet.service.ManetService.AdhocStateEnum;
-import android.adhoc.manet.system.ManetConfig;
+import android.adhoc.manet.R;
+import android.adhoc.manet.service.ManetObserver;
+import android.adhoc.manet.service.routing.Node;
+import android.adhoc.manet.service.core.ManetService.AdhocStateEnum;
+import android.adhoc.manet.service.system.ManetConfig;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;

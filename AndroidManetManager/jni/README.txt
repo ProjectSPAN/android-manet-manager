@@ -1,0 +1,1 @@
+NOTE: Rebuild the native executables and libraries by executing "./scripts/build-native.sh".

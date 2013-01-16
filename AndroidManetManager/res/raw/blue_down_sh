@@ -1,0 +1,3 @@
+#!/system/bin/sh
+# blue-down.sh
+/data/data/android.adhoc.manet/bin/ifconfig bnep0 down

@@ -29,14 +29,15 @@ import java.util.TreeMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.adhoc.manet.service.ManetService.AdhocStateEnum;
-import android.adhoc.manet.system.DeviceConfig;
-import android.adhoc.manet.system.ManetConfig;
-import android.adhoc.manet.system.ManetConfig.AdhocModeEnum;
-import android.adhoc.manet.system.ManetConfig.WifiChannelEnum;
-import android.adhoc.manet.system.ManetConfig.WifiEncryptionAlgorithmEnum;
-import android.adhoc.manet.system.ManetConfig.WifiEncryptionSetupMethodEnum;
-import android.adhoc.manet.system.ManetConfig.WifiTxpowerEnum;
+import android.adhoc.manet.R;
+import android.adhoc.manet.service.core.ManetService.AdhocStateEnum;
+import android.adhoc.manet.service.system.DeviceConfig;
+import android.adhoc.manet.service.system.ManetConfig;
+import android.adhoc.manet.service.system.ManetConfig.AdhocModeEnum;
+import android.adhoc.manet.service.system.ManetConfig.WifiChannelEnum;
+import android.adhoc.manet.service.system.ManetConfig.WifiEncryptionAlgorithmEnum;
+import android.adhoc.manet.service.system.ManetConfig.WifiEncryptionSetupMethodEnum;
+import android.adhoc.manet.service.system.ManetConfig.WifiTxpowerEnum;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -56,7 +57,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import android.adhoc.manet.system.CoreTask;
+import android.adhoc.manet.service.system.CoreTask;
 
 public class ChangeSettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 		

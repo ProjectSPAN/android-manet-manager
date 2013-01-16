@@ -1,0 +1,8 @@
+interface=wlan0
+ssid=AndroidAdhoc
+auth_algs=1
+max_num_sta=8
+beacon_int=100
+dtim_period=1
+channel_num=1
+preamble=0

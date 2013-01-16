@@ -10,6 +10,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.adhoc.manet.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

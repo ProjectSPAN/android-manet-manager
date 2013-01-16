@@ -7,6 +7,7 @@ package android.adhoc.manet.manager;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import android.adhoc.manet.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

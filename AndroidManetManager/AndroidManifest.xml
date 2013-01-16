@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.adhoc.manet.manager"
+    package="android.adhoc.manet"
     android:versionCode="1"
     android:versionName="1.0" >
     
@@ -17,13 +17,13 @@
     <uses-permission android:name="android.adhoc.manet.permission.MANET" />
     
     <!-- NOTE: receiver and service tags must be embedded within application tag -->
-    <application android:name=".ManetManagerApp"
+    <application android:name=".manager.ManetManagerApp"
         android:icon="@drawable/gear_icon_48" 
         android:logo="@drawable/gear_icon_48" 
         android:label="@string/global_app_name"
         android:debuggable="true">
         
-        <activity android:name=".MainActivity"
+        <activity android:name=".manager.MainActivity"
             android:label="@string/global_app_name" 
             android:launchMode="singleTop" >
             <intent-filter>
@@ -43,15 +43,15 @@
         </activity>
        
         <!--
-        <activity android:name=".LogActivity" 
+        <activity android:name=".manager.LogActivity" 
             android:screenOrientation="portrait" 
             android:launchMode="singleTask"/>
         -->    
         
-        <activity android:name=".ChangeSettingsActivity" 
+        <activity android:name=".manager.ChangeSettingsActivity" 
             android:launchMode="singleTask"/> 
         
-        <activity android:name=".ViewLogActivity"
+        <activity android:name=".manager.ViewLogActivity"
             android:label="@string/global_app_view_log_name"
             android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden">
@@ -61,7 +61,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".SendMessageActivity"
+        <activity android:name=".manager.SendMessageActivity"
             android:label="@string/global_app_send_message_name"
             android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden">
@@ -71,7 +71,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ViewMessageActivity"
+        <activity android:name=".manager.ViewMessageActivity"
             android:label="@string/global_app_view_message_name"
             android:launchMode="standard"
             android:configChanges="orientation|keyboardHidden">
@@ -81,7 +81,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ViewRoutingInfoActivity"
+        <activity android:name=".manager.ViewRoutingInfoActivity"
             android:label="@string/global_app_view_routing_info_name"
             android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden">
@@ -91,7 +91,7 @@
             </intent-filter>
         </activity>
                 
-        <activity android:name=".EditIgnoreListActivity"
+        <activity android:name=".manager.EditIgnoreListActivity"
             android:label="@string/global_app_edit_ignore_list_name"
             android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden">
@@ -101,10 +101,13 @@
             </intent-filter>
         </activity>
         
-        <!-- NOTE: no need to declare MANET service since it is part of another project -->
-        
-        <service android:name=".MessageService" android:enabled="true" />
+        <service android:name=".manager.MessageService" android:enabled="true" />
+    
+        <!-- NOTE: run service in a remote process (instead of the standard one for its .apk) -->
+        <service android:name=".service.core.ManetService"
+			android:exported="true"
+			android:enabled="true" />
         
     </application>
-    
+        
 </manifest>

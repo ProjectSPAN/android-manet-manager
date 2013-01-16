@@ -4,8 +4,8 @@
  */
 package android.adhoc.manet.manager;
 
-import android.adhoc.manet.CircularStringBuffer;
-import android.adhoc.manet.LogObserver;
+import android.adhoc.manet.service.CircularStringBuffer;
+import android.adhoc.manet.service.LogObserver;
 
 // helper class to help maintain state between activity instances
 public class ViewLogActivityHelper implements LogObserver {

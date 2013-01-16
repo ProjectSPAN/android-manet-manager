@@ -21,6 +21,7 @@
  */
 package android.adhoc.manet.manager;
 
+import android.adhoc.manet.R;
 import android.graphics.Color;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
