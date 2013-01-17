@@ -18,8 +18,8 @@
     
     <!-- NOTE: receiver and service tags must be embedded within application tag -->
     <application android:name=".manager.ManetManagerApp"
-        android:icon="@drawable/gear_icon_48" 
-        android:logo="@drawable/gear_icon_48" 
+        android:icon="@drawable/service_icon_64" 
+        android:logo="@drawable/service_icon_64" 
         android:label="@string/global_app_name"
         android:debuggable="true">
         
