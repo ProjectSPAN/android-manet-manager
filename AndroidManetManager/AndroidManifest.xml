@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.adhoc.manet"
+    package="org.span"
     android:versionCode="1"
     android:versionName="1.0" >
     
@@ -14,10 +14,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.adhoc.manet.permission.MANET" />
+    <uses-permission android:name="org.span.permission.MANET" />
     
     <!-- NOTE: receiver and service tags must be embedded within application tag -->
-    <application android:name=".manager.ManetManagerApp"
+    <application android:name="org.span.manager.ManetManagerApp"
         android:icon="@drawable/service_icon_64" 
         android:logo="@drawable/service_icon_64" 
         android:label="@string/global_app_name"
@@ -91,7 +91,7 @@
             </intent-filter>
         </activity>
                 
-        <activity android:name=".manager.EditIgnoreListActivity"
+        <activity android:name="org.span.manager.EditIgnoreListActivity"
             android:label="@string/global_app_edit_ignore_list_name"
             android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden">
@@ -104,8 +104,8 @@
         <service android:name=".manager.MessageService" android:enabled="true" />
     
         <!-- NOTE: run service in a separate process (instead of the standard one for its .apk) to prevent UI issues -->
-        <service android:name="android.adhoc.manet.service.core.ManetService"
-            android:process="android.adhoc.manet.service.core.ManetService"
+        <service android:name="org.span.service.core.ManetService"
+            android:process="org.span.service.core.ManetService"
 			android:exported="true"
 			android:enabled="true" />
         

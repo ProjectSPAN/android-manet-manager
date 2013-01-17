@@ -26,7 +26,7 @@
 #include "install.h"
 
 // Where in the package we expect to find the edify script to execute.
-#define SCRIPT_NAME "/data/data/android.adhoc.manet/conf/adhoc.edify"
+#define SCRIPT_NAME "/data/data/org.span/conf/adhoc.edify"
 
 int main(int argc, char** argv) {
 FILE *f;
@@ -86,7 +86,7 @@ FILE *f;
 
     UpdaterInfo updater_info;
     updater_info.cmd_pipe = cmd_pipe;
-    updater_info.log_fd = fopen ("/data/data/android.adhoc.manet/var/adhoc.log","w");
+    updater_info.log_fd = fopen ("/data/data/org.span/var/adhoc.log","w");
 
     updater_info.action = strdup(argv[1]);
 

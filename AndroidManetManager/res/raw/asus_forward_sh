@@ -15,8 +15,8 @@ insmod /system/lib/modules/iptable_raw.ko
 insmod /system/lib/modules/xt_TRACE.ko
 
 # enable ALFA ad-hoc mode
-/data/data/android.adhoc.manet/bin/ifconfig wlan1 down
-/data/data/android.adhoc.manet/bin/iwconfig wlan1 mode ad-hoc
+/data/data/org.span/bin/ifconfig wlan1 down
+/data/data/org.span/bin/iwconfig wlan1 mode ad-hoc
 
 # setup raw TRACE tables
 /data/data/com.googlecode.droidwall.free/app_bin/iptables_armv5 -t raw -A OUTPUT -p icmp -j TRACE

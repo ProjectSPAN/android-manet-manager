@@ -27,16 +27,16 @@ action() == "start" && (
   setprop("adhoc.status","running");
   
   # Remove all iptables rules
-  run_program("/data/data/android.adhoc.manet/bin/iptables -t filter -F");
-  run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F");
+  run_program("/data/data/org.span/bin/iptables -t filter -F");
+  run_program("/data/data/org.span/bin/iptables -t nat -F");
 
   #
   # Make sure to kill old processes
   #
-  kill_pidfile("/data/data/android.adhoc.manet/var/fixpersist.pid");
-  kill_pidfile("/data/data/android.adhoc.manet/var/fixroute.pid");
-  file_unlink("/data/data/android.adhoc.manet/var/fixpersist.pid");
-  file_unlink("/data/data/android.adhoc.manet/var/fixroute.pid");
+  kill_pidfile("/data/data/org.span/var/fixpersist.pid");
+  kill_pidfile("/data/data/org.span/var/fixroute.pid");
+  file_unlink("/data/data/org.span/var/fixpersist.pid");
+  file_unlink("/data/data/org.span/var/fixroute.pid");
 
   #
   # Wifi mode, do some wifi things...
@@ -55,10 +55,10 @@ action() == "start" && (
           #
           # Loading firmware
           #
-          file_exists("/sdcard/android.adhoc.manet/fw_bcm4329.bin") && (
-            module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/sdcard/android.adhoc.manet/fw_bcm4329.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329.bin from /sdcard/android.adhoc.manet)");
+          file_exists("/sdcard/org.span/fw_bcm4329.bin") && (
+            module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/sdcard/org.span/fw_bcm4329.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329.bin from /sdcard/org.span)");
           );      
-          !file_exists("/sdcard/android.adhoc.manet/fw_bcm4329.bin") && (
+          !file_exists("/sdcard/org.span/fw_bcm4329.bin") && (
             file_exists("/etc/firmware/fw_bcm4329_ap.bin") && (
                 module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/etc/firmware/fw_bcm4329_ap.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329_ap.bin from /etc/firmware)");
             );
@@ -71,25 +71,25 @@ action() == "start" && (
           # Bring up wifi interface
           #
           
-          # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-          log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                      run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+          # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+          log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                      run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
           
-          log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-          log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-          log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+          log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+          log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+          log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
           getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
           );
        );
        is_substring("softap", getcfg("wifi.driver")) && (
           #
           # Loading firmware
           #    
-          file_exists("/sdcard/android.adhoc.manet/fw_bcm4329.bin") && (
-            module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/sdcard/android.adhoc.manet/fw_bcm4329.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329.bin from /sdcard/android.adhoc.manet)");
+          file_exists("/sdcard/org.span/fw_bcm4329.bin") && (
+            module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/sdcard/org.span/fw_bcm4329.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329.bin from /sdcard/org.span)");
           );      
-          !file_exists("/sdcard/android.adhoc.manet/fw_bcm4329.bin") && (
+          !file_exists("/sdcard/org.span/fw_bcm4329.bin") && (
             file_exists("/etc/firmware/fw_bcm4329_ap.bin") && (
                 module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/etc/firmware/fw_bcm4329_ap.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329_ap.bin from /etc/firmware)");
             );
@@ -102,33 +102,33 @@ action() == "start" && (
           );    
           sleep("3");
           getcfg("wifi.driver") == "softap_htc1" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/ultra_bcm_config "+getcfg("wifi.interface")+" softap_htc "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");        
+            log(run_program("/data/data/org.span/bin/ultra_bcm_config "+getcfg("wifi.interface")+" softap_htc "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");        
           );
           getcfg("wifi.driver") == "softap_htc2" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/ultra_bcm_config "+getcfg("wifi.interface")+" softap_gog "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");        
+            log(run_program("/data/data/org.span/bin/ultra_bcm_config "+getcfg("wifi.interface")+" softap_gog "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");        
           );          
           getcfg("wifi.driver") == "softap_gog" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/ultra_bcm_config eth0 "+getcfg("wifi.driver")+" "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");         
-            run_program("/data/data/android.adhoc.manet/bin/ifconfig eth0 down");
-            run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " down");
+            log(run_program("/data/data/org.span/bin/ultra_bcm_config eth0 "+getcfg("wifi.driver")+" "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");         
+            run_program("/data/data/org.span/bin/ifconfig eth0 down");
+            run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " down");
           );
           #
           # Bring up wifi interface
           #
           
-          # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-          log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                      run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+          # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+          log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                      run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
        );
     );
     
     getcfg("device.type") == "galaxy" && (
-      file_exists("/sdcard/android.adhoc.manet/rtecdc.bin") && (
+      file_exists("/sdcard/org.span/rtecdc.bin") && (
           module_loaded("bcm4325") || log(insmod("/system/libmodules/bcm4325.ko",
-                                                    "firmware_path=/sdcard/android.adhoc.manet/rtecdc.bin nvram_path=/etc/nvram.txt"),
-                                                    "Loading bcm4325.ko module<br>(rtecdc.bin from /sdcard/android.adhoc.manet)");
+                                                    "firmware_path=/sdcard/org.span/rtecdc.bin nvram_path=/etc/nvram.txt"),
+                                                    "Loading bcm4325.ko module<br>(rtecdc.bin from /sdcard/org.span)");
       );     
-      !file_exists("/sdcard/android.adhoc.manet/rtecdc.bin") && (
+      !file_exists("/sdcard/org.span/rtecdc.bin") && (
           !file_exists("/etc/rtecdc_adhoc.bin") && (
               module_loaded("bcm4325") || log(insmod("/system/libmodules/bcm4325.ko", 
                                                     "firmware_path=/etc/rtecdc.bin nvram_path=/etc/nvram.txt"), 
@@ -144,17 +144,17 @@ action() == "start" && (
       #
       # Bring up wifi interface
       #
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");                  
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");                  
     );
     
     getcfg("device.type") == "dream" && (
@@ -163,34 +163,34 @@ action() == "start" && (
       #      
       module_loaded("wlan") || log(insmod("/system/lib/modules/wlan.ko", ""), "Loading wlan.ko module");
       file_exists("/proc/calibration") && (
-          file_exists("/sdcard/android.adhoc.manet/Fw1251r1c.bin") && (
-              log(run_program("/system/bin/wlan_loader -f /sdcard/android.adhoc.manet/Fw1251r1c.bin -e " +
-                          "/proc/calibration -i /data/data/android.adhoc.manet/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /sdcard/android.adhoc.manet)");
+          file_exists("/sdcard/org.span/Fw1251r1c.bin") && (
+              log(run_program("/system/bin/wlan_loader -f /sdcard/org.span/Fw1251r1c.bin -e " +
+                          "/proc/calibration -i /data/data/org.span/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /sdcard/org.span)");
           );
-          !file_exists("/sdcard/android.adhoc.manet/Fw1251r1c.bin") && (
+          !file_exists("/sdcard/org.span/Fw1251r1c.bin") && (
               file_exists("/system/etc/wifi/Fw1251r1c.bin") && (
                   log(run_program("/system/bin/wlan_loader -f /system/etc/wifi/Fw1251r1c.bin -e " +
-                              "/proc/calibration -i /data/data/android.adhoc.manet/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/wifi)");
+                              "/proc/calibration -i /data/data/org.span/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/wifi)");
               );
               file_exists("/system/etc/firmware/Fw1251r1c.bin") && (
                   log(run_program("/system/bin/wlan_loader -f /system/etc/firmware/Fw1251r1c.bin -e " +
-                              "/proc/calibration -i /data/data/android.adhoc.manet/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/firmware)");
+                              "/proc/calibration -i /data/data/org.span/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/firmware)");
               );      
           );
       );
       file_exists("/data/calibration") && (
-          file_exists("/sdcard/android.adhoc.manet/Fw1251r1c.bin") && (
-              log(run_program("/system/bin/wlan_loader -f /sdcard/android.adhoc.manet/Fw1251r1c.bin -e " +
-                          "/data/calibration -i /data/data/android.adhoc.manet/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /sdcard/android.adhoc.manet)");
+          file_exists("/sdcard/org.span/Fw1251r1c.bin") && (
+              log(run_program("/system/bin/wlan_loader -f /sdcard/org.span/Fw1251r1c.bin -e " +
+                          "/data/calibration -i /data/data/org.span/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /sdcard/org.span)");
           );
-          !file_exists("/sdcard/android.adhoc.manet/Fw1251r1c.bin") && (
+          !file_exists("/sdcard/org.span/Fw1251r1c.bin") && (
               file_exists("/system/etc/wifi/Fw1251r1c.bin") && (
                   log(run_program("/system/bin/wlan_loader -f /system/etc/wifi/Fw1251r1c.bin -e " +
-                              "/data/calibration -i /data/data/android.adhoc.manet/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/wifi)");
+                              "/data/calibration -i /data/data/org.span/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/wifi)");
               );
               file_exists("/system/etc/firmware/Fw1251r1c.bin") && (
                   log(run_program("/system/bin/wlan_loader -f /system/etc/firmware/Fw1251r1c.bin -e " +
-                              "/data/calibration -i /data/data/android.adhoc.manet/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/firmware)");
+                              "/data/calibration -i /data/data/org.span/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/firmware)");
               );      
           );     
       );
@@ -198,19 +198,19 @@ action() == "start" && (
       # Bring up wifi interface
       #
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
     );
     
     getcfg("device.type") == "moment" && (
       #
       # Samsung Moment
       #
-      file_exists("/sdcard/android.adhoc.manet/rtecdc.bin") && (
-        module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/sdcard/android.adhoc.manet/rtecdc.bin nvram_path=/etc/nvram.txt"), "Loading dhd.ko module");
+      file_exists("/sdcard/org.span/rtecdc.bin") && (
+        module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/sdcard/org.span/rtecdc.bin nvram_path=/etc/nvram.txt"), "Loading dhd.ko module");
       );      
-      !file_exists("/sdcard/android.adhoc.manet/rtecdc.bin") && (
+      !file_exists("/sdcard/org.span/rtecdc.bin") && (
         !file_exists("/etc/rtecdc_adhoc.bin") && (
             module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/etc/rtecdc.bin nvram_path=/etc/nvram.txt"), "Loading dhd.ko module");
         );
@@ -224,17 +224,17 @@ action() == "start" && (
       # Bring up wifi interface
       #
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
       
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );      
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
 
     getcfg("device.type") == "legend" && (
@@ -268,15 +268,15 @@ action() == "start" && (
       #
       # Bring up wifi interface
       #
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " +getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/ifconfig " +getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );      
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
 
     getcfg("device.type") == "ally" && (
@@ -289,17 +289,17 @@ action() == "start" && (
       # Bring up wifi interface
       #
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
       
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );  
     
     getcfg("device.type") == "droidx" && (
@@ -314,15 +314,15 @@ action() == "start" && (
       # Bring up wifi interface
       #
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
       
       sleep("3");
       #
       # Start hostapd
       #
-      log(run_program("/system/bin/Hostapd -P /data/data/android.adhoc.manet/var/hostapd.pid -B /data/data/android.adhoc.manet/conf/hostapd.conf"), "Starting hostapd");
+      log(run_program("/system/bin/Hostapd -P /data/data/org.span/var/hostapd.pid -B /data/data/org.span/conf/hostapd.conf"), "Starting hostapd");
     );
 
     getcfg("device.type") == "blade" && (
@@ -336,15 +336,15 @@ action() == "start" && (
       # Bring up wifi interface
       #
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
       
       sleep("3");
       #
       # Start hostapd
       #
-      log(run_program("/system/bin/hostapd -P /data/data/android.adhoc.manet/var/hostapd.pid -B /data/data/android.adhoc.manet/conf/hostapd.conf"), "Starting hostapd");
+      log(run_program("/system/bin/hostapd -P /data/data/org.span/var/hostapd.pid -B /data/data/org.span/conf/hostapd.conf"), "Starting hostapd");
     );
     
     (getcfg("device.type") == "generic") && (
@@ -357,17 +357,17 @@ action() == "start" && (
       # Bring up wifi interface
       #
       
-      # log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      # log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
                   
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );      
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
     getcfg("device.type") == "galaxytaborig" && (
@@ -381,16 +381,16 @@ action() == "start" && (
       #
       # Bring up wifi interface
       #
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
                   
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );      
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
     getcfg("device.type") == "galaxys2epictouch" && (
@@ -403,19 +403,19 @@ action() == "start" && (
       #
       # Bring up wifi interface
       #
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
                   
          
       # DEBUG!         
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
       
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );      
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
     (getcfg("device.type") == "galaxytab10.1" || getcfg("device.type") == "galaxynexus" || 
@@ -427,22 +427,22 @@ action() == "start" && (
       
       log(load_wifi(), "Loading WiFi driver");
       
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " down"), "Deactivating WiFi interface");
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " down"), "Deactivating WiFi interface");
       
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
       
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
 
-      log(run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
-                  run_program("/data/data/android.adhoc.manet/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      log(run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.address") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/org.span/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
                         
-      log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       
       getcfg("wifi.txpower") != "disabled" && (
-            log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
+            log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");        
       );      
       
-      run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+      run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
     #
@@ -451,11 +451,11 @@ action() == "start" && (
 	getcfg("gateway.interface") != "none" && (
 	  log(run_program("echo 1 > /proc/sys/net/ipv4/ip_forward"), "Enabling kernel packet forwarding");
 	
-	  log(run_program("/data/data/android.adhoc.manet/bin/iptables -A FORWARD -i " + getcfg("wifi.interface") + " -o " + getcfg("gateway.interface") + " -j ACCEPT") &&
-	    run_program("/data/data/android.adhoc.manet/bin/iptables -A FORWARD -i " + getcfg("gateway.interface") + " -o " + getcfg("wifi.interface") + " -j ACCEPT"),
+	  log(run_program("/data/data/org.span/bin/iptables -A FORWARD -i " + getcfg("wifi.interface") + " -o " + getcfg("gateway.interface") + " -j ACCEPT") &&
+	    run_program("/data/data/org.span/bin/iptables -A FORWARD -i " + getcfg("gateway.interface") + " -o " + getcfg("wifi.interface") + " -j ACCEPT"),
 	    "Setting gateway forwarding");
 	  
-	  log(run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -A POSTROUTING -o " + getcfg("gateway.interface") + " -j MASQUERADE"), "Enabling NAT");
+	  log(run_program("/data/data/org.span/bin/iptables -t nat -A POSTROUTING -o " + getcfg("gateway.interface") + " -j MASQUERADE"), "Enabling NAT");
 	);
     
 
@@ -464,16 +464,16 @@ action() == "start" && (
 #    #
 #    getcfg("wifi.encryption") == "wep" && (
 #      getcfg("wifi.setup") == "iwconfig" && (          
-#        log(run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " key s:"+getcfg("wifi.encryption.key")+"") &&
-#          run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " key restricted"), "Activating encryption<br/>(iwconfig)");
-#        run_program("/data/data/android.adhoc.manet/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+#        log(run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " key s:"+getcfg("wifi.encryption.key")+"") &&
+#          run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " key restricted"), "Activating encryption<br/>(iwconfig)");
+#        run_program("/data/data/org.span/bin/iwconfig " + getcfg("wifi.interface") + " commit");
 #      );
 #      getcfg("wifi.setup") == "wpa_supplicant" && (        
 #        sleep("2");
 #   log(run_program("cd /data/local/tmp; mkdir /data/local/tmp/wpa_supplicant; wpa_supplicant -B -D" +
 #     getcfg("wifi.driver") +
 #     " -i" + getcfg("wifi.interface") +
-#     " -c/data/data/android.adhoc.manet/conf/wpa_supplicant.conf"), "Activating encryption<br/>(wpa_supplicant)");
+#     " -c/data/data/org.span/conf/wpa_supplicant.conf"), "Activating encryption<br/>(wpa_supplicant)");
 #      );
 #    );
 
@@ -481,8 +481,8 @@ action() == "start" && (
 #    # Starting persist-fixer in background
 #    #    
 #    getcfg("adhoc.fix.persist") == "true" && (
-#      file_exists("/data/data/android.adhoc.manet/bin/fixpersist.sh") && (
-#       run_program("/data/data/android.adhoc.manet/bin/fixpersist.sh "+ getcfg("wifi.interface") +" "+ getcfg("wifi.essid") +" "+ getcfg("wifi.channel") +" & echo $! > /data/data/android.adhoc.manet/var/fixpersist.pid");
+#      file_exists("/data/data/org.span/bin/fixpersist.sh") && (
+#       run_program("/data/data/org.span/bin/fixpersist.sh "+ getcfg("wifi.interface") +" "+ getcfg("wifi.essid") +" "+ getcfg("wifi.channel") +" & echo $! > /data/data/org.span/var/fixpersist.pid");
 #      );
 #    );
 
@@ -497,23 +497,23 @@ action() == "start" && (
 #    #
 #    # Bluetooth - start pand
 #    #
-#    run_program("/data/data/android.adhoc.manet/bin/pand --listen --role NAP " +
-#                "--devup /data/data/android.adhoc.manet/bin/blue-up.sh " +
-#                "--devdown /data/data/android.adhoc.manet/bin/blue-down.sh " +
-#                "--pidfile /data/data/android.adhoc.manet/var/pand.pid");
+#    run_program("/data/data/org.span/bin/pand --listen --role NAP " +
+#                "--devup /data/data/org.span/bin/blue-up.sh " +
+#                "--devdown /data/data/org.span/bin/blue-down.sh " +
+#                "--pidfile /data/data/org.span/var/pand.pid");
 #  );
 
 #  #
 #  # Starting route-fixer in background
 #  #
 #  getcfg("adhoc.fix.route") == "true" && (
-#    file_exists("/data/data/android.adhoc.manet/bin/fixroute.sh") && (
+#    file_exists("/data/data/org.span/bin/fixroute.sh") && (
 #     file_exists("/system/bin/ip") && (
 #       getcfg("adhoc.mode") == "wifi" && (
-#           run_program("/data/data/android.adhoc.manet/bin/fixroute.sh "+ getcfg("wifi.interface") +" "+ getcfg("ip.network") +"/24 "+ getcfg("ip.gateway") +" & echo $! > /data/data/android.adhoc.manet/var/fixroute.pid");
+#           run_program("/data/data/org.span/bin/fixroute.sh "+ getcfg("wifi.interface") +" "+ getcfg("ip.network") +"/24 "+ getcfg("ip.gateway") +" & echo $! > /data/data/org.span/var/fixroute.pid");
 #       );
 #       getcfg("adhoc.mode") == "bt" && (
-#           run_program("/data/data/android.adhoc.manet/bin/fixroute.sh bnep0 "+ getcfg("ip.network") +"/24 "+ getcfg("ip.gateway") +" & echo $! > /data/data/android.adhoc.manet/var/fixroute.pid");
+#           run_program("/data/data/org.span/bin/fixroute.sh bnep0 "+ getcfg("ip.network") +"/24 "+ getcfg("ip.gateway") +" & echo $! > /data/data/org.span/var/fixroute.pid");
 #       );
 #     );
 #    );
@@ -522,24 +522,24 @@ action() == "start" && (
 #  #
 #  # Remove old rules
 #  #
-#  run_program("/data/data/android.adhoc.manet/bin/iptables -N wireless-tether");
-#  run_program("/data/data/android.adhoc.manet/bin/iptables -F wireless-tether");  
-#  run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F PREROUTING");
-#  run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F POSTROUTING");
-#  run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F");
+#  run_program("/data/data/org.span/bin/iptables -N wireless-tether");
+#  run_program("/data/data/org.span/bin/iptables -F wireless-tether");  
+#  run_program("/data/data/org.span/bin/iptables -t nat -F PREROUTING");
+#  run_program("/data/data/org.span/bin/iptables -t nat -F POSTROUTING");
+#  run_program("/data/data/org.span/bin/iptables -t nat -F");
 
 #  #
 #  # Bring up NAT rules
 #  #
 #  log(
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -A wireless-tether -m state --state ESTABLISHED,RELATED -j ACCEPT") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -A wireless-tether -s " + getcfg("ip.network") + "/24 -j ACCEPT") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -A wireless-tether -p 47 -j ACCEPT") &&
-##    run_program("/data/data/android.adhoc.manet/bin/iptables -A wireless-tether -j DROP"),
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -A wireless-tether -j DROP") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -A FORWARD -m state --state INVALID -j DROP") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -A FORWARD -j wireless-tether") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -I POSTROUTING -s " +
+#    run_program("/data/data/org.span/bin/iptables -A wireless-tether -m state --state ESTABLISHED,RELATED -j ACCEPT") &&
+#    run_program("/data/data/org.span/bin/iptables -A wireless-tether -s " + getcfg("ip.network") + "/24 -j ACCEPT") &&
+#    run_program("/data/data/org.span/bin/iptables -A wireless-tether -p 47 -j ACCEPT") &&
+##    run_program("/data/data/org.span/bin/iptables -A wireless-tether -j DROP"),
+#    run_program("/data/data/org.span/bin/iptables -A wireless-tether -j DROP") &&
+#    run_program("/data/data/org.span/bin/iptables -A FORWARD -m state --state INVALID -j DROP") &&
+#    run_program("/data/data/org.span/bin/iptables -A FORWARD -j wireless-tether") &&
+#    run_program("/data/data/org.span/bin/iptables -t nat -I POSTROUTING -s " +
 #               getcfg("ip.network") + "/24 -j MASQUERADE"),
 #    "Enabling NAT rules");
 
@@ -552,9 +552,9 @@ action() == "start" && (
 #  # dnsmasq for wifi tether (bluetooth has pand start it)
 #  #
 #  getcfg("adhoc.mode") == "wifi" &&
-#      run_program("/data/data/android.adhoc.manet/bin/dnsmasq -i " + getcfg("wifi.interface") +" "+
-#                  "--resolv-file=/data/data/android.adhoc.manet/conf/resolv.conf " +
-#                  "--conf-file=/data/data/android.adhoc.manet/conf/dnsmasq.conf");
+#      run_program("/data/data/org.span/bin/dnsmasq -i " + getcfg("wifi.interface") +" "+
+#                  "--resolv-file=/data/data/org.span/conf/resolv.conf " +
+#                  "--conf-file=/data/data/org.span/conf/dnsmasq.conf");
 
   log("Ad-hoc mode now running");
 );
@@ -569,8 +569,8 @@ action() == "stop" && (
   setprop("adhoc.status","stopped");
   
   # Remove all iptables rules
-  run_program("/data/data/android.adhoc.manet/bin/iptables -t filter -F");
-  run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F");
+  run_program("/data/data/org.span/bin/iptables -t filter -F");
+  run_program("/data/data/org.span/bin/iptables -t nat -F");
 
 #  #
 #  # Disable forwarding and remove NAT rules.
@@ -578,26 +578,26 @@ action() == "stop" && (
 #  log(file_write("/proc/sys/net/ipv4/ip_forward", "0"), "Disabling forwarding");
 #  
 #  log(
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -D FORWARD -j wireless-tether") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -D FORWARD -m state --state INVALID -j DROP") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -F wireless-tether") &&  
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -X wireless-tether") && 
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F PREROUTING") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F POSTROUTING") &&
-#    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F"),
+#    run_program("/data/data/org.span/bin/iptables -D FORWARD -j wireless-tether") &&
+#    run_program("/data/data/org.span/bin/iptables -D FORWARD -m state --state INVALID -j DROP") &&
+#    run_program("/data/data/org.span/bin/iptables -F wireless-tether") &&  
+#    run_program("/data/data/org.span/bin/iptables -X wireless-tether") && 
+#    run_program("/data/data/org.span/bin/iptables -t nat -F PREROUTING") &&
+#    run_program("/data/data/org.span/bin/iptables -t nat -F POSTROUTING") &&
+#    run_program("/data/data/org.span/bin/iptables -t nat -F"),
 #  "Disabling NAT rules");
 
   #
   # Bluetooth, kill pand and and dnsmasq processes
   #
   getcfg("adhoc.mode") == "bt" && (
-    run_program("/data/data/android.adhoc.manet/bin/pand -K");
+    run_program("/data/data/org.span/bin/pand -K");
     sleep("1");
     kill_process("pand");
-    file_unlink("/data/data/android.adhoc.manet/var/pand.pid");
+    file_unlink("/data/data/org.span/var/pand.pid");
     kill_process("dnsmasq");
-    kill_pidfile("/data/data/android.adhoc.manet/var/fixroute.pid");
-    file_unlink("/data/data/android.adhoc.manet/var/fixroute.pid");
+    kill_pidfile("/data/data/org.span/var/fixroute.pid");
+    file_unlink("/data/data/org.span/var/fixroute.pid");
   );
   
   #
@@ -606,12 +606,12 @@ action() == "stop" && (
   getcfg("adhoc.mode") == "wifi" && (
     kill_process("wpa_supplicant");
     kill_process("dnsmasq");
-    kill_pidfile("/data/data/android.adhoc.manet/var/hostapd.pid");
-	kill_pidfile("/data/data/android.adhoc.manet/var/fixpersist.pid");
-	kill_pidfile("/data/data/android.adhoc.manet/var/fixroute.pid");
-	file_unlink("/data/data/android.adhoc.manet/var/fixpersist.pid");
-	file_unlink("/data/data/android.adhoc.manet/var/fixroute.pid");
-    run_program("/data/data/android.adhoc.manet/bin/ifconfig " +  getcfg("wifi.interface") + " down");
+    kill_pidfile("/data/data/org.span/var/hostapd.pid");
+	kill_pidfile("/data/data/org.span/var/fixpersist.pid");
+	kill_pidfile("/data/data/org.span/var/fixroute.pid");
+	file_unlink("/data/data/org.span/var/fixpersist.pid");
+	file_unlink("/data/data/org.span/var/fixroute.pid");
+    run_program("/data/data/org.span/bin/ifconfig " +  getcfg("wifi.interface") + " down");
     
     getcfg("device.type") == "generic" && (
       unload_wifi();
@@ -631,14 +631,14 @@ action() == "stop" && (
   #
   # Remove old dnsmasq.leases and pid-file
   #
-  file_exists("/data/data/android.adhoc.manet/var/dnsmasq.leases") && (
-  	file_unlink("/data/data/android.adhoc.manet/var/dnsmasq.leases");
+  file_exists("/data/data/org.span/var/dnsmasq.leases") && (
+  	file_unlink("/data/data/org.span/var/dnsmasq.leases");
   );
-  file_exists("/data/data/android.adhoc.manet/var/dnsmasq.pid") && (
-    file_unlink("/data/data/android.adhoc.manet/var/dnsmasq.pid");
+  file_exists("/data/data/org.span/var/dnsmasq.pid") && (
+    file_unlink("/data/data/org.span/var/dnsmasq.pid");
   );
-  file_exists("/data/data/android.adhoc.manet/var/setssid.pid") && (
-    file_unlink("/data/data/android.adhoc.manet/var/setssid.pid");
+  file_exists("/data/data/org.span/var/setssid.pid") && (
+    file_unlink("/data/data/org.span/var/setssid.pid");
   );
   
   log("Ad-hoc mode now stopped");
@@ -652,15 +652,15 @@ action() == "restartsecwifi" && (
   # Remove old rules
   #
   log (
-    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F PREROUTING") &&
-    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -F POSTROUTING"),
+    run_program("/data/data/org.span/bin/iptables -t nat -F PREROUTING") &&
+    run_program("/data/data/org.span/bin/iptables -t nat -F POSTROUTING"),
   "Disabling NAT rules");
 
   #
   # Bring up NAT rules
   #
   log(
-    run_program("/data/data/android.adhoc.manet/bin/iptables -t nat -I POSTROUTING -s " +
+    run_program("/data/data/org.span/bin/iptables -t nat -I POSTROUTING -s " +
                getcfg("ip.network") + "/24 -j MASQUERADE"),
     "Enabling NAT rules");
 );

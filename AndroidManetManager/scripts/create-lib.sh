@@ -14,26 +14,26 @@
 cd ./bin/classes
 
 jar cvf libmanet.jar \
-'./android/adhoc/manet/service/CircularStringBuffer.class' \
-'./android/adhoc/manet/service/LogObserver.class' \
-'./android/adhoc/manet/service/ManetObserver.class' \
-'./android/adhoc/manet/service/ManetHelper.class' \
-'./android/adhoc/manet/service/ManetParser.class' \
-'./android/adhoc/manet/service/ManetHelper$IncomingHandler.class' \
-'./android/adhoc/manet/service/ManetHelper$ManetBroadcastReceiver.class' \
-'./android/adhoc/manet/service/ManetHelper$ManetServiceConnection.class' \
-'./android/adhoc/manet/service/routing/Edge.class' \
-'./android/adhoc/manet/service/routing/Node.class' \
-'./android/adhoc/manet/service/routing/Node$UpdatableHashSet.class' \
-'./android/adhoc/manet/service/routing/OlsrProtocol.class' \
-'./android/adhoc/manet/service/routing/SimpleProactiveProtocol.class' \
-'./android/adhoc/manet/service/system/ManetConfig.class' \
-'./android/adhoc/manet/service/system/ManetConfig$'* \
-'./android/adhoc/manet/service/system/DeviceConfig.class' \
-'./android/adhoc/manet/service/system/CoreTask.class' \
-'./android/adhoc/manet/service/system/CoreTask$'* \
-'./android/adhoc/manet/service/core/ManetService.class' \
-'./android/adhoc/manet/service/core/ManetService$AdhocStateEnum.class'
+'./org/span/service/CircularStringBuffer.class' \
+'./org/span/service/LogObserver.class' \
+'./org/span/service/ManetObserver.class' \
+'./org/span/service/ManetHelper.class' \
+'./org/span/service/ManetParser.class' \
+'./org/span/service/ManetHelper$IncomingHandler.class' \
+'./org/span/service/ManetHelper$ManetBroadcastReceiver.class' \
+'./org/span/service/ManetHelper$ManetServiceConnection.class' \
+'./org/span/service/routing/Edge.class' \
+'./org/span/service/routing/Node.class' \
+'./org/span/service/routing/Node$UpdatableHashSet.class' \
+'./org/span/service/routing/OlsrProtocol.class' \
+'./org/span/service/routing/SimpleProactiveProtocol.class' \
+'./org/span/service/system/ManetConfig.class' \
+'./org/span/service/system/ManetConfig$'* \
+'./org/span/service/system/DeviceConfig.class' \
+'./org/span/service/system/CoreTask.class' \
+'./org/span/service/system/CoreTask$'* \
+'./org/span/service/core/ManetService.class' \
+'./org/span/service/core/ManetService$AdhocStateEnum.class'
 
 mv libmanet.jar ../..
 

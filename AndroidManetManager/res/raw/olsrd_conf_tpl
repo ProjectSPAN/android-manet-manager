@@ -180,7 +180,7 @@ LinkQualityFishEye  0
 # each plugin should have a README file in it's lib subfolder
 
 # LoadPlugin "olsrd_txtinfo.dll"
-LoadPlugin "/data/data/android.adhoc.manet/bin/olsrd_txtinfo.so.0.1"
+LoadPlugin "/data/data/org.span/bin/olsrd_txtinfo.so.0.1"
 {
     # port number the txtinfo plugin will be listening, default 2006
 #   PlParam     "port"   "81"

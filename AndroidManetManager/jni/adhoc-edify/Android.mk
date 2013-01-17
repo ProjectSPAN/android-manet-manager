@@ -67,6 +67,22 @@ LOCAL_SRC_FILES  := /libc_intermediates/LINKED/libc.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 
+include $(CLEAR_VARS)
+
+LOCAL_MODULE     := liblog
+LOCAL_SRC_FILES  := /liblog_intermediates/LINKED/liblog.so
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE     := libz
+LOCAL_SRC_FILES  := /libz_intermediates/LINKED/libz.so
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+
 # revert back to working path to build adhoc binary
 LOCAL_PATH := $(WORKING_PATH)
 
@@ -84,7 +100,7 @@ LOCAL_C_INCLUDES += $(AOSP_PATH)/hardware/libhardware_legacy/include
 
 LOCAL_STATIC_LIBRARIES := edify
 
-LOCAL_SHARED_LIBRARIES := hardware_legacy cutils utils binder libwpa_client libnetutils libc
+LOCAL_SHARED_LIBRARIES := hardware_legacy cutils utils binder libwpa_client libnetutils libc liblog libz
 
 LOCAL_MODULE := adhoc
 
