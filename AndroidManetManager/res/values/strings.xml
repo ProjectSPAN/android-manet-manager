@@ -156,6 +156,8 @@
     <string name="routing_info_layout_neighbors">Neighbors</string>
     <string name="routing_info_layout_neighbors_summary">Info about neighbors</string>
     <string name="default_ip">192.168.1.100</string>
+    <string name="error_notroot">Cannot continue. Not Root!</string>
+    <string name="error_nonetfilter">Cannot continue. No Netfilter!</string>
     
     <string-array name="notificationmodenames">  
 		<item>None</item>  

@@ -1,0 +1,23 @@
+#!/system/bin/sh
+
+# usage: 
+# su -c "asus-forward.sh"
+
+# turn on Wi-Fi first
+
+# insmod modules for ALFA
+insmod /system/lib/modules/mac80211.ko
+insmod /system/lib/modules/eeprom_93cx6.ko
+insmod /system/lib/modules/rtl8187.ko
+
+# insmod modules for iptables raw TRACE
+insmod /system/lib/modules/iptable_raw.ko
+insmod /system/lib/modules/xt_TRACE.ko
+
+# enable ALFA ad-hoc mode
+/data/data/org.span/bin/ifconfig wlan1 down
+/data/data/org.span/bin/iwconfig wlan1 mode ad-hoc
+
+# setup raw TRACE tables
+/data/data/com.googlecode.droidwall.free/app_bin/iptables_armv5 -t raw -A OUTPUT -p icmp -j TRACE
+# /data/data/com.googlecode.droidwall.free/app_bin/iptables_armv5 -t raw -A PREROUTING -p icmp -j TRACE

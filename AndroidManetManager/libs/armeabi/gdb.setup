@@ -1,0 +1,2 @@
+set solib-search-path ./obj/local/armeabi
+directory /home/dev/Desktop/android-ndk-r8b/platforms/android-9/arch-arm/usr/include ./ /home/dev/Desktop/PROJECTS/ANDROID_PLATFORM_GINGERBREAD/system/core/include /home/dev/Desktop/PROJECTS/ANDROID_PLATFORM_GINGERBREAD/hardware/libhardware_legacy/include jni/adhoc-edify /home/dev/Desktop/PROJECTS/ANDROID_PLATFORM_GINGERBREAD/out/target/product/generic/obj/SHARED_LIBRARIES jni/adhoc-edify/edify jni/ifconfig jni/wireless-tools /home/dev/Desktop/android-ndk-r8b/sources/cxx-stl/system
