@@ -43,5 +43,5 @@ cd ../..
 # copy jar into other project(s)
 # copy will fail if destination dir does not exist
 
-cp libmanet.jar ../../android-manet-logger/AndroidManetLogger/libs
+# cp libmanet.jar ../../android-manet-logger/AndroidManetLogger/libs
 

@@ -103,8 +103,9 @@
         
         <service android:name=".manager.MessageService" android:enabled="true" />
     
-        <!-- NOTE: run service in a remote process (instead of the standard one for its .apk) -->
-        <service android:name=".service.core.ManetService"
+        <!-- NOTE: run service in a separate process (instead of the standard one for its .apk) to prevent UI issues -->
+        <service android:name="android.adhoc.manet.service.core.ManetService"
+            android:process="android.adhoc.manet.service.core.ManetService"
 			android:exported="true"
 			android:enabled="true" />
         
