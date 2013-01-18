@@ -131,7 +131,7 @@
 	<string name="setup_layout_uid_dialog_title">Enter user identifier</string>
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_general">General:</string>
-	<string name="about_layout_projecthome">Project-Home:</string>
+	<string name="about_layout_projectlinks">Project Links:</string>
 	<string name="about_layout_license">License:</string>
 	<string name="about_layout_authors">Authors:</string>
 	<string name="about_layout_contributors">Contributors:</string>

@@ -26,6 +26,8 @@ import java.util.HashSet;
 import org.span.R;
 import org.span.service.ManetObserver;
 import org.span.service.core.ManetService.AdhocStateEnum;
+import org.span.service.legal.EulaHelper;
+import org.span.service.legal.EulaObserver;
 import org.span.service.routing.Node;
 import org.span.service.system.CoreTask;
 import org.span.service.system.ManetConfig;
@@ -63,7 +65,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements ManetObserver {
+public class MainActivity extends Activity implements EulaObserver, ManetObserver {
 	
 	public static final String TAG = "MainActivity";
 	
@@ -73,7 +75,7 @@ public class MainActivity extends Activity implements ManetObserver {
 	private static int ID_DIALOG_STARTING 	= 0;
 	private static int ID_DIALOG_STOPPING 	= 1;
 	private static int ID_DIALOG_CONNECTING = 2;
-	private static int ID_DIALOG_CONFIG = 3;
+	private static int ID_DIALOG_CONFIG 	= 3;
 	
 	private static ManetManagerApp app = null;
 		
@@ -162,26 +164,13 @@ public class MainActivity extends Activity implements ManetObserver {
         if (action != null && action.equals(Intent.ACTION_VIEW) ) {
         	Bundle bundle = new Bundle(1);
         	bundle.putString("filepath", intentData);
-			showDialog(3, bundle);
+			showDialog(ID_DIALOG_CONFIG, bundle);
 		}
+        
+        EulaHelper eula = new EulaHelper(this, this);
+        eula.showDialog();
     }
     
-    @Override
-    public void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    	Log.d(TAG, "onPostCreate()"); // DEBUG
-    	
-		// connect to MANET service
-        if (!app.manet.isConnectedToService()) {
-			showDialog(ID_DIALOG_CONNECTING);
-			currDialogId = ID_DIALOG_CONNECTING;
-			app.manet.connectToService();
-        } else {
-    		showAdhocMode(app.adhocState);
-    		showRadioMode(app.manetcfg.isUsingBluetooth());
-        }
-    }
-	
     @Override
     public void onStart() {
     	super.onStart();
@@ -536,7 +525,21 @@ public class MainActivity extends Activity implements ManetObserver {
 		*/
   	}
   	
-  	// MANET callback methods
+  	// callback methods
+  	
+	@Override
+	public void onEulaAccepted() {
+		// used to be part of onPostCreate()
+		// connect to MANET service
+        if (!app.manet.isConnectedToService()) {
+			showDialog(ID_DIALOG_CONNECTING);
+			currDialogId = ID_DIALOG_CONNECTING;
+			app.manet.connectToService();
+        } else {
+    		showAdhocMode(app.adhocState);
+    		showRadioMode(app.manetcfg.isUsingBluetooth());
+        }
+	}
   	
  	@Override
  	public void onServiceConnected() {

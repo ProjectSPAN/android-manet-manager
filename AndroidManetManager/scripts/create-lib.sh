@@ -33,7 +33,10 @@ jar cvf libmanet.jar \
 './org/span/service/system/CoreTask.class' \
 './org/span/service/system/CoreTask$'* \
 './org/span/service/core/ManetService.class' \
-'./org/span/service/core/ManetService$AdhocStateEnum.class'
+'./org/span/service/core/ManetService$AdhocStateEnum.class' \
+'./org/span/service/legal/EulaHelper.class' \
+'./org/span/service/legal/EulaHelper$'* \
+'./org/span/service/legal/EulaObserver.class'
 
 mv libmanet.jar ../..
 
