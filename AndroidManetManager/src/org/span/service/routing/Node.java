@@ -56,6 +56,11 @@ public class Node implements Serializable {
 		}
 	}
 	
+	@Override 
+	public int hashCode() {
+		return addr.hashCode();
+	}
+	
 	// custom set that will update existing elements upon adding them;
 	// normally sets will do nothing when attempting to add() an element that equals() an existing one
 	private class UpdatableHashSet<E> extends HashSet<E> {
