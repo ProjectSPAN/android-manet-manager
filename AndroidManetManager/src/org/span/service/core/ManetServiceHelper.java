@@ -835,6 +835,11 @@ public class ManetServiceHelper {
 			message = copyFile(CoreTask.DATA_FILE_PATH + "/bin/nc", "0755", R.raw.nc);
 		}
 		
+		// iperf
+		if (message == null) {
+			message = copyFile(CoreTask.DATA_FILE_PATH + "/bin/iperf", "0755", R.raw.iperf);
+		}
+		
 		// asus_forward.sh // TODO
 		if (message == null) {
 			message = copyFile(CoreTask.DATA_FILE_PATH + "/bin/asus-forward.sh", "0755", R.raw.asus_forward_sh);
