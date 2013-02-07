@@ -110,8 +110,8 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
         app.manet.registerObserver(this);
 
         // init table rows
-        startTblRow = (TableRow)findViewById(R.id.startRow);
-        stopTblRow = (TableRow)findViewById(R.id.stopRow);
+        startTblRow = (TableRow)findViewById(R.id.startAdhocRow);
+        stopTblRow = (TableRow)findViewById(R.id.stopAdhocRow);
         radioModeImage = (ImageView)findViewById(R.id.radioModeImage);
         batteryTemperatureLayout = (RelativeLayout)findViewById(R.id.layoutBatteryTemp);
         headerMainLayout = (RelativeLayout)findViewById(R.id.layoutHeaderMain);
@@ -228,6 +228,7 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	private static final int MENU_ABOUT 				= 2;
 	private static final int MENU_SEND_MESSAGE			= 3;
 	private static final int MENU_VIEW_ROUTING_INFO		= 4;
+	private static final int MENU_SHARE					= 5;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -239,7 +240,8 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
     	SubMenu send = menu.addSubMenu(0, MENU_SEND_MESSAGE, 0, getString(R.string.main_activity_send_message));
     	SubMenu info = menu.addSubMenu(0, MENU_VIEW_ROUTING_INFO, 0, getString(R.string.main_activity_view_routing_info));
     	// info.setIcon(drawable.ic_menu_agenda);
-    	SubMenu log = menu.addSubMenu(0, MENU_VIEW_LOG, 0, getString(R.string.main_activity_show_log));
+    	// SubMenu log = menu.addSubMenu(0, MENU_VIEW_LOG, 0, getString(R.string.main_activity_show_log));
+    	SubMenu share = menu.addSubMenu(0, MENU_SHARE, 0, getString(R.string.main_activity_share));
     	return supRetVal;
     }
     
@@ -263,6 +265,9 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	    		break;
 	    	case MENU_VIEW_ROUTING_INFO :
 	    		ViewRoutingInfoActivity.open(this);
+	    		break;
+	    	case MENU_SHARE :
+	    		ShareActivity.open(this);
 	    		break;
 	    }
     	return supRetVal;

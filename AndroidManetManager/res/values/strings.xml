@@ -6,6 +6,7 @@
     <string name="global_app_view_message_name">MANET Manager View Message</string>
     <string name="global_app_view_routing_info_name">MANET Manager Routing Info</string>
     <string name="global_app_edit_ignore_list_name">MANET Manager Ignore List</string>
+    <string name="global_app_share_name">MANET Manager Share App</string>
 	<string name="global_app_installed">Binaries and config-files installed!</string>
 	<string name="global_app_error_restartsecwifi">Unable to restart secured wifi!</string>
 	<string name="global_app_adhoc_running">Ad-Hoc mode is currently running ...</string>
@@ -27,6 +28,7 @@
     <string name="main_activity_ok">OK</string>
     <string name="main_activity_locked">Ad-Hoc mode is locked!</string>
     <string name="main_activity_show_log">Show Log</string>
+    <string name="main_activity_share">Share</string>
     <string name="main_activity_start">Start Ad-Hoc Mode</string>
     <string name="main_activity_stop">Stop Ad-Hoc Mode</string>
     <string name="main_activity_connect">Connect MANET Service</string>
@@ -158,6 +160,9 @@
     <string name="default_ip">192.168.1.100</string>
     <string name="error_notroot">Cannot continue. Not Root!</string>
     <string name="error_nonetfilter">Cannot continue. No Netfilter!</string>
+    
+    <string name="share_layout_presstostart">- Press to start Master (AP) mode. -</string>
+    <string name="share_layout_presstostop">- Press to stop Master (AP) mode. -</string>
     
     <string-array name="notificationmodenames">  
 		<item>None</item>  

@@ -83,15 +83,13 @@
 		    />
 	</RelativeLayout>	
 		
-	<ScrollView android:id="@+id/mainview" 
-		android:orientation="vertical"
+	<ScrollView android:orientation="vertical"
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent">
-		<TableLayout android:id="@+id/mainLayout"
-			android:layout_gravity="center"
+		<TableLayout android:layout_gravity="center"
 			android:layout_height="wrap_content" 
 			android:layout_width="wrap_content">
-			<TableRow android:id="@+id/startRow"
+			<TableRow android:id="@+id/startAdhocRow"
 			    android:visibility="invisible">
 				<TableLayout
 					android:layout_gravity="center"
@@ -99,14 +97,13 @@
 					android:layout_width="wrap_content">
 					<TableRow>
 						<ImageView android:id="@+id/startAdhocBtn"
-							android:src="@drawable/off" 
+							android:src="@drawable/adhoc_off" 
  		    				android:layout_width="180dp"
 		    				android:layout_height="135dp"
 							android:layout_gravity="center_horizontal" />
 					</TableRow>
 					<TableRow>
-						<TextView android:id="@+id/startText"
-							android:text="@string/main_layout_presstostart"
+						<TextView android:text="@string/main_layout_presstostart"
 							android:layout_gravity="center_vertical"
 							android:paddingTop="10px"
 							android:textStyle="bold"
@@ -114,7 +111,7 @@
 					</TableRow>
 				</TableLayout>
 			</TableRow>
-			<TableRow android:id="@+id/stopRow"
+			<TableRow android:id="@+id/stopAdhocRow"
 			    android:visibility="invisible">
 				<TableLayout
 					android:layout_gravity="center"
@@ -122,14 +119,13 @@
 					android:layout_width="wrap_content">
 					<TableRow>
 						<ImageView android:id="@+id/stopAdhocBtn"
-							android:src="@drawable/on" 
+							android:src="@drawable/adhoc_on" 
  		    				android:layout_width="180dp"
 		    				android:layout_height="135dp"
 							android:layout_gravity="center_horizontal" />			
 					</TableRow>
 					<TableRow>
-						<TextView android:id="@+id/stopText"
-							android:text="@string/main_layout_presstostop"
+						<TextView android:text="@string/main_layout_presstostop"
 							android:paddingTop="10px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"

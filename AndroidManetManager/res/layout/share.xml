@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+	
+	<ScrollView android:orientation="vertical"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent">
+		<TableLayout android:layout_gravity="center"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content">
+			<TableRow android:id="@+id/startMasterRow"
+			    android:visibility="invisible">
+				<TableLayout
+					android:layout_gravity="center"
+					android:layout_height="wrap_content" 
+					android:layout_width="wrap_content">
+					<TableRow>
+						<ImageView android:id="@+id/startMasterBtn"
+							android:src="@drawable/master_off" 
+ 		    				android:layout_width="180dp"
+		    				android:layout_height="135dp"
+							android:layout_gravity="center_horizontal" />
+					</TableRow>
+					<TableRow>
+						<TextView android:text="@string/share_layout_presstostart"
+							android:layout_gravity="center_vertical"
+							android:paddingTop="10px"
+							android:textStyle="bold"
+							android:textColor="#FFFFFFFF" />
+					</TableRow>
+				</TableLayout>
+			</TableRow>
+			<TableRow android:id="@+id/stopMasterRow"
+			    android:visibility="invisible">
+				<TableLayout
+					android:layout_gravity="center"
+					android:layout_height="wrap_content" 
+					android:layout_width="wrap_content">
+					<TableRow>
+						<ImageView android:id="@+id/stopMasterBtn"
+							android:src="@drawable/master_on" 
+ 		    				android:layout_width="180dp"
+		    				android:layout_height="135dp"
+							android:layout_gravity="center_horizontal" />			
+					</TableRow>
+					<TableRow>
+						<TextView android:text="@string/share_layout_presstostop"
+							android:paddingTop="10px"
+							android:layout_gravity="center_vertical"
+							android:textStyle="bold"
+							android:textColor="#FFFFFFFF" />
+					</TableRow>
+					<TableRow>
+						<TextView android:id="@+id/tvShareTnstructions"
+							android:paddingTop="50px"
+							android:layout_gravity="center_vertical"
+							android:textStyle="bold"
+							android:textColor="#FFFFFFFF" />
+					</TableRow>
+				</TableLayout>					
+			</TableRow>	
+		</TableLayout>
+	</ScrollView>
+
+</RelativeLayout>

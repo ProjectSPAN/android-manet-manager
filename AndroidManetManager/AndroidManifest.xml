@@ -106,6 +106,16 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="org.span.manager.ShareActivity"
+            android:label="@string/global_app_share_name"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SHARE_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <service android:name=".manager.MessageService" android:enabled="true" />
     
         <!-- NOTE: run service in a separate process (instead of the standard one for its .apk) to prevent UI issues -->

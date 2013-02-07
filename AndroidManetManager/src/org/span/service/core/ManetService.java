@@ -117,9 +117,9 @@ public class ManetService extends Service {
 		
 		int icon;
 		if (helper.getAdhocState() == AdhocStateEnum.STARTED) {
-			icon = R.drawable.on_notification;
+			icon = R.drawable.adhoc_on_notification;
 		} else {
-			icon = R.drawable.off_notification;
+			icon = R.drawable.adhoc_off_notification;
 		}
 		
     	if (notification == null || notification.icon != icon) {    		
