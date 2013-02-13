@@ -53,6 +53,7 @@ public class DeviceConfig {
 	public static final String DEVICE_DROIDRAZR			= "droidrazr"; // Droid Razr Maxx
 	public static final String DEVICE_NEXUS7			= "nexus7";
 	public static final String DEVICE_GALAXYS3SGHI747	= "galaxys3sghi747";
+	public static final String DEVICE_GALAXYS3GTI9300	= "galaxys3gti9300";
 	
 	public static final String DRIVER_TIWLAN0     = "tiwlan0";
 	public static final String DRIVER_WEXT        = "wext";
@@ -117,12 +118,14 @@ public class DeviceConfig {
 			return DEVICE_GALAXYTAB10_1;
 		} else if(Build.MODEL.equals("DROID RAZR")) {
 			return DEVICE_DROIDRAZR;
-		}else if (Build.MODEL.equals("SPH-D710")) {
+		} else if (Build.MODEL.equals("SPH-D710")) {
 			return DEVICE_GALAXYS2EPICTOUCH;
-		}else if (Build.MODEL.equals("Nexus 7")) {
+		} else if (Build.MODEL.equals("Nexus 7")) {
 			return DEVICE_NEXUS7;
-		}else if (Build.MODEL.equals("SAMSUNG-SGH-I747")) {
+		} else if (Build.MODEL.equals("SAMSUNG-SGH-I747")) {
 			return DEVICE_GALAXYS3SGHI747;
+		} else if (Build.MODEL.equals("GT-I9300")) {
+			return DEVICE_GALAXYS3GTI9300;
 		} else if ((new File("/lib/modules/dhd.ko")).exists() == true
 				&& (new File("/system/etc/wifi/bcm4329_sta.bin")).exists() == true) {
 			// TODO: use Build.MODEL as conditional
@@ -164,7 +167,8 @@ public class DeviceConfig {
 		if (deviceType.equals(DEVICE_GALAXYNEXUS) || 
 				deviceType.equals(DEVICE_TRANSFORMERPRIME) ||
 				deviceType.equals(DEVICE_NEXUS7) ||
-				deviceType.equals(DEVICE_GALAXYS3SGHI747)) {
+				deviceType.equals(DEVICE_GALAXYS3SGHI747) ||
+				deviceType.equals(DEVICE_GALAXYS3GTI9300)) {
 			return "wlan0";
 		} else if (deviceType.equals(DEVICE_DROIDRAZR)) {
 			return "tiwlan0";

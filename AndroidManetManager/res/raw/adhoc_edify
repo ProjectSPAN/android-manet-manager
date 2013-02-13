@@ -126,6 +126,7 @@ getcfg("device.type") == "galaxys2epictouch" && (
       getcfg("device.type") == "galaxynexus" || 
       getcfg("device.type") == "transformerprime" ||
       getcfg("device.type") == "galaxys3sghi747" ||
+      getcfg("device.type") == "galaxys3gti9300" ||
       getcfg("device.type") == "droidrazr") && (
       
       # MANET service will disable wifi through the framework before executing this script; the wpa_supplicant process will be terminated
