@@ -54,6 +54,7 @@ public class DeviceConfig {
 	public static final String DEVICE_NEXUS7			= "nexus7";
 	public static final String DEVICE_GALAXYS3SGHI747	= "galaxys3sghi747";
 	public static final String DEVICE_GALAXYS3GTI9300	= "galaxys3gti9300";
+	public static final String DEVICE_GALAXYNOTE2GTN7100	= "galaxynote2gtn7100";
 	
 	public static final String DRIVER_TIWLAN0     = "tiwlan0";
 	public static final String DRIVER_WEXT        = "wext";
@@ -126,6 +127,8 @@ public class DeviceConfig {
 			return DEVICE_GALAXYS3SGHI747;
 		} else if (Build.MODEL.equals("GT-I9300")) {
 			return DEVICE_GALAXYS3GTI9300;
+		} else if (Build.MODEL.equals("GT-N7100")){
+			return DEVICE_GALAXYNOTE2GTN7100;
 		} else if ((new File("/lib/modules/dhd.ko")).exists() == true
 				&& (new File("/system/etc/wifi/bcm4329_sta.bin")).exists() == true) {
 			// TODO: use Build.MODEL as conditional
@@ -168,7 +171,8 @@ public class DeviceConfig {
 				deviceType.equals(DEVICE_TRANSFORMERPRIME) ||
 				deviceType.equals(DEVICE_NEXUS7) ||
 				deviceType.equals(DEVICE_GALAXYS3SGHI747) ||
-				deviceType.equals(DEVICE_GALAXYS3GTI9300)) {
+				deviceType.equals(DEVICE_GALAXYS3GTI9300) ||
+				deviceType.equals(DEVICE_GALAXYNOTE2GTN7100)) {
 			return "wlan0";
 		} else if (deviceType.equals(DEVICE_DROIDRAZR)) {
 			return "tiwlan0";
