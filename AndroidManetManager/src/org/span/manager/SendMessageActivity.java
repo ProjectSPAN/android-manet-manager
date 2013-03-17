@@ -22,18 +22,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 
 public class SendMessageActivity extends Activity implements OnItemSelectedListener, ManetObserver {
@@ -41,8 +35,6 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	private static final String PROMPT = "Enter address ...";
 	
 	private ManetManagerApp app = null;
-	
-    private Handler handler = null;
     
     private Spinner spnDestination = null;
     private EditText etAddress = null;
