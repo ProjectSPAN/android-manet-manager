@@ -20,6 +20,7 @@ import org.span.service.system.ManetConfig;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -32,6 +33,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 
 public class SendMessageActivity extends Activity implements OnItemSelectedListener, ManetObserver {
@@ -40,7 +42,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	
 	private ManetManagerApp app = null;
 	
-    private Handler handler = new Handler();
+    private Handler handler = null;
     
     private Spinner spnDestination = null;
     private EditText etAddress = null;
@@ -101,8 +103,15 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	  			}
 	  			if (errorMsg.isEmpty()) {
 	  				msg = app.manetcfg.getIpAddress() + " (" + app.manetcfg.getUserId() + ")\n" + msg;
-	  				sendMessage(address, msg);
-	  				finish();
+	  				String retval = null;
+	  				try {
+	  					SendMessageTask task = new SendMessageTask();
+	  					task.execute(new String[] {address, msg});
+	  					retval = task.get();
+	  				} catch (Exception e) {
+	  					retval = "Error: " + e.getMessage();
+	  				}
+	  			    app.displayToastMessage(retval);
 	  			} else {
 	  				// show error messages
 	  				AlertDialog.Builder builder = new AlertDialog.Builder(SendMessageActivity.this);
@@ -169,41 +178,55 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 	public void onNothingSelected(AdapterView<?> arg0) {
 		// TODO Auto-generated method stub
 	}
-	
-	private void sendMessage(String address, String msg) {
 
-		DatagramSocket socket = null;
-		try {
-			socket = new DatagramSocket();
-			
-			byte buff[] = msg.getBytes();
-			int msgLen = buff.length;
-			boolean truncated = false;
-			if (msgLen > MessageService.MAX_MESSAGE_LENGTH) {
-				msgLen = MessageService.MAX_MESSAGE_LENGTH;
-				truncated = true;
-			}
-			
-			DatagramPacket packet = 
-					new DatagramPacket(buff, msgLen, InetAddress.getByName(address), MessageService.MESSAGE_PORT);
-			socket.send(packet);
-			
-			if (truncated) {
-				app.displayToastMessage("Message truncated and sent.");
-			} else {
-				app.displayToastMessage("Message sent.");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			app.displayToastMessage("Error: " + e.getMessage());
-		} finally {
-			if (socket != null) {
-				socket.close();
-			}
-		}
-	}
+	private class SendMessageTask extends AsyncTask<String, Void, String> {
+		 
+		 @Override
+		 protected String doInBackground(String... params) {
+			String address = params[0]; 
+			String msg = params[1];  
+			String retval = sendMessage(address, msg);
+			finish();
+			return retval;
+		 }
+		 
+		 private String sendMessage(String address, String msg) {
 
+			 	String retval = null;
+				DatagramSocket socket = null;
+				try {
+					socket = new DatagramSocket();
+					
+					byte buff[] = msg.getBytes();
+					int msgLen = buff.length;
+					boolean truncated = false;
+					if (msgLen > MessageService.MAX_MESSAGE_LENGTH) {
+						msgLen = MessageService.MAX_MESSAGE_LENGTH;
+						truncated = true;
+					}
+					
+					DatagramPacket packet = 
+							new DatagramPacket(buff, msgLen, InetAddress.getByName(address), MessageService.MESSAGE_PORT);
+					socket.send(packet);
+					
+					if (truncated) {
+						retval = "Message truncated and sent.";
+					} else {
+						retval = "Message sent.";
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					retval = "Error: " + e.getMessage();
+				} finally {
+					if (socket != null) {
+						socket.close();
+					}
+				}
+				
+				return retval;
+			}
+	 }; 
 
 	@Override
 	public void onServiceConnected() {
