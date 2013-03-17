@@ -2,7 +2,7 @@ SPAN - Smart Phone Ad-Hoc Networking project
 Copyright (c) 2012 The MITRE Corporation.
 
 Portions of the code, images, and other resources are
-copyright (c) 2009 Harald Mueller and Sofia Lemons.
+copyright (c) 2009 WiFi Tether for Root Users.
 
 Portions of the code, images, and other resources are
 copyright (c) 2012 The Serval Project.
