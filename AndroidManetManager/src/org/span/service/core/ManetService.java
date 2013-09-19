@@ -27,7 +27,8 @@ public class ManetService extends Service {
 	public final static String ACTION_ADHOC_STATE_UPDATED	= "org.span.service.intent.action.ADHOC_STATE_UPDATED";
 	public final static String ACTION_CONFIG_UPDATED		= "org.span.service.intent.action.CONFIG_UPDATED";
 	public final static String ACTION_LOG_UPDATED			= "org.span.service.intent.action.LOG_UPDATED";
-		
+	public final static String ACTION_PEERS_UPDATED         = "org.span.service.intent.action.PEERS_UPDATED";
+
     public static final int COMMAND_REGISTER 	  = 0;    
     public static final int COMMAND_UNREGISTER	  = 1;
     public static final int COMMAND_START_ADHOC	  = 2;

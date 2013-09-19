@@ -16,7 +16,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import org.span.service.core.ManetServiceHelper;
 import org.span.service.system.CoreTask;
 import org.span.service.system.ManetConfig;
 
@@ -62,6 +65,9 @@ public class OlsrProtocol extends RoutingProtocol {
 	
 	private Process olsrdProcess = null;
 	
+	Timer mPeerUpdateTimer = new Timer();
+	TimerTask mPeerUpdateTask = new PeerUpdateTask();
+
 	@Override
 	public String getName() {
 		return NAME;
@@ -105,6 +111,8 @@ public class OlsrProtocol extends RoutingProtocol {
 			
 			olsrdProcess = CoreTask.runRootCommandInBackground(command);
 			Thread.sleep(WAIT_TIME_MILLISEC); // wait for changes to take effect
+			
+			mPeerUpdateTimer.scheduleAtFixedRate(mPeerUpdateTask, 0, 1000); // every second
 	    	
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -120,6 +128,7 @@ public class OlsrProtocol extends RoutingProtocol {
 	    		// TODO: we need to read the process output before destroying it
 	    		// olsrdProcess.destroy(); // Note: this will not kill the process
 	    		olsrdProcess = null;
+	    		mPeerUpdateTimer.cancel();
 	    	}
     		// check for olsrd process external to this app.
 	    	CoreTask.killProcess("olsrd");
@@ -306,4 +315,21 @@ public class OlsrProtocol extends RoutingProtocol {
 	        }
 	    }
 	}
+	
+	private class PeerUpdateTask extends TimerTask {
+	    HashSet<Node> mPreviousPeers = null;
+
+        @Override
+        public void run() {
+
+	        HashSet<Node> currentPeers = getPeers();
+
+	        if(!currentPeers.equals(mPreviousPeers)) {
+                // Log.i("PeerUpdateTask", "peers are different!");
+                mPreviousPeers = currentPeers;
+                ManetServiceHelper.getInstance().updatePeers();
+	        }
+        }
+	};
+	
 }
