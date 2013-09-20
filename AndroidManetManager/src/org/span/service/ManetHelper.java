@@ -119,6 +119,10 @@ public class ManetHelper {
 		
 		context.unbindService(serviceConn);
 		serviceConn = null;
+		
+		// Setting this ensures that isConnectedToService() returns
+		// the correct value.
+		sendMessenger = null;
 	}
 	
 	public void sendStartAdhocCommand() {
