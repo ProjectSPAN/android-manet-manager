@@ -223,7 +223,7 @@ public class ManetHelper {
 		    }  else if(action.equals(ManetService.ACTION_PEERS_UPDATED)) {
 		        // Log.i("ManetBroadcastReceiver", "ACTION_PEERS_UPDATED");
 		        for(ManetObserver observer : manetObservers) {
-		            observer.onPeersUpdated((HashSet<Node>)data.getSerializable(ManetService.INFO_KEY));
+		            observer.onPeersUpdated((HashSet<Node>)data.getSerializable(ManetService.PEERS_KEY));
 		        }
 		    }
 		 }
