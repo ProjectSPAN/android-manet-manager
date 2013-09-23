@@ -182,6 +182,10 @@ public class ManetHelper {
 	}
 	
 	private void sendMessage(int what) {
+		if(sendMessenger == null) {
+			Log.e("ManetHelper::sendMessage", "You must connect to the ManetService before sending messages to it!");
+			return;
+	    	}
 		try {
 			Message message = Message.obtain(null, what);           
 			message.replyTo = receiveMessenger;
