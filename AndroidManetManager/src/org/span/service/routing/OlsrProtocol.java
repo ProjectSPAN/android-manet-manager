@@ -34,6 +34,10 @@ public class OlsrProtocol extends RoutingProtocol {
 	
 	private static final int WAIT_TIME_MILLISEC = 1000;
 		
+	// This sets how frequently to check and announce
+	// if the list of peers has changed
+	private int mPeerUpdateInterval = 1000; // Milliseconds
+	
 	// txtinfo plugin
 	private static final String HOST = "localhost";
 	private static final int PORT = 2006;
@@ -112,7 +116,7 @@ public class OlsrProtocol extends RoutingProtocol {
 			olsrdProcess = CoreTask.runRootCommandInBackground(command);
 			Thread.sleep(WAIT_TIME_MILLISEC); // wait for changes to take effect
 			
-			mPeerUpdateTimer.scheduleAtFixedRate(mPeerUpdateTask, 0, 1000); // every second
+			mPeerUpdateTimer.scheduleAtFixedRate(mPeerUpdateTask, 0, mPeerUpdateInterval);
 	    	
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -332,4 +336,12 @@ public class OlsrProtocol extends RoutingProtocol {
         }
 	};
 	
+    public void setPeerUpdateInterval(final int peerUpdateInterval) {
+        mPeerUpdateInterval = peerUpdateInterval;
+    }
+
+    public int getPeerUpdateInterval() {
+        return mPeerUpdateInterval;
+    }
+    
 }
