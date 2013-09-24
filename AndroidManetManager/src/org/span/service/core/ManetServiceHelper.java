@@ -1009,4 +1009,16 @@ public class ManetServiceHelper {
  			}
     	 }
     };
+    
+    public void updatePeers() {
+        // Log.i("ManetServiceHelper","updatePeers");
+        Bundle data = new Bundle();
+        data.putSerializable(ManetService.PEERS_KEY, routingProtocol.getPeers());
+
+        // send broadcast
+        Intent intent = new Intent(ManetService.ACTION_PEERS_UPDATED);
+        intent.putExtras(data);
+        service.sendBroadcast(intent);
+    }
+
 }

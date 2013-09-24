@@ -26,6 +26,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
 
 public class ManetHelper {
 
@@ -64,6 +65,7 @@ public class ManetHelper {
         intentFilter.addAction(ManetService.ACTION_ADHOC_STATE_UPDATED);
         intentFilter.addAction(ManetService.ACTION_CONFIG_UPDATED);
         intentFilter.addAction(ManetService.ACTION_LOG_UPDATED);
+        intentFilter.addAction(ManetService.ACTION_PEERS_UPDATED);
         
         intentReceiver = new ManetBroadcastReceiver();
         context.registerReceiver(intentReceiver, intentFilter);
@@ -226,6 +228,11 @@ public class ManetHelper {
 		    	for(LogObserver observer : logObservers) {
 					observer.onLogUpdated(content);
 				}
+		    }  else if(action.equals(ManetService.ACTION_PEERS_UPDATED)) {
+		        // Log.i("ManetBroadcastReceiver", "ACTION_PEERS_UPDATED");
+		        for(ManetObserver observer : manetObservers) {
+		            observer.onPeersUpdated((HashSet<Node>)data.getSerializable(ManetService.PEERS_KEY));
+		        }
 		    }
 		 }
 	};
