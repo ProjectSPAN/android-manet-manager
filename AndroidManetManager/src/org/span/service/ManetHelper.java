@@ -121,6 +121,10 @@ public class ManetHelper {
 		
 		context.unbindService(serviceConn);
 		serviceConn = null;
+		
+		// Setting this ensures that isConnectedToService() returns
+		// the correct value.
+		sendMessenger = null;
 	}
 	
 	public void sendStartAdhocCommand() {
@@ -180,6 +184,10 @@ public class ManetHelper {
 	}
 	
 	private void sendMessage(int what) {
+		if(sendMessenger == null) {
+			Log.e("ManetHelper::sendMessage", "You must connect to the ManetService before sending messages to it!");
+			return;
+	    	}
 		try {
 			Message message = Message.obtain(null, what);           
 			message.replyTo = receiveMessenger;
