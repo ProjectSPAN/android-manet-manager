@@ -49,6 +49,8 @@
     <string name="main_layout_download">Download</string> 
     <string name="main_layout_upload">Upload</string> 
     <string name="main_layout_lock">Lock</string>
+    <string name="main_layout_ipaddress_placeholder">[IP Address]</string>
+    <string name="main_layout_ssid_placeholder">[SSID]</string>
     <string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
     <string name="setup_activity_restart_adhoc_title">Restart Ad-Hoc Mode</string>
     <string name="setup_activity_restart_adhoc_message">Please wait while restarting...</string>
