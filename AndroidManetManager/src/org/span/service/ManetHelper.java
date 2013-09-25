@@ -4,6 +4,7 @@
  */
 package org.span.service;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -100,7 +101,7 @@ public class ManetHelper {
 	
 	public void connectToService() {
 		// create receive messenger
-		receiveMessenger = new Messenger(new IncomingHandler());
+		receiveMessenger = new Messenger(new IncomingHandler(this));
 		
 		// start service (if it is not already started) so that its lifetime is not 
 		// bound to any contexts even if contexts bind to it at a later time
@@ -231,15 +232,35 @@ public class ManetHelper {
 		    }  else if(action.equals(ManetService.ACTION_PEERS_UPDATED)) {
 		        // Log.i("ManetBroadcastReceiver", "ACTION_PEERS_UPDATED");
 		        for(ManetObserver observer : manetObservers) {
-		            observer.onPeersUpdated((HashSet<Node>)data.getSerializable(ManetService.PEERS_KEY));
+		                observer.onPeersUpdated(getHashSetOfNodesFromHashSet((HashSet<?>) data.getSerializable(ManetService.PEERS_KEY)));
 		        }
 		    }
 		 }
 	};
 	
+	// "Fail-fast" way to check an unchecked cast (from:
+	// http://glenpeterson.blogspot.com/2011/08/checking-unchecked-cast-in-java-5-or.html)
+	@SuppressWarnings({"unchecked"})
+	private static HashSet<Node> getHashSetOfNodesFromHashSet(final HashSet<?> hashSet) {
+	    if ( (hashSet != null) && (hashSet.size() > 0) ) {
+	        for (Object item : hashSet) {
+	            if ( (item != null) && !(item instanceof Node) ) {
+	                throw new ClassCastException("HashSet contained non-node elements!");
+	            }
+	        }
+	    }
+	    return (HashSet<Node>) hashSet;
+	}
+	
 	// receive messages from service
-	private class IncomingHandler extends Handler {
+	static class IncomingHandler extends Handler {
 		
+	    private final WeakReference<ManetHelper> mOuterManetHelper; 
+	    
+	    IncomingHandler(ManetHelper manetHelper) {
+	        mOuterManetHelper = new WeakReference<ManetHelper>(manetHelper);
+	    }
+	    
 		@Override    
 		public void handleMessage(Message rxmessage) {
 			Bundle data = rxmessage.getData();
@@ -247,28 +268,28 @@ public class ManetHelper {
 				case ManetService.QUERY_ADHOC_STATUS:
 			    	AdhocStateEnum state = (AdhocStateEnum)data.getSerializable(ManetService.STATE_KEY);
 			    	String info = data.getString(ManetService.INFO_KEY);
-					for(ManetObserver observer : manetObservers) {
+					for(ManetObserver observer : mOuterManetHelper.get().manetObservers) {
 						observer.onAdhocStateUpdated(state, info);
 					}                
 					break;            
 					
 				case ManetService.QUERY_MANET_CONFIG:
 					ManetConfig config = (ManetConfig)data.getSerializable(ManetService.CONFIG_KEY);
-					for(ManetObserver observer : manetObservers) {
+					for(ManetObserver observer : mOuterManetHelper.get().manetObservers) {
 						observer.onConfigUpdated(config);
 					} 
 					break;
 					
 				case ManetService.QUERY_PEERS:
-					HashSet<Node> peers = (HashSet<Node>)data.getSerializable(ManetService.PEERS_KEY);
-					for(ManetObserver observer : manetObservers) {
+					HashSet<Node> peers = getHashSetOfNodesFromHashSet((HashSet<?>) data.getSerializable(ManetService.PEERS_KEY));
+					for(ManetObserver observer : mOuterManetHelper.get().manetObservers) {
 						observer.onPeersUpdated(peers);
 					} 
 					break;
 					
 				case ManetService.QUERY_ROUTING_INFO:
 					String routingInfo = data.getString(ManetService.INFO_KEY);
-					for(ManetObserver observer : manetObservers) {
+					for(ManetObserver observer : mOuterManetHelper.get().manetObservers) {
 						observer.onRoutingInfoUpdated(routingInfo);
 					} 
 					break;

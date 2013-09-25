@@ -235,6 +235,7 @@ public class DeviceConfig {
 			while ((line = in.readLine()) != null) {
 				   if (line.startsWith(feature)) {
 					    gzin.close();
+					    in.close();
 						return true;
 					}
 			}

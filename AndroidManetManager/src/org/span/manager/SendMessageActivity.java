@@ -284,7 +284,7 @@ public class SendMessageActivity extends Activity implements OnItemSelectedListe
 			options.add(option);
 		}
 		
-		ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options.toArray());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (String[]) options.toArray());
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnDestination.setAdapter(adapter);
 	}
