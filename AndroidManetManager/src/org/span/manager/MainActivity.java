@@ -130,7 +130,9 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
         tvIP = (TextView)findViewById(R.id.tvIP);
         tvSSID = (TextView)findViewById(R.id.tvSSID);
 
-        tvIP.setText("none");
+        // Update the IP and SSID display immediate when the Activity is shown and
+        // when the orientation is changed.
+        app.manet.sendManetConfigQuery();
         
         // define animation
         animation = new ScaleAnimation(
@@ -550,6 +552,12 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
   	
   	// callback methods
   	
+  	private void displayIPandSSID(final ManetConfig manetcfg)
+  	{
+  	  tvIP.setText(manetcfg.getIpAddress());       
+      tvSSID.setText(manetcfg.getWifiSsid());
+  	}
+  	
 	@Override
 	public void onEulaAccepted() {
 		// used to be part of onPostCreate()
@@ -607,10 +615,9 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	public void onConfigUpdated(ManetConfig manetcfg) {
 		Log.d(TAG, "onConfigUpdated()"); // DEBUG
 		
-		tvIP.setText(manetcfg.getIpAddress());
 		showRadioMode(manetcfg.isUsingBluetooth());
 		
-		tvSSID.setText(manetcfg.getWifiSsid());
+		displayIPandSSID(manetcfg);
 	}
 	
 	@Override
