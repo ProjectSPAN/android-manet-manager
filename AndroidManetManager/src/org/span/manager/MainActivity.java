@@ -103,8 +103,8 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	
 	private ScaleAnimation animation = null;
 	
-	TextView tvIPAddress = null;
-//	TextView tvSSID = null;
+	private TextView tvIP = null;
+	private TextView tvSSID = null;
 	
 	private int currDialogId = -1;
 			
@@ -127,10 +127,10 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
         headerMainLayout = (RelativeLayout)findViewById(R.id.layoutHeaderMain);
         
         batteryTemperature = (TextView)findViewById(R.id.batteryTempText);
-        tvIPAddress = (TextView)findViewById(R.id.tvIPAddress);
-//        tvSSID = (TextView)findViewById(R.id.tvSSID);
+        tvIP = (TextView)findViewById(R.id.tvIP);
+        tvSSID = (TextView)findViewById(R.id.tvSSID);
 
-        tvIPAddress.setText("none");
+        tvIP.setText("none");
         
         // define animation
         animation = new ScaleAnimation(
@@ -607,8 +607,10 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	public void onConfigUpdated(ManetConfig manetcfg) {
 		Log.d(TAG, "onConfigUpdated()"); // DEBUG
 		
-		tvIPAddress.setText(manetcfg.getIpAddress());
+		tvIP.setText(manetcfg.getIpAddress());
 		showRadioMode(manetcfg.isUsingBluetooth());
+		
+		tvSSID.setText(manetcfg.getWifiSsid());
 	}
 	
 	@Override

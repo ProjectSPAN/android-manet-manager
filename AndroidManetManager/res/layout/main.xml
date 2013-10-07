@@ -47,22 +47,52 @@
             android:gravity="center" />
 
         <TextView
-            android:id="@+id/tvIPAddressLabel"
+            android:id="@+id/tvIPLabel"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/layoutBatteryTemp"
             android:layout_toRightOf="@+id/layoutBatteryTemp"
-            android:text="IP: " 
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/main_layout_ip"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvIPAddress"
+            android:id="@+id/tvIP"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tvIPAddressLabel"
-            android:layout_alignBottom="@+id/tvIPAddressLabel"
-            android:text="@string/main_layout_ipaddress_placeholder"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_alignBottom="@+id/tvIPLabel"
+            android:layout_toRightOf="@+id/tvIPLabel"
+            android:text="@string/main_layout_ip_placeholder"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/tvSSIDLabel"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvIP"
+            android:layout_toRightOf="@+id/tvIP"
+            android:text="@string/main_layout_ssid"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSSID"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvSSIDLabel"
+            android:layout_toRightOf="@+id/tvSSIDLabel"
+            android:text="@string/main_layout_ssid_placeholder"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
