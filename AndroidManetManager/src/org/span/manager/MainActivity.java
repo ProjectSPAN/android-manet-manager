@@ -21,8 +21,13 @@
  */
 package org.span.manager;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
+import org.apache.http.conn.util.InetAddressUtils;
 import org.span.R;
 import org.span.service.ManetObserver;
 import org.span.service.core.ManetService.AdhocStateEnum;
@@ -44,6 +49,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -96,6 +103,9 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	
 	private ScaleAnimation animation = null;
 	
+	private TextView tvIP = null;
+	private TextView tvSSID = null;
+	
 	private int currDialogId = -1;
 			
     /** Called when the activity is first created. */
@@ -117,7 +127,13 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
         headerMainLayout = (RelativeLayout)findViewById(R.id.layoutHeaderMain);
         
         batteryTemperature = (TextView)findViewById(R.id.batteryTempText);
+        tvIP = (TextView)findViewById(R.id.tvIP);
+        tvSSID = (TextView)findViewById(R.id.tvSSID);
 
+        // Update the IP and SSID display immediate when the Activity is shown and
+        // when the orientation is changed.
+        app.manet.sendManetConfigQuery();
+        
         // define animation
         animation = new ScaleAnimation(
                 0.9f, 1, 0.9f, 1, // From x, to x, from y, to y
@@ -213,6 +229,10 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 			} catch (Exception e) {;}
 			batteryTemperatureLayout.setVisibility(View.INVISIBLE);
 		}
+		
+		// Register to receive updates about the device network state
+		registerReceiver(intentReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+		registerReceiver(intentReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 		
 		/*
         Window window = getWindow();
@@ -532,6 +552,12 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
   	
   	// callback methods
   	
+  	private void displayIPandSSID(final ManetConfig manetcfg)
+  	{
+  	  tvIP.setText(manetcfg.getIpAddress());       
+      tvSSID.setText(manetcfg.getWifiSsid());
+  	}
+  	
 	@Override
 	public void onEulaAccepted() {
 		// used to be part of onPostCreate()
@@ -588,7 +614,10 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
 	@Override
 	public void onConfigUpdated(ManetConfig manetcfg) {
 		Log.d(TAG, "onConfigUpdated()"); // DEBUG
+		
 		showRadioMode(manetcfg.isUsingBluetooth());
+		
+		displayIPandSSID(manetcfg);
 	}
 	
 	@Override
