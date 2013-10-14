@@ -513,8 +513,10 @@ public class ManetServiceHelper {
     	
     	try {
 	    	boolean routingProtocolRunning = false;
+	    	String routingProtocolName = "Routing";
 	    	if (routingProtocol != null) {
 	    		routingProtocolRunning = routingProtocol.isRunning();
+	    		routingProtocolName = routingProtocol.getName();
 	    	}
 	    	
 	    	boolean adHocModeEnabled = CoreTask.isAdHocModeEnabled(manetcfg);
@@ -531,7 +533,7 @@ public class ManetServiceHelper {
 				adhocState = AdhocStateEnum.UNKNOWN;
 				adhocInfo = "Your device is currently in an unknown state.\n" +
 					"Ad-Hoc mode enabled: " + adHocModeEnabled + "\n" +
-					routingProtocol.getName() + " protocol running: " + routingProtocolRunning;
+					routingProtocolName + " protocol running: " + routingProtocolRunning;
 			}
 			
 			if (prevAdhocState != adhocState) {
