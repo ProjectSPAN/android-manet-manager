@@ -512,7 +512,11 @@ public class ManetServiceHelper {
     private void updateAdhocState(Message rxmessage) {
     	
     	try {
-	    	boolean routingProtocolRunning = routingProtocol.isRunning();
+	    	boolean routingProtocolRunning = false;
+	    	if (routingProtocol != null) {
+	    		routingProtocolRunning = routingProtocol.isRunning();
+	    	}
+	    	
 	    	boolean adHocModeEnabled = CoreTask.isAdHocModeEnabled(manetcfg);
 			
 	    	AdhocStateEnum prevAdhocState = adhocState;
