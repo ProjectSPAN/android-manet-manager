@@ -4,19 +4,19 @@
  */
 /**
  *  Portions of this code are copyright (c) 2009 Harald Mueller and Sofia Lemons.
- * 
- *  This program is free software; you can redistribute it and/or modify it under 
- *  the terms of the GNU General Public License as published by the Free Software 
- *  Foundation; either version 3 of the License, or (at your option) any later 
+ *
+ *  This program is free software; you can redistribute it and/or modify it under
+ *  the terms of the GNU General Public License as published by the Free Software
+ *  Foundation; either version 3 of the License, or (at your option) any later
  *  version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *  
- *  You should have received a copy of the GNU General Public License along with 
- *  this program; if not, see <http://www.gnu.org/licenses/>. 
+ *
+ *  You should have received a copy of the GNU General Public License along with
+ *  this program; if not, see <http://www.gnu.org/licenses/>.
  *  Use this application at your own risk.
  */
 package org.span.service.system;
@@ -54,22 +54,23 @@ public class DeviceConfig {
 	public static final String DEVICE_NEXUS7			= "nexus7";
 	public static final String DEVICE_GALAXYS3SGHI747	= "galaxys3sghi747";
 	public static final String DEVICE_GALAXYS3GTI9300	= "galaxys3gti9300";
+	public static final String DEVICE_GALAXYS4SGHI337M	= "galaxys4sghi337m";
 	public static final String DEVICE_GALAXYNOTE2GTN7100	= "galaxynote2gtn7100";
 	public static final String DEVICE_NEXUSSGTI9020A	= "nexussgti9020a";
-	public static final String DEVICE_NEXUSSSPHD720		= "nexusssphd720";	
-	
+	public static final String DEVICE_NEXUSSSPHD720		= "nexusssphd720";
+
 	public static final String DRIVER_TIWLAN0     = "tiwlan0";
 	public static final String DRIVER_WEXT        = "wext";
 	public static final String DRIVER_SOFTAP_HTC1 = "softap_htc1";
 	public static final String DRIVER_SOFTAP_HTC2 = "softap_htc2";
 	public static final String DRIVER_SOFTAP_GOG  = "softap_gog";
 	public static final String DRIVER_HOSTAP      = "hostap";
-	
+
 	/**
 	 * Returns the device-type as string.
 	 * A very ugly hack - checking for wifi-kernel-modules.
 	 */
-	
+
 	public static String getDeviceType() {
 		/*
 		// UNTESTED
@@ -89,7 +90,7 @@ public class DeviceConfig {
 				&& (new File("/system/etc/wifi/tiwlan_ap.ini")).exists() == true) {
 			return DEVICE_DROIDX;
 		}
-		else if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
+		else if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true
 				&& (new File("/system/etc/wifi/Fw1273_CHIP.bin")).exists() == true) {
 			return DEVICE_LEGEND;
 		}
@@ -110,9 +111,9 @@ public class DeviceConfig {
 			return DEVICE_BLADE;
 		}
 		*/
-		
+
 		System.out.println("Build.MODEL: " + Build.MODEL); // DEBUG
-		
+
 		if (Build.MODEL.equals("Galaxy Nexus")) {
 			return DEVICE_GALAXYNEXUS;
 		} else if(Build.MODEL.equals("Transformer Prime TF201")) {
@@ -129,6 +130,8 @@ public class DeviceConfig {
 			return DEVICE_GALAXYS3SGHI747;
 		} else if (Build.MODEL.equals("GT-I9300")) {
 			return DEVICE_GALAXYS3GTI9300;
+		} else if (Build.MODEL.equals("SGH-I337M")) {
+			return DEVICE_GALAXYS4SGHI337M;
 		} else if (Build.MODEL.equals("GT-N7100")){
 			return DEVICE_GALAXYNOTE2GTN7100;
 		} else if (Build.MODEL.equals("GT-I9020A")) {
@@ -142,11 +145,11 @@ public class DeviceConfig {
 		}
 		return DEVICE_GENERIC; // (e.g. Nexus S 4G)
 	}
-	
-	
+
+
 	/**
 	 * Returns the wpa_supplicant-driver which should be used
-	 * on wpa_supplicant-start 
+	 * on wpa_supplicant-start
 	 */
 	public static String getWifiInterfaceDriver(String deviceType) {
 		/*
@@ -171,9 +174,9 @@ public class DeviceConfig {
 		*/
 		return DRIVER_WEXT;
 	}
-	
+
 	public static String getWifiInterface(String deviceType) {
-		if (deviceType.equals(DEVICE_GALAXYNEXUS) || 
+		if (deviceType.equals(DEVICE_GALAXYNEXUS) ||
 				deviceType.equals(DEVICE_TRANSFORMERPRIME) ||
 				deviceType.equals(DEVICE_NEXUS7) ||
 				deviceType.equals(DEVICE_GALAXYS3SGHI747) ||
@@ -189,7 +192,7 @@ public class DeviceConfig {
 	}
 
 	/**
-	 * Returns the wpa_supplicant-driver which should be used on wpa_supplicant-start 
+	 * Returns the wpa_supplicant-driver which should be used on wpa_supplicant-start
 	 */
 	public static WifiEncryptionSetupMethodEnum getEncryptionAutoMethod(String deviceType) {
 		if (deviceType.equals(DEVICE_LEGEND) || deviceType.equals(DEVICE_NEXUSONE)) {
@@ -197,14 +200,14 @@ public class DeviceConfig {
 		}
 		return WifiEncryptionSetupMethodEnum.WPA_SUPPLICANT;
 	}
-	
+
 	/**
 	 * Returns a boolean if fix_persist.sh is required
 	 * @param feature
 	 * @return
 	 */
 	public static boolean enableFixPersist(String deviceType) {
-		if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
+		if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true
 				&& (new File("/system/etc/wifi/fw_wlan1271.bin")).exists() == true
 				&& getWifiInterfaceDriver(getDeviceType()).equals(DRIVER_WEXT) == true){
 			return true;
@@ -214,20 +217,20 @@ public class DeviceConfig {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns a boolean if fix_persist.sh is required
 	 * @param feature
 	 * @return
 	 */
 	public static boolean enableFixRoute() {
-		if ((new File("/system/etc/iproute2/rt_tables")).exists() == true 
+		if ((new File("/system/etc/iproute2/rt_tables")).exists() == true
 				&& CoreTask.getProp("ro.product.manufacturer").equalsIgnoreCase("HTC")) {
 			return true;
 		}
 		return false;
-	}	
-	
+	}
+
 	// TODO: update this method to work with modern devices
     public static boolean hasKernelFeature(String feature) {
     	try {
@@ -252,18 +255,18 @@ public class DeviceConfig {
     	}
     	return false;
     }
-    
+
     public static boolean loadKernelModules(String deviceType) {
-    	
+
     	boolean success = true;
-    	
+
     	if (deviceType.equals(DEVICE_TRANSFORMERPRIME)) {
     		// assumes kernel compiled with ALFA support
-    		
+
     		CoreTask.runRootCommand("rmmod rtl8187");
     		CoreTask.runRootCommand("rmmod eeprom_93cx6");
     		CoreTask.runRootCommand("rmmod mac80211");
-    		
+
     		if (success) {
     			success = CoreTask.runRootCommand("insmod /system/lib/modules/mac80211.ko");
     		}
@@ -274,7 +277,7 @@ public class DeviceConfig {
     			success = CoreTask.runRootCommand("insmod /system/lib/modules/rtl8187.ko");
     		}
     	}
-    	
+
     	return success;
     }
 }

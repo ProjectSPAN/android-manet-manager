@@ -127,6 +127,7 @@ getcfg("device.type") == "galaxys2epictouch" && (
       getcfg("device.type") == "transformerprime" ||
       getcfg("device.type") == "galaxys3sghi747" ||
       getcfg("device.type") == "galaxys3gti9300" ||
+      getcfg("device.type") == "galaxys4sghi337m" ||
       getcfg("device.type") == "galaxynote2gtn7100" ||
       getcfg("device.type") == "nexussgti9020a" ||
       getcfg("device.type") == "nexusssphd720" ||
