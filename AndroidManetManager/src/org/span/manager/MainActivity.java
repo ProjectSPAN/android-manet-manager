@@ -370,7 +370,7 @@ public class MainActivity extends Activity implements EulaObserver, ManetObserve
             	int celsius = (int)((temp+5)/10);
             	int fahrenheit = (int)(((temp/10)/0.555)+32+0.5);
             	Log.d(TAG, "Temp ==> "+temp+" -- Celsius ==> "+celsius+" -- Fahrenheit ==> "+fahrenheit);
-            	String tempPref = MainActivity.this.app.prefs.getString("batterytemppref", "fahrenheit");
+            	String tempPref = MainActivity.app.prefs.getString("batterytemppref", "fahrenheit");
             	if (tempPref.equals("celsius")) {
             		batteryTemperature.setText("" + celsius + getString(R.string.main_activity_temperatureunit_celsius));
             	} else {

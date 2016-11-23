@@ -353,10 +353,9 @@ public class ChangeSettingsActivity extends PreferenceActivity implements OnShar
     }
     
     private void updateConfig() {
-    	Map<String,Object> map = (Map<String, Object>) sharedPreferences.getAll();
-    	for (String key : map.keySet()) {
-    		updateConfig(key);
-    	}
+        for (String key : sharedPreferences.getAll().keySet()) {
+            updateConfig(key);
+        }
     }
     
     // invoked each time a preference is changed
